@@ -1,0 +1,314 @@
+/* open-sans-regular - latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/open-sans-v13-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Open Sans'), local('OpenSans'),
+       url('../fonts/open-sans-v13-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/open-sans-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/open-sans-v13-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/open-sans-v13-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/open-sans-v13-latin-regular.svg#OpenSans') format('svg'); /* Legacy iOS */
+}
+
+body{
+    font-family: "Open Sans",sans-serif;
+    background: #f1f1f1;
+}
+a{
+    color: #ff7f0e;
+    text-decoration: none;
+}
+.dashboard-content {
+    margin: 90px 20px 0 269px;
+}
+
+nav.sidebar-nav {
+    background: #2c2c31;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    top: 0px;
+    width: 250px;
+    z-index: 1000;
+}
+
+
+nav.sidebar-nav ul.metismenu{
+    margin: 0;
+    list-style: none;
+    padding: 0
+}
+nav.sidebar-nav ul.metismenu li{
+    position: relative;
+}
+nav.sidebar-nav ul.metismenu li a{
+    color: #757575;
+    padding: 13px 20px;
+    width: 100%;
+    position: relative;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+nav.sidebar-nav ul.metismenu li a i{
+    color: #ff7f0e;
+    padding-right: 10px;
+}
+nav.sidebar-nav ul.metismenu li a:hover{
+    color: #fff;
+    background: #4d4d4d;
+}
+
+nav.sidebar-nav ul.metismenu li ul{
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    background: #2f3038;
+}
+
+nav.sidebar-nav ul.metismenu li ul li a{
+    padding-bottom: 10px;
+    padding-left: 50px;
+    padding-top: 10px;
+    font-weight: normal;
+    border-bottom: 1px solid #28282c;
+}
+
+nav.sidebar-nav ul.metismenu li ul li a::before{
+    border: 1px solid #fff;
+    border-radius: 50%;
+    content: "";
+    height: 6px;
+    left: 30px;
+    position: absolute;
+    top: 17px;
+    width: 6px;
+}
+
+nav.sidebar-nav ul.metismenu li ul li ul{
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    background: #373841;
+}
+
+nav.sidebar-nav ul.metismenu li ul li ul a{
+    padding-left: 60px;
+    border-color: #2f3038 ;
+}
+
+nav.sidebar-nav ul.metismenu li ul li ul a::before{
+    border: 1px solid #f9d22d;
+    border-radius: 50%;
+    content: "";
+    height: 6px;
+    left: 41px;
+    position: absolute;
+    top: 19px;
+    width: 6px;
+}
+
+nav.sidebar-nav .profile-side{
+    background: #35353b ;
+    
+}
+
+nav.sidebar-nav .profile-side .details {
+    display: inline-flex;
+    height: auto;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+nav.sidebar-nav .profile-side .details span.images {
+    display: inline-block;
+    float: left;
+    width: 30%;
+}
+
+nav.sidebar-nav .profile-side .details span.images img{
+    width: 90%;
+    border-radius: 50%;
+}
+nav.sidebar-nav .profile-side .details span.name {
+    color: #fff;
+    display: inline-block;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    /*line-height: 57px;*/
+    padding-left: 10px;
+    width: 60%;
+    text-align: middle;
+}
+
+.header-top{
+    background: #fff none repeat scroll 0 0;
+    left: 0;
+    padding: 20px 20px 20px 269px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.header-top h1.title{
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 22px;
+}
+
+.page-header.full-block {
+    background: rgba(0, 0, 0, 0) url("../images/photobg.jpg") no-repeat fixed center center / cover ;
+    border-radius: 0 !important;
+    margin-left: -34px;
+    margin-right: -35px;
+    margin-top: -26px;
+    padding: 30px;
+}
+
+.page-header.full-block h3{color: #fff}
+.page-header.full-block p{color: #fff}
+
+.well{
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+textarea, textarea.form-control, input.form-control, input[type="text"], input[type="password"], input[type="email"], input[type="number"], .form-control[type="text"], .form-control[type="password"], .form-control[type="email"], .form-control[type="tel"], .form-control[contenteditable]{
+    font-size: 14px;
+}
+
+select, select.form-control{
+    font-size: 14px;
+}
+
+.tab-content > .tab-pane{
+    padding-top: 25px;
+}
+
+form .required label:after {
+    color: #e32;
+    content: '*';
+    display:inline; 
+}
+
+.mainpanel {
+    /*margin-left: 230px;*/
+}
+
+.pageheader {
+    /*padding: 20px;*/
+    /*border-bottom: 1px solid #eee;*/
+    /*padding-bottom: 20px;*/
+    /*height: 90px;*/
+    /*-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.03);*/
+    /*box-shadow: 0 2px 3px rgba(0,0,0,0.03);*/
+}
+
+.pageheader .media {
+    padding: 0;
+    clear: both;
+}
+
+.pageheader .pageicon {
+    width: 50px;
+    height: 50px;
+    background-color: #4e5154;
+    display: inline-block;
+    color: #fff;
+    font-size: 30px;
+    border-radius: 3px;
+    padding-top: 1px;
+    padding-left: 10px;
+}
+
+.pageheader .pull-left {
+    margin-right: 10px;
+}
+
+.pageheader .pageicon .fa-envelope-o {
+    font-size: 31px;
+}
+
+.pageheader .pageicon .fa-bar-chart-o {
+    font-size: 28px;
+}
+
+.pageheader .pageicon .fa-flag {
+    font-size: 30px;
+}
+
+.pageheader .pageicon .fa-laptop {
+    font-size: 28px;
+}
+
+.pageheader .pageicon .fa-navicon {
+    font-size: 28px;
+    margin-left: 3px;
+}
+
+.pageheader .pageicon .fa-code {
+    font-size: 28px;
+}
+
+.pageheader .pageicon .fa-pencil {
+    margin-left: 3px;
+}
+
+.pageheader .pageicon .fa-th-list {
+    font-size: 28px;
+    margin-left: 1px;
+}
+
+.pageheader .pageicon .fa-map-marker {
+    margin-left: 5px;
+}
+
+.pageheader .pageicon .fa-calendar {
+    font-size: 32px;
+}
+
+.pageheader .pageicon .fa-user {
+    font-size: 28px;
+    margin-left: 4px;
+}
+
+.pageheader .breadcrumb {
+    margin: 0;
+    padding: 0;
+    background: none;
+    font-size: 11px;
+    color: #999;
+    line-height: 18px;
+}
+
+.pageheader .breadcrumb li a {
+    color: #333;
+}
+
+.pageheader .breadcrumb li a:hover,
+.pageheader .breadcrumb li a:active,
+.pagehaeder .breadcrumb li a:focus {
+    color: #428bca;
+}
+
+.pageheader .breadcrumb li a i {
+    color: #999;
+    font-size: 10px;
+}
+
+.pageheader h4 {
+    margin: -2px 0 0 0;
+    font-size: 28px;
+    font-weight: 500;
+    color: #2f363d;
+    line-height: normal;
+}
+
+.td_title {
+    font-weight: bold;
+}
