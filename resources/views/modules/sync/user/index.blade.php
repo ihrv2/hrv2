@@ -49,6 +49,7 @@
             </div>
             <div id="token" alt="{{ csrf_token() }}"></div>   
             {{ Form::hidden('base_url', URL::to('/'), array('id' => 'base_url')) }}
+            {{ Form::hidden('group', $group, array('id' => 'group')) }}            
             {{ Form::close() }}
 
 
@@ -79,7 +80,8 @@
         // synchronize
         $('#sync').click(function(){
             var answer = confirm('Are you sure want to synchronize the staff record?');
-            if (answer == true) {     
+            if (answer == true) {  
+                var group = $('#group').val();    
                 var str = '';
                 str += '<div class="alert alert-warning alert-dismissable">';
                 str += '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
@@ -87,7 +89,7 @@
                 str += '</div>';
                 $('#alert').html(str);
                 $.ajax({
-                    url: $('#base_url').val() + '/hr/mod/sync/user',
+                    url: $('#base_url').val() + '/' + group + '/mod/sync/user',
                     type: 'POST',
                     data: {_token: $('#token').attr('alt'), date_from: $('#date_from').val(), group_id: $('#group_id').val()},
                     complete: function(response, textStatus, jqXHR) {   

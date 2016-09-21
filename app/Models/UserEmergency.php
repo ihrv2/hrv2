@@ -12,6 +12,14 @@ class UserEmergency extends Model
 
 
 
+    protected $fillable = [
+        'user_id',
+        'name',
+        'relation',
+        'address',
+        'telno'
+    ];
+
 
 
 	public function emergency_add($data) {

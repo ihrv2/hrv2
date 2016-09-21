@@ -248,6 +248,24 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin', 'middleware' => ['aut
 	    'as' => 'admin.mod.user.password', 
 	    'uses' => '\App\Http\Controllers\UserController@showChangePassword'
 	]);
+
+	// modul sync
+	Route::get('mod/sync/user', array(
+		'as'    => 'admin.mod.sync.user',
+		'uses'   => '\App\Http\Controllers\SyncController@showSyncUser',
+	));   
+	Route::post('mod/sync/user', array(
+		'as'    => 'admin.mod.sync.user',		
+		'uses'   => '\App\Http\Controllers\SyncController@updateSyncUser',
+	)); 	
+	Route::get('mod/sync/public-holiday', array(
+		'as'    => 'admin.mod.sync.public.holiday',
+		'uses'   => '\App\Http\Controllers\SyncController@showSyncPublicHoliday',
+	));   
+	Route::post('mod/sync/public-holiday', array(
+		'uses'   => '\App\Http\Controllers\SyncController@updateSyncPublicHoliday',
+	)); 	
+
 });
 
 

@@ -31,6 +31,7 @@
             </div>
             <div id="token" alt="{{ csrf_token() }}"></div>   
             {{ Form::hidden('base_url', URL::to('/'), array('id' => 'base_url')) }}
+            {{ Form::hidden('group', $group, array('id' => 'group')) }}
             {{ Form::close() }}
 
 
@@ -43,15 +44,14 @@
 
 
 
-
-
 <script type="text/javascript">
     $(document).ready(function(){
 
         // synchronize
         $('#sync').click(function(){
             var answer = confirm('Are you sure want to synchronize the public holiday record?');
-            if (answer == true) {     
+            if (answer == true) { 
+                var group = $('#group').val();    
                 var str = '';
                 str += '<div class="alert alert-warning alert-dismissable">';
                 str += '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
@@ -59,7 +59,7 @@
                 str += '</div>';
                 $('#alert').html(str); 
                 $.ajax({
-                    url: $('#base_url').val() + '/hr/mod/sync/public-holiday',
+                    url: $('#base_url').val() + '/' + group + '/mod/sync/public-holiday',
                     type: 'POST',
                     data: {_token: $('#token').attr('alt'), year: $('#year').val()},
                     complete: function(response, textStatus, jqXHR) {   

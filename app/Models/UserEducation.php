@@ -11,7 +11,13 @@ class UserEducation extends Model
 	protected $table = 'user_educations';
 
 
-
+    protected $fillable = [
+        'user_id',
+        'year_from',
+        'year_to',
+        'name_education',
+        'result'
+    ];
 
 
 

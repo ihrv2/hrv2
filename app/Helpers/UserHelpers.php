@@ -20,6 +20,16 @@ class UserHelper {
 	}
 
 
+	public static function GroupName($x) {
+		$q = Group::find($x);
+		if (!empty($q)) {
+			$z = $q->name;
+		}
+		else {
+			$z = '-';
+		}
+		return $z;
+	}
 
 
 

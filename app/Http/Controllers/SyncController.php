@@ -25,6 +25,18 @@ class SyncController extends Controller
             );  
         $currentDate = Carbon::now();
         $data['prev_week'] = $currentDate->subDays($currentDate->dayOfWeek)->subWeeks(2)->format('d-m-Y');
+
+        // define path to sync 
+        if (\Auth::user()->group_id == 1) {
+            $group = 'admin';
+        }
+        else if (\Auth::user()->group_id == 2) {
+            $group = 'hr';
+        }
+        else if (\Auth::user()->group_id == 4) {
+            $group = 'rm';
+        }
+        $data['group'] = $group;
         return View('modules.sync.user.index', $data);    
     }
 
@@ -153,9 +165,9 @@ class SyncController extends Controller
                 else {
 
                     // check if staff id is different
-                    $check_staffid = \App\Models\User::where('username', trim($i['ID Staff']))->first();
+                    $check_staffid = \App\User::where('username', trim($i['ID Staff']))->first();
                     if (empty($check_staffid)) {
-                        $update_username = \App\Models\User::where('user_id', $check_icno->id)->update(array('username' => $i['ID Staff']));
+                        $update_username = \App\User::where('user_id', $check_icno->id)->update(array('username' => $i['ID Staff']));
                         $update_prevjob = \App\Models\UserJob::where('user_id', '=', $check_icno->id)->where('status', '=', 1)->update(array('status' => 2));
 
                         // insert user_jobs
@@ -202,7 +214,18 @@ class SyncController extends Controller
             'child' => 'ERP',   
             'icon' => 'refresh',
             'title' => 'Public Holiday'
-            );  
+        );
+        // define path to sync 
+        if (\Auth::user()->group_id == 1) {
+            $group = 'admin';
+        }
+        else if (\Auth::user()->group_id == 2) {
+            $group = 'hr';
+        }
+        else if (\Auth::user()->group_id == 4) {
+            $group = 'rm';
+        }
+        $data['group'] = $group;          
         return View('modules.sync.public-holiday.index', $data);
     }
 
