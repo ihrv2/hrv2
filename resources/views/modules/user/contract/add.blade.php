@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -13,7 +13,7 @@
 
 
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
    <div class="panel-heading">Contract Info</div>
    <div class="panel-body">
 
@@ -84,7 +84,7 @@
 						@if ($errors->has('salary'))
 							<p class="text-danger">{{ $errors->first('salary') }}</p>
 						@endif              
-						{{ Form::text('salary', $salary, array('class'=>'form-control', 'id' => 'selectSalary', 'size' => 40)) }}             
+						{{ Form::text('salary', null, array('class'=>'form-control', 'id' => 'selectSalary', 'size' => 40)) }}             
 						</div>
 					</div>
 				</div>
@@ -99,9 +99,7 @@
 
 
             </div>               
-         </div>   	
-		{{ Form::hidden('uid', $i['uid']) }}
-		{{ Form::hidden('key', $i['key']) }}		
+         </div>   			
 		{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}         
 		{{ Form::close() }}  
 
@@ -128,3 +126,5 @@ $(function () {
 
 
 @stop
+
+

@@ -7,7 +7,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Validator;
 use Session;
 use App\Repositories\UserRepository;
-
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -262,6 +262,120 @@ class UserController extends Controller
     }
 
 
+
+
+
+    // user contract
+    public function createUserContract($uid, $token)
+    {
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Staff Administration', 
+			'child' => 'All Staff',
+			'child-a' => '',		
+			'sub' => 'User Detail',
+			'sub-a' => '',				
+			'icon' => 'graph',
+			'title' => 'Add/Renew Contract'
+		);		
+		$data['status_contracts'] = \App\Models\UserContractStatus::orderBy('name', 'ASC')->lists('name', 'id');			
+		return View('modules.user.contract.add', $data);
+    }
+
+
+
+
+
+    public function storeUserContract(Requests\UserCreateContract $request, $id, $token, \App\Models\UserContract $contract)
+    {
+    	$save = $contract->UserContractCreate($request->all(), $id);
+		if ($save) {
+			$msg = array($save['message'], $save['label']);
+        }
+        else {
+            $msg = array('Insert is fail.', 'danger');
+        }		
+        return redirect()->route('hr.mod.user.view', array($id, $token))->with([
+            'message' => $msg[0], 
+            'label' => 'alert alert-'.$msg[1].' alert-dismissible'
+        ]);	
+    }
+
+
+
+
+
+    public function editUserContract($id, $uid, $token)
+    {
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Staff Administration', 
+			'child' => 'All Staff',
+			'child-a' => '',
+			'sub' => 'User Detail',
+			'sub-a' => '',
+			'icon' => 'graph',
+			'title' => 'Edit Contract'
+			);		
+		$data['status_contracts'] = \App\Models\UserContractStatus::orderBy('name', 'ASC')->lists('name', 'id');
+		$data['detail'] = \App\Models\UserContract::find($id);
+		return View('modules.user.contract.edit', $data);    	
+    }
+
+
+
+
+
+    public function updateUserContract(Requests\UserUpdateContract $request, $id, $uid, $token)
+    {
+    	$contract = \App\Models\UserContract::find($id);
+    	$save = $contract->UserContractEdit($request->all(), $id);
+		if ($save) { 
+        	$msg = array($save['message'], $save['label']);
+        }
+        else {
+        	$msg = array('Update is fail.', 'danger');
+        }
+        return redirect()->route('hr.mod.user.view', array($uid, $token))->with([
+            'message' => $msg[0], 
+            'label' => 'alert alert-'.$msg[1].' alert-dismissible'
+        ]);
+    }
+
+    public function destroyUserContract()
+    {
+    	
+    }
+
+
+
+
+
+    // user family
+    public function createUserFamily()
+    {
+
+    }
+
+    public function storeUserFamily()
+    {
+
+    }
+
+    public function editUserFamily()
+    {
+
+    }
+
+    public function updateUserFamily()
+    {
+
+    }
+    
+    public function destroyUserFamily()
+    {
+
+    }
 
 
 

@@ -4,8 +4,10 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserUpdateJob extends Request
+class UserUpdateContract extends Request
 {
+
+    
     public function authorize()
     {
         return true;

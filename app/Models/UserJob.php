@@ -48,5 +48,38 @@ class UserJob extends Model
     }
 
 
+
+
+    public function job_add($data, $uid) {
+        // add new jobs
+        $user = User::find($uid);
+        $this->user_id = $data['uid'];  
+        $this->staff_id = $user->username;
+        $this->join_date = date('Y-m-d', strtotime(str_replace('/', '-', $data['join_date'])));
+        $this->position_id = $data['position_id'];
+        $this->phase_id = $data['phase_id'];
+        $this->sitecode = $data['sitecode'];        
+        $this->status = 1;
+        $this->save();  
+        return true;    
+    }   
+
+
+
+
+
+    public function job_edit($data, $uid) {
+        $this->join_date = date('Y-m-d', strtotime(str_replace('/', '-', $data['join_date'])));
+        $this->position_id = $data['position_id'];
+        $this->phase_id = $data['phase_id'];
+        $this->sitecode = $data['sitecode'];
+        $this->save();
+        return true;    
+    }
+
+
+
+
+
     
 }

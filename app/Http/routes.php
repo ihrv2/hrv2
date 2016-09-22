@@ -114,6 +114,46 @@ Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 		'uses'   => '\App\Http\Controllers\UserController@showUserView',
 	)); 
 
+	// user contract
+	Route::get('mod/user/contract/add/{uid}/{token}', array(
+		'as'    => 'hr.mod.user.contract.add',
+		'uses'   => 'UserController@createUserContract',
+	)); 
+	Route::post('mod/user/contract/add/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserContract',
+	));       
+	Route::get('mod/user/contract/edit/{id}/{uid}/{token}', array(
+		'as'    => 'hr.mod.user.contract.edit',
+		'uses'   => 'UserController@editUserContract',
+	)); 
+	Route::post('mod/user/contract/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserContract',
+	)); 
+	Route::get('mod/user/contract/delete/{id}/{uid}/{token}', array(
+		'as'    => 'hr.mod.user.contract.delete',
+		'uses'   => 'UserController@destroyUserContract',
+	));  
+
+	// user family
+	Route::get('mod/user/family/add/{uid}/{token}', array(
+		'as'    => 'hr.mod.user.family.add',
+		'uses'   => 'UserController@createUserFamily',
+	)); 
+	Route::post('mod/user/family/add/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserFamily',
+	));       
+	Route::get('mod/user/family/edit/{id}/{uid}/{token}', array(
+		'as'    => 'hr.mod.user.family.edit',
+		'uses'   => 'UserController@editUserFamily',
+	)); 
+	Route::post('mod/user/family/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserFamily',
+	)); 
+	Route::get('mod/user/family/delete/{id}/{uid}/{token}', array(
+		'as'    => 'hr.mod.user.family.delete',
+		'uses'   => 'UserController@destroyUserFamily',
+	));  	
+
 	// modul public holiday
 	Route::get('mod/public-holiday', array(
 		'as'    => 'hr.mod.public.holiday',

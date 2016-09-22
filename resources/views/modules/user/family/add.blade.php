@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -22,7 +22,7 @@
 						@if ($errors->has('name'))
 							<p class="text-danger">{{ $errors->first('name') }}</p>
 						@endif      
-						{{ Form::text('name', Input::old('name'), array('class'=>'form-control', 'id' => 'selectName', 'size' => 40)) }}                     
+						{{ Form::text('name', old('name'), array('class'=>'form-control', 'id' => 'selectName', 'size' => 40)) }}                     
 						</div>
 					</div>
 				</div>
@@ -36,7 +36,7 @@
 						@if ($errors->has('age'))
 							<p class="text-danger">{{ $errors->first('age') }}</p>
 						@endif       
-						{{ Form::text('age', Input::old('age'), array('class'=>'form-control', 'id' => 'selectAge', 'size' => 40)) }}                    
+						{{ Form::text('age', old('age'), array('class'=>'form-control', 'id' => 'selectAge', 'size' => 40)) }}                    
 						</div>
 					</div>
 				</div>
@@ -51,7 +51,7 @@
 						@if ($errors->has('occupation'))
 							<p class="text-danger">{{ $errors->first('occupation') }}</p>
 						@endif                    
-						{{ Form::text('occupation', Input::old('occupation'), array('class'=>'form-control', 'id' => 'selectOccupation', 'size' => 40)) }}       
+						{{ Form::text('occupation', old('occupation'), array('class'=>'form-control', 'id' => 'selectOccupation', 'size' => 40)) }}       
 						</div>
 					</div>
 				</div>
@@ -66,7 +66,7 @@
 						@if ($errors->has('school_office'))
 							<p class="text-danger">{{ $errors->first('school_office') }}</p>
 						@endif              
-						{{ Form::text('school_office', Input::old('school_office'), array('class'=>'form-control', 'id' => 'selectOffice', 'size' => 40)) }}             
+						{{ Form::text('school_office', old('school_office'), array('class'=>'form-control', 'id' => 'selectOffice', 'size' => 40)) }}             
 						</div>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
 						@if ($errors->has('relation'))
 							<p class="text-danger">{{ $errors->first('relation') }}</p>
 						@endif    
-						{{ Form::text('relation', Input::old('relation'), array('class'=>'form-control', 'id' => 'selectRelation', 'size' => 40)) }}                       
+						{{ Form::text('relation', old('relation'), array('class'=>'form-control', 'id' => 'selectRelation', 'size' => 40)) }}                       
 						</div>
 					</div>
 				</div>												
@@ -90,8 +90,7 @@
          </div>   
 
 
-      	{{ Form::hidden('uid', $i['uid']) }}
-		{{ Form::hidden('key', $i['key']) }}		
+	
 		{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}         
 		{{ Form::close() }}  
 
