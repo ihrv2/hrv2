@@ -107,7 +107,7 @@ class AuthController extends Controller
             'username' => 'required', 'password' => 'required',
         ],
         [
-            'username.required' => 'Test',
+            'username.required' => 'The Staff ID field is required.',
         ]
         );
     }

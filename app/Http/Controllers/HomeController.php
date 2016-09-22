@@ -34,7 +34,6 @@ class HomeController extends Controller
 
     public function showProfile() 
     {
-        // dd(Auth::user());
         $data = array();
         $data['header'] = array(
             'parent' => 'Profile', 
@@ -42,11 +41,11 @@ class HomeController extends Controller
             'icon' => 'picture',
             'title' => 'View Profile'
         );          
-        // $data['marital'] = MaritalStatus::find(Auth::user()->marital_id);
-        // $data['nationality'] = Nationality::find(Auth::user()->nationality_id);
-        // $data['race'] = Race::find(Auth::user()->race_id);
-        // $data['religion'] = Religion::find(Auth::user()->religion_id);
-        return view('profile', $data);
+        $data['marital'] = \App\Models\MaritalStatus::find(\Auth::user()->marital_id);
+        $data['nationality'] = \App\Models\Nationality::find(\Auth::user()->nationality_id);
+        $data['race'] = \App\Models\Race::find(\Auth::user()->race_id);
+        $data['religion'] = \App\Models\Religion::find(\Auth::user()->religion_id);
+        return view('auth.profile', $data);
     }
 
 
@@ -73,11 +72,13 @@ class HomeController extends Controller
             'icon' => 'lock',
             'title' => 'Change Password'
         );                  
-        return view('change_password', $data);
+        return view('auth.change_password', $data);
     }
 
+    
 
-    public function updatePassword(Requests\UserChangePassword $request)
+
+    public function updatePassword(Requests\AuthChangePassword $request)
     {
         $user = Auth::user();
         if (Hash::check($request->old_password, $user->password)) {

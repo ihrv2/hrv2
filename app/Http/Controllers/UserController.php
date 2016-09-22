@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-
-
 use App\Http\Requests;
 use Illuminate\Support\Facades\Validator;
 use Session;
+use App\Repositories\UserRepository;
 
 
 
 class UserController extends Controller
 {
     
+
+
+    private $user_repo;
+	public function __construct(UserRepository $UserRepo)
+	{
+		$this->user_repo = $UserRepo;
+	}
 
 
 
@@ -40,23 +45,78 @@ class UserController extends Controller
 		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group Level]', ''); 
 		$data['sessions'] = array(
 			'group_id' => $group_id,
+			'keyword' => null
 		);		
 		return View('modules.user.index', $data);
 	}	
 
 
 
-	public function showSelectGroup()
+
+	public function postUserIndex(Request $request)
 	{
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('hr.mod.user.index'),
+			'icon' => 'people',
+			'title' => 'Staff'
+		);	
+		$group_id = 3;
+
+		$i = \App\User::with(array('UserLatestJob' => function($x) { 
+			$x->with('PositionName');
+		}));	
+		$i->with('StatusName');	
+
+		// searching
+		Session::put('i-search', $request->all());		
+		if (!empty(Session::get('i-search')['text-search'])) {
+			$q = Session::get('i-search')['text-search'];
+			$searchTerms = explode(' ', $q);
+			foreach ($searchTerms as $term) {
+				$i->where("users.name", "like", "%".$term."%");
+				$i->orWhere("users.icno", "like", "%".$term."%");
+				$i->orWhere("users.username", "like", "%".$term."%");
+			}
+		}	
+		if (!empty(Session::get('i-search')['group_id'])) {
+			$group_id = Session::get('i-search')['group_id'];
+		}			
+
+		$i->where('group_id', $group_id);
+		$i->orderBy('id', 'DESC');
+		$data['users'] = $i->paginate(10);	
+
+		// dd($data['users']);
+		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group Level]', ''); 
+		$data['sessions'] = array(
+			'group_id' => $group_id,
+			'keyword' => Session::get('i-search')['text-search'],
+		);		
+		return View('modules.user.index', $data);
+	}
+
+
+	// getName
+	// getPrefix
+	// getPath
+	// getActionName
+
+
+	public function showSelectGroup()
+	{
+		// dd($this->getRouter()->getCurrentRoute()->getPrefix());
+		// $prefix = $this->getRouter()->getCurrentRoute()->getName();
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Staff Administration', 
+			'child' => 'All Staff',
+			'child-a' => '',
+			// 'child-a' => route($prefix.'.mod.user.index'),
 			'icon' => 'user-follow',
 			'title' => 'Add Staff'
 			);
-
 		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Please Select]', ''); 
 		return View('modules.user.group', $data);		
 	}
@@ -74,7 +134,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         else {
-        	return redirect()->route('hr.mod.user.create')->withInput();
+        	return redirect()->route('mod.user.create')->withInput();
         }	
 	}
 
@@ -87,7 +147,7 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('hr.mod.user.index'),
+			'child-a' => route('mod.user.index'),
 			'icon' => 'user-follow',
 			'title' => 'Add Staff'
 		);
@@ -103,10 +163,10 @@ class UserController extends Controller
 				$data['sites'] = \App\Models\Site::select(\DB::raw('concat (id, " - ", name) as name, id'))->orderBy('name', 'ASC')->lists('name', 'id');	
 				$data['phases'] = \App\Models\Phase::orderBy('name', 'ASC')->lists('name', 'id');						
 			}			
-			return View('modules.user.create', $data);
+			return View('modules.user.add', $data);
 		}
 		else {
-        	return redirect()->route('hr.mod.user.select.group');			
+        	return redirect()->route('mod.user.select.group');			
 		}
 	}
 
@@ -120,12 +180,71 @@ class UserController extends Controller
         else {
             $msg = array('Insert is fail.', 'danger');
         }		
-        return redirect()->route('hr.mod.user.index')->with([
+        return redirect()->route('mod.user.index')->with([
             'message' => $msg[0], 
             'label' => 'alert alert-'.$msg[1].' alert-dismissible'
         ]);		
 	}
 
+
+
+
+	public function showUserPassword($id, $token)
+	{
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Staff Administration', 
+			'child' => 'All Staff',	
+			'child-a' => '',				
+			'icon' => 'lock',
+			'title' => 'Change Password'
+			);			
+		return View('modules.user.password', $data);
+	}
+
+
+
+
+    public function updateUserPassword(Requests\UserChangePassword $request, $id, $token)
+    {
+    	$user = $this->user_repo->getUserDetailByToken($id, $token);
+        $user->fill(['password' => \Hash::make($request->new_password)])->save();            
+        $msg = array('Password successfully updated.', 'success');
+        return redirect()->back()->with([
+            'message' => $msg[0], 
+            'label' => 'alert alert-'.$msg[1].' alert-dismissible'
+        ]);
+    }	
+
+
+
+
+    public function showUserView($id, $token)
+    {
+		$data = array();
+		$data['detail'] = $this->user_repo->getUserDetailByToken($id, $token);
+		$data['header'] = array(
+			'parent' => 'Staff Administration', 
+			'child' => 'All Staff',
+			'child-a' => '',					
+			'icon' => 'user',
+			'title' => $data['detail']->name
+		);			
+		// job info
+		$data['curr_job'] = \App\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 1)->first();
+		$data['prev_job'] = \App\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
+
+		// contract info
+		$data['curr_contract'] = \App\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->first();
+		$data['prev_contract'] = \App\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
+
+		// get age value
+		$data['age'] = date('Y') - date('Y', strtotime($data['detail']->dob));
+
+		// photos
+		$data['photo'] = \App\Models\UserPhoto::where('user_id', $id)->where('status', 1)->first();
+		return View('modules.user.view', $data);
+    }
 
 
 

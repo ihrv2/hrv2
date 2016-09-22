@@ -1,10 +1,10 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
 
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
    <div class="panel-heading">Change Password</div>
    <div class="panel-body">
 
@@ -35,7 +35,6 @@
                      </div>
                   </div>
                </div>      
-               {{ Form::hidden('id', $detail->id) }}
                {{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}
             </div>               
          </div>   

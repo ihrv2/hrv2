@@ -25,18 +25,7 @@ class SyncController extends Controller
             );  
         $currentDate = Carbon::now();
         $data['prev_week'] = $currentDate->subDays($currentDate->dayOfWeek)->subWeeks(2)->format('d-m-Y');
-
-        // define path to sync 
-        if (\Auth::user()->group_id == 1) {
-            $group = 'admin';
-        }
-        else if (\Auth::user()->group_id == 2) {
-            $group = 'hr';
-        }
-        else if (\Auth::user()->group_id == 4) {
-            $group = 'rm';
-        }
-        $data['group'] = $group;
+        $data['group'] = \App\Models\Group::find(\Auth::user()->group_id);
         return View('modules.sync.user.index', $data);    
     }
 
@@ -76,11 +65,10 @@ class SyncController extends Controller
                 $check_icno = \App\User::where('icno', $ic)->first();
                 if (empty($check_icno)) {
                     $total++;
-                    $user_id = \DB::table('users')->max('id') + 1;
 
                     // insert users
                     $d1 = array(
-                        'id' => $user_id,
+                        // 'id' => $user_id,
                         'username' => trim($i['ID Staff']),
                         'name' => trim($i['Person Name']),
                         'email' => trim($i['Work Email']),
@@ -122,6 +110,7 @@ class SyncController extends Controller
                     );
                     $a = new \App\User($d1);
                     $a->save();
+                    $user_id = $a->id;
 
                     // insert user_jobs
                     $region_id = ($group_id == 4) ? trim($i['IDRegion::IDReg']) : '';
@@ -163,11 +152,10 @@ class SyncController extends Controller
 
                 // icno exist
                 else {
-
                     // check if staff id is different
                     $check_staffid = \App\User::where('username', trim($i['ID Staff']))->first();
                     if (empty($check_staffid)) {
-                        $update_username = \App\User::where('user_id', $check_icno->id)->update(array('username' => $i['ID Staff']));
+                        $update_username = \App\User::where('id', $check_icno->id)->update(array('username' => trim($i['ID Staff'])));
                         $update_prevjob = \App\Models\UserJob::where('user_id', '=', $check_icno->id)->where('status', '=', 1)->update(array('status' => 2));
 
                         // insert user_jobs
@@ -192,6 +180,7 @@ class SyncController extends Controller
                     }
                 }
             }
+            // endforeach
         }
         if ($total > 0) {
             $data['message'] = 'Synchronize completed. '.$total.' records effected.';
@@ -215,17 +204,7 @@ class SyncController extends Controller
             'icon' => 'refresh',
             'title' => 'Public Holiday'
         );
-        // define path to sync 
-        if (\Auth::user()->group_id == 1) {
-            $group = 'admin';
-        }
-        else if (\Auth::user()->group_id == 2) {
-            $group = 'hr';
-        }
-        else if (\Auth::user()->group_id == 4) {
-            $group = 'rm';
-        }
-        $data['group'] = $group;          
+        $data['group'] = \App\Models\Group::find(\Auth::user()->group_id);         
         return View('modules.sync.public-holiday.index', $data);
     }
 

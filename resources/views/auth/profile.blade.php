@@ -21,20 +21,14 @@
 						</div>
 					</div>
 					<br>
-		                 
-	                <div class="row">
-	                    <div class="col-sm-5">
-	                        Username
-	                    </div>
-	                    <div class="col-sm-7">
-	                    </div>
-	                </div>
+
 
 	                <div class="row">
 	                    <div class="col-sm-5">
 	                        Full Name
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	{{ \Auth::user()->name }}
 	                    </div>
 	                </div>
 
@@ -43,6 +37,7 @@
 	                        IC No.
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	{{ \Auth::user()->icno }}	                    
 	                    </div>
 	                </div>
 
@@ -51,6 +46,7 @@
 	                        Staff ID
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	{{ \Auth::user()->username }}	                    
 	                    </div>
 	                </div>
 
@@ -59,6 +55,8 @@
 	                        Email
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	{{ \Auth::user()->email }}
+
 	                    </div>
 	                </div>
 
@@ -67,6 +65,8 @@
 	                        Tel No.
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	{{ \Auth::user()->telno1 }}
+
 	                    </div>
 	                </div>
 	                	
@@ -75,6 +75,8 @@
 	                        Mobile No.
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	{{ \Auth::user()->hpno }}
+
 	                    </div>
 	                </div>
 
@@ -83,6 +85,11 @@
 	                        Marital Status
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	@if ($marital)
+	                    		{{ $marital->name }}
+	                    	@else
+	                    		{{ '-' }}
+	                    	@endif
 	                    </div>
 	                </div>
 
@@ -91,6 +98,11 @@
 	                        Nationality
 	                    </div>
 	                    <div class="col-sm-7">
+	                    	@if ($nationality)
+	                    		{{ $nationality->name }}
+	                    	@else
+	                    		{{ '-' }}
+	                    	@endif
 	                    </div>
 	                </div>
 
@@ -98,7 +110,12 @@
 	                    <div class="col-sm-5">
 	                        Race
 	                    </div>
-	                    <div class="col-sm-7">	                    	
+	                    <div class="col-sm-7">	 
+	                    	@if ($race)
+	                    		{{ $race->name }}
+	                    	@else
+	                    		{{ '-' }}
+	                    	@endif
 	                    </div>
 	                </div>
 
@@ -107,7 +124,11 @@
 	                        Religion
 	                    </div>
 	                    <div class="col-sm-7">
-
+	                    	@if ($religion)
+	                    		{{ $religion->name }}
+	                    	@else
+	                    		{{ '-' }}
+	                    	@endif
 	                    </div>
 	                </div>
 

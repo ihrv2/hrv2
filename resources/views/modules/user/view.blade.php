@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -360,7 +360,7 @@
 				            	
 											</table>	
 										@else
-											<div class=""><a href="{{ URL::route('mod.user.job.add', array($detail->id, $detail->key)) }}" class="btn btn-success btn-sm" title="Add"><i class="icon-plus"></i>&nbsp;Add Job</a></div>
+											<div class=""><a href="" class="btn btn-success btn-sm" title="Add"><i class="icon-plus"></i>&nbsp;Add Job</a></div>
 											<br>
 										@endif
 
@@ -394,7 +394,7 @@
 														<td>{{ $i->PhaseName->name }}</td>
 														<td>{{ $i->sitecode.' - '.$i->SiteName->name }}</td>
 														<td class="text-right">
-															<a href="{{ URL::route('mod.user.job.edit', array($detail->id, $i->id)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="#" alt="{{ $i->id }}" id="job-delete" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
+															<a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="#" alt="{{ $i->id }}" id="job-delete" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
 														</td>
 													</tr>
 													@endforeach
@@ -457,7 +457,7 @@
 												</tr>
 												<tr>
 													<td colspan="2">
-														<div class="text-right"><a href="{{ URL::route('mod.user.contract.edit', array($curr_contract->id, $detail->id, $detail->key)) }}" class="btn btn-danger" title="Edit"><i class="icon-note"></i>&nbsp;Edit</a>&nbsp;<a href="{{ URL::route('mod.user.contract.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;New</a></div>
+														<div class="text-right"><a href="" class="btn btn-danger" title="Edit"><i class="icon-note"></i>&nbsp;Edit</a>&nbsp;<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;New</a></div>
 													</td>
 												</tr>						            
 											</table>
@@ -488,7 +488,7 @@
 														<td>{{ $contract->date_to }}</td>
 														<td>{{ number_format($contract->salary, 2) }}</td>
 														<td class="text-right">
-															<a href="{{ URL::route('mod.user.contract.edit', array($contract->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="{{ URL::route('mod.user.contract.delete', array($contract->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
+															<a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
 														</td>
 													</tr>
 													@endforeach
@@ -501,7 +501,7 @@
 											</div>   
 											@else
 												<p>No record</p>
-												<div class=""><a href="{{ URL::route('mod.user.contract.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a></div>
+												<div class=""><a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a></div>
 												<br>
 											@endif
 
@@ -560,7 +560,7 @@
 													<td>{{ $family->occupation }}</td>
 													<td>{{ $family->school_office }}</td>
 													<td>{{ $family->relation }}</td>
-													<td class="text-right"><a href="{{ URL::route('mod.user.family.edit', array($family->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="{{ URL::route('mod.user.family.delete', array($family->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 												</tr>
 
 												@endforeach
@@ -572,7 +572,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ URL::route('mod.user.family.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>												
+													<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>												
 												</div>
 											</div>																										             
 										</div>
@@ -620,7 +620,7 @@
 													<td>{{ $education->year_to }}</td>
 													<td>{{ $education->name_education }}</td>
 													<td>{{ $education->result }}</td>
-													<td class="text-right"><a href="{{ URL::route('mod.user.education.edit', array($education->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="{{ URL::route('mod.user.education.delete', array($education->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 												</tr>
 												@endforeach
 												@else
@@ -630,7 +630,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ URL::route('mod.user.education.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
+													<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
 													
 												</div>
 											</div>																										             
@@ -682,7 +682,7 @@
 													<td>{{ $language->WrittenLevel->name }}</td>
 													<td>{{ $language->ReadingLevel->name }}</td>
 													<td>{{ $language->SpokenLevel->name }}</td>               		
-													<td class="text-right"><a href="{{ URL::route('mod.user.language.edit', array($language->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="{{ URL::route('mod.user.language.delete', array($language->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 												</tr>
 												@endforeach
 												@else
@@ -692,7 +692,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ URL::route('mod.user.language.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
+													<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
 													
 												</div>
 											</div>																										             
@@ -738,7 +738,7 @@
 													<td>{{ $no }}</td>
 													<td>{{ $skill->name }}</td>
 													<td>{{ $skill->SkillLevel->name }}</td>	              
-													<td class="text-right"><a href="{{ URL::route('mod.user.skill.edit', array($skill->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="{{ URL::route('mod.user.skill.delete', array($skill->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 												</tr>
 												@endforeach
 												@else
@@ -748,7 +748,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ URL::route('mod.user.skill.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
+													<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
 												</div>
 											</div>																										             
 										</div>
@@ -798,7 +798,7 @@
 													<td>{{ $employment->company }}</td>           
 													<td>{{ $employment->position }}</td>              
 													<td>{{ $employment->salary }}</td>               		
-													<td class="text-right"><a href="{{ URL::route('mod.user.employment.edit', array($employment->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="{{ URL::route('mod.user.employment.delete', array($employment->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 												</tr>
 												@endforeach
 												@else
@@ -808,7 +808,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ URL::route('mod.user.employment.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>		
+													<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>		
 												</div>
 											</div>																										             
 										</div>
@@ -856,7 +856,7 @@
 													<td>{{ $reference->relation }}</td>              
 													<td>{{ $reference->occupation }}</td>              
 													<td>{{ $reference->period_known }}</td>
-													<td class="text-right"><a href="{{ URL::route('mod.user.reference.edit', array($reference->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="{{ URL::route('mod.user.reference.delete', array($reference->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Delete" id="reference-delete"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete" id="reference-delete"><i class="icon-trash"></i></a></td>
 												</tr>
 												@endforeach
 												@else
@@ -866,7 +866,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ URL::route('mod.user.reference.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>		
+													<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>		
 												</div>
 											</div>																										             
 										</div>
@@ -914,7 +914,7 @@
 													<td>{{ $emergency->relation }}</td>					           
 													<td>{{ $emergency->address }}</td>			              
 													<td>{{ $emergency->telno }}</td>	              
-													<td class="text-right"><a href="{{ URL::route('mod.user.emergency.edit', array($emergency->id, $detail->id, $detail->key)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a class="btn btn-primary btn-sm" title="Delete" href="{{ URL::route('mod.user.emergency.delete', array($emergency->id, $detail->id, $detail->key)) }}"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a class="btn btn-primary btn-sm" title="Delete" href=""><i class="icon-trash"></i></a></td>
 												</tr>
 												@endforeach
 												@else
@@ -924,7 +924,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ URL::route('mod.user.emergency.add', array($detail->id, $detail->key)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
+													<a href="" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
 												</div>
 											</div>																										             
 										</div>

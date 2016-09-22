@@ -26,6 +26,17 @@ Route::auth();
 
 
 
+// api cronjob
+Route::group(['prefix' => 'api', 'namespace' => 'api'], function()
+{
+	Route::get('/cron/user', [
+	    'as' => 'api.cron.user', 
+	    'uses' => 'CronController@showCronUser'
+	]); 	
+});
+
+
+
 
 // home controller (already have auth)
 Route::get('/home', [
@@ -49,7 +60,7 @@ Route::post('auth/password', [
 
 
 // modul of human resource (group_id = 2)
-Route::group(['prefix' => 'hr', 'namespace' => 'hr', 'middleware' => ['auth', 'hr']], function()
+Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 {
 
 
@@ -79,7 +90,7 @@ Route::group(['prefix' => 'hr', 'namespace' => 'hr', 'middleware' => ['auth', 'h
 		'uses'   => '\App\Http\Controllers\UserController@showUserIndex',
 	)); 
 	Route::post('mod/user', array(
-		'uses'   => '\App\Http\Controllers\UserController@showUserIndex',
+		'uses'   => '\App\Http\Controllers\UserController@postUserIndex',
 	));    
 	Route::get('mod/user/select-group', array(
 		'as'    => 'hr.mod.user.select.group',
@@ -96,14 +107,42 @@ Route::group(['prefix' => 'hr', 'namespace' => 'hr', 'middleware' => ['auth', 'h
 		'uses'   => '\App\Http\Controllers\UserController@storeUserCreate',
 	)); 
 
-	Route::get('mod/user/password/{id}', array(
+	Route::get('mod/user/password/{id}/{token}', array(
 		'as'    => 'hr.mod.user.password',
 		'uses'   => '\App\Http\Controllers\UserController@showUserPassword',
 	)); 
-	Route::post('mod/user/password/{id}', array(
+	Route::post('mod/user/password/{id}/{token}', array(
 		'uses'   => '\App\Http\Controllers\UserController@updateUserPassword',
 	)); 
-	Route::get('mod/user/view/{id}', array(
+
+
+	// Route::get('mod/user/password/{id}/{token}', [
+	// 	'as' => 'hr.mod.user.password', 
+	// 	function($id, $token) 
+	// 	{
+	// 		dd($token);
+	// 	}
+	// ]);
+
+
+	// Route::get('mod/user/password/{id}/{token}',  
+	// function(App\User $user){
+	// 	dd($user);
+	// 	// $user = \App\User::where('id', $id)->where('api_token', $token)->first();
+	// 	// return $user;
+	// },
+
+	// array(
+	// 	'as'    => 'hr.mod.user.password',
+	// 	'uses'   => '\App\Http\Controllers\UserController@showUserPassword',
+	// )
+	// ); 
+
+
+
+
+
+	Route::get('mod/user/view/{id}/{token}', array(
 		'as'    => 'hr.mod.user.view',
 		'uses'   => '\App\Http\Controllers\UserController@showUserView',
 	)); 
@@ -145,7 +184,7 @@ Route::group(['prefix' => 'hr', 'namespace' => 'hr', 'middleware' => ['auth', 'h
 
 
 // modul for site supervisor (group_id = 3)
-Route::group(['namespace' => 'sv', 'middleware' => ['auth', 'sv']], function()
+Route::group(['middleware' => ['auth', 'sv']], function()
 {	
 	// leave
 	Route::get('mod/leave', array(
@@ -238,16 +277,8 @@ Route::group(['middleware' => ['auth']], function()
 
 
 // modul for administrator (is_admin is true)
-Route::group(['prefix' => 'admin', 'namespace' => 'admin', 'middleware' => ['auth', 'admin']], function()
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function()
 {
-	Route::get('user', [
-	    'as' => 'admin.mod.user', 
-	    'uses' => '\App\Http\Controllers\UserController@indexListUser'
-	]);    	
-	Route::get('user/password', [
-	    'as' => 'admin.mod.user.password', 
-	    'uses' => '\App\Http\Controllers\UserController@showChangePassword'
-	]);
 
 	// modul sync
 	Route::get('mod/sync/user', array(
@@ -265,6 +296,41 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin', 'middleware' => ['aut
 	Route::post('mod/sync/public-holiday', array(
 		'uses'   => '\App\Http\Controllers\SyncController@updateSyncPublicHoliday',
 	)); 	
+
+	// modul user
+	Route::get('mod/user', array(
+		'as'    => 'admin.mod.user.index',
+		'uses'   => '\App\Http\Controllers\UserController@showUserIndex',
+	)); 
+	Route::post('mod/user', array(
+		'uses'   => '\App\Http\Controllers\UserController@postUserIndex',
+	));    
+	Route::get('mod/user/select-group', array(
+		'as'    => 'admin.mod.user.select.group',
+		'uses'   => '\App\Http\Controllers\UserController@showSelectGroup',
+	)); 
+	Route::post('mod/user/select-group', array(
+		'uses'   => '\App\Http\Controllers\UserController@postSelectGroup',
+	));  		
+	Route::get('mod/user/create', array(
+		'as'    => 'admin.mod.user.create',
+		'uses'   => '\App\Http\Controllers\UserController@showUserCreate',
+	)); 
+	Route::post('mod/user/create', array(
+		'uses'   => '\App\Http\Controllers\UserController@storeUserCreate',
+	)); 
+	Route::get('mod/user/password/{id}', array(
+		'as'    => 'admin.mod.user.password',
+		'uses'   => '\App\Http\Controllers\UserController@showUserPassword',
+	)); 
+	Route::post('mod/user/password/{id}', array(
+		'uses'   => '\App\Http\Controllers\UserController@updateUserPassword',
+	)); 
+	Route::get('mod/user/view/{id}', array(
+		'as'    => 'admin.mod.user.view',
+		'uses'   => '\App\Http\Controllers\UserController@showUserView',
+	)); 
+
 
 });
 
