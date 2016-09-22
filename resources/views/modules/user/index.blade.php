@@ -47,7 +47,15 @@
                <tr class="bg-default">
                   <th>No<br>&nbsp;</th>
                   <th>Name /<br>NRIC No.</th>
-                  <th>Staff ID /<br>Sitecode</th>
+                  <th>Staff ID /<br>
+                  @if ($sessions['group_id'] == 3)
+                     {{ 'Sitecode' }}
+                  @elseif ($sessions['group_id'] == 4)
+                     {{ 'Region' }}
+                  @else
+                     {{ '-' }}
+                  @endif
+                  </th>
                   <th>Group /<br>Position</th>
                   <th>Join Date /<br>Status</th>
                   <th class="actions text-right">Actions</th>
@@ -65,7 +73,7 @@
                      <td><a href="{{ route('hr.mod.user.view', array($i->id, $i->api_token)) }}">{{ $i->name }}</a> /<br>{{ $i->icno }}</td>
                      <td>{{ $i->username }} /<br>{{ $i->sitecode }}
                      </td>
-                     <td>
+                     <td>{{ $i->GroupName->name }} /<br>{{ $i->UserLatestJob->PositionName->name }}
                      </td>
                      <td>{{ $i->UserLatestJob->join_date }} /<br>{{ $i->StatusName->name }}
                      </td>

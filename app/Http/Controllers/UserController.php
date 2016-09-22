@@ -32,20 +32,33 @@ class UserController extends Controller
 			'title' => 'Staff'
 		);	
 		$group_id = 3;
+		$keyword = null;
 
 		$i = \App\User::with(array('UserLatestJob' => function($x) { 
 			$x->with('PositionName');
 		}));	
 		$i->with('StatusName');	
-		$i->where('group_id', $group_id);
+
+		// check search session
+		if (!empty(Session::get('i-search')['text-search'])) {
+			$keyword = Session::get('i-search')['text-search'];
+			$searchTerms = explode(' ', $keyword);
+			foreach ($searchTerms as $term) {
+				$i->where("users.name", "like", "%".$term."%");
+				$i->orWhere("users.icno", "like", "%".$term."%");
+				$i->orWhere("users.username", "like", "%".$term."%");
+			}
+		}	
+		if (!empty(Session::get('i-search')['group_id'])) {
+			$group_id = Session::get('i-search')['group_id'];
+		}	
+
 		$i->orderBy('id', 'DESC');
 		$data['users'] = $i->paginate(10);		
-
-		// dd($data['users']);
 		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group Level]', ''); 
 		$data['sessions'] = array(
 			'group_id' => $group_id,
-			'keyword' => null
+			'keyword' => $keyword
 		);		
 		return View('modules.user.index', $data);
 	}	
@@ -63,7 +76,6 @@ class UserController extends Controller
 			'title' => 'Staff'
 		);	
 		$group_id = 3;
-
 		$i = \App\User::with(array('UserLatestJob' => function($x) { 
 			$x->with('PositionName');
 		}));	
@@ -72,14 +84,17 @@ class UserController extends Controller
 		// searching
 		Session::put('i-search', $request->all());		
 		if (!empty(Session::get('i-search')['text-search'])) {
-			$q = Session::get('i-search')['text-search'];
-			$searchTerms = explode(' ', $q);
+			$keyword = Session::get('i-search')['text-search'];
+			$searchTerms = explode(' ', $keyword);
 			foreach ($searchTerms as $term) {
 				$i->where("users.name", "like", "%".$term."%");
 				$i->orWhere("users.icno", "like", "%".$term."%");
 				$i->orWhere("users.username", "like", "%".$term."%");
 			}
 		}	
+		else {
+			$keyword = null;
+		}
 		if (!empty(Session::get('i-search')['group_id'])) {
 			$group_id = Session::get('i-search')['group_id'];
 		}			
@@ -92,7 +107,7 @@ class UserController extends Controller
 		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group Level]', ''); 
 		$data['sessions'] = array(
 			'group_id' => $group_id,
-			'keyword' => Session::get('i-search')['text-search'],
+			'keyword' => $keyword
 		);		
 		return View('modules.user.index', $data);
 	}
@@ -134,7 +149,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         else {
-        	return redirect()->route('mod.user.create')->withInput();
+        	return redirect()->route('hr.mod.user.create')->withInput();
         }	
 	}
 
@@ -147,7 +162,7 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('mod.user.index'),
+			'child-a' => '',
 			'icon' => 'user-follow',
 			'title' => 'Add Staff'
 		);
@@ -180,7 +195,7 @@ class UserController extends Controller
         else {
             $msg = array('Insert is fail.', 'danger');
         }		
-        return redirect()->route('mod.user.index')->with([
+        return redirect()->route('hr.mod.user.index')->with([
             'message' => $msg[0], 
             'label' => 'alert alert-'.$msg[1].' alert-dismissible'
         ]);		
@@ -248,4 +263,12 @@ class UserController extends Controller
 
 
 
+
+
+
 }
+
+
+
+
+

@@ -113,12 +113,16 @@
 												<td>{{ $detail->StatusName->name }}</td>
 											</tr>
 											<tr>
-												<td>Username</td>
+												<td>Staff ID</td>
 												<td>{{ $detail->username }}</td>
 											</tr>								            
 											<tr>
 												<td class="col-md-3">Full Name</td>
 												<td class="col-md-9">{{ $detail->name }}</td>
+											</tr>
+											<tr>
+												<td>Email</td>
+												<td>{{ $detail->email }}</td>
 											</tr>
 											<tr>
 												<td>IC No</td>

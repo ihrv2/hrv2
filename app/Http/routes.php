@@ -63,8 +63,6 @@ Route::post('auth/password', [
 Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 {
 
-
-
 	// modul sync
 	Route::get('mod/sync/user', array(
 		'as'    => 'hr.mod.sync.user',
@@ -81,8 +79,6 @@ Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 	Route::post('mod/sync/public-holiday', array(
 		'uses'   => '\App\Http\Controllers\SyncController@updateSyncPublicHoliday',
 	)); 	
-
-
 
 	// modul user
 	Route::get('mod/user', array(
@@ -106,7 +102,6 @@ Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 	Route::post('mod/user/create', array(
 		'uses'   => '\App\Http\Controllers\UserController@storeUserCreate',
 	)); 
-
 	Route::get('mod/user/password/{id}/{token}', array(
 		'as'    => 'hr.mod.user.password',
 		'uses'   => '\App\Http\Controllers\UserController@showUserPassword',
@@ -114,40 +109,10 @@ Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 	Route::post('mod/user/password/{id}/{token}', array(
 		'uses'   => '\App\Http\Controllers\UserController@updateUserPassword',
 	)); 
-
-
-	// Route::get('mod/user/password/{id}/{token}', [
-	// 	'as' => 'hr.mod.user.password', 
-	// 	function($id, $token) 
-	// 	{
-	// 		dd($token);
-	// 	}
-	// ]);
-
-
-	// Route::get('mod/user/password/{id}/{token}',  
-	// function(App\User $user){
-	// 	dd($user);
-	// 	// $user = \App\User::where('id', $id)->where('api_token', $token)->first();
-	// 	// return $user;
-	// },
-
-	// array(
-	// 	'as'    => 'hr.mod.user.password',
-	// 	'uses'   => '\App\Http\Controllers\UserController@showUserPassword',
-	// )
-	// ); 
-
-
-
-
-
 	Route::get('mod/user/view/{id}/{token}', array(
 		'as'    => 'hr.mod.user.view',
 		'uses'   => '\App\Http\Controllers\UserController@showUserView',
 	)); 
-
-
 
 	// modul public holiday
 	Route::get('mod/public-holiday', array(
@@ -157,8 +122,6 @@ Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 	Route::post('mod/public-holiday', array(
 		'uses'   => '\App\Http\Controllers\MaintenanceController@postPublicHoliday',
 	)); 	
-
-
 
 	// modul region
 	Route::get('mod/region', array(
@@ -173,15 +136,7 @@ Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
 		'uses'   => '\App\Http\Controllers\MaintenanceController@updateRegionEdit',
 	)); 	
 
-
-
 });
-
-
-
-
-
-
 
 // modul for site supervisor (group_id = 3)
 Route::group(['middleware' => ['auth', 'sv']], function()
@@ -260,21 +215,11 @@ Route::group(['middleware' => ['auth', 'sv']], function()
 	)); 
 });
 
-
-
-
-
-
 // after login except home controller
 Route::group(['middleware' => ['auth']], function() 
 {		
 	// Route::resource('/sync', 'SyncController');
 });
-
-
-
-
-
 
 // modul for administrator (is_admin is true)
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function()
