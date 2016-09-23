@@ -17,7 +17,7 @@ class UserController extends Controller
 
     private $user_repo;
 
-	public function __construct(UserRepository $UserRepo)
+	public function __construct(\App\Repositories\UserRepository $UserRepo)
 	{
 		$this->user_repo = $UserRepo;
 	}

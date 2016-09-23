@@ -85,7 +85,7 @@
 							<label class="col-lg-3 control-label" for="textArea">Description</label>
 						</div>
 						<div class="col-lg-4">
-							{{ Form::textarea('desc', Input::old('desc'), ['class' => 'form-control', 'size' => '30x3']) }}
+							{{ Form::textarea('desc', old('desc'), ['class' => 'form-control', 'size' => '30x3']) }}
 						</div>
 					</div>
 
@@ -101,7 +101,7 @@
 						</div>
 						<div class="col-lg-3">
 							<div class="input-group date" id="pick_start_date">
-								{{ Form::text('date_from', null, array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'date1', 'readonly')) }}
+								{{ Form::text('date_from', old('date_from'), array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'date1', 'readonly')) }}
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>	
 						</div>
@@ -121,7 +121,7 @@
 						</div>
 						<div class="col-lg-3">
 							<div class="input-group date" id="pick_end_date">
-								{{ Form::text('date_to', null, array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'date2', 'readonly')) }}
+								{{ Form::text('date_to', old('date_to'), array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'date2', 'readonly')) }}
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>	
 						</div>
@@ -171,7 +171,8 @@
 
 
 
-			<div class="panel-footer">    		
+			<div class="panel-footer">   
+				{{ Form::hidden('leave_type_id', Session::get('leave_type_id')) }} 		
 				{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-primary']) }} 
 			</div>
 		</div>

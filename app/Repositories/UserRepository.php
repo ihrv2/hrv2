@@ -48,6 +48,10 @@ class UserRepository {
 	}
 
 
+	public function getPositionName($id)
+	{
+		return \App\Models\Position::find($id);
+	}
 
 
 }

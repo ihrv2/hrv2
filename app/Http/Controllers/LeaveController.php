@@ -12,6 +12,17 @@ class LeaveController extends Controller
 
 
 
+    private $leave_repo;
+    
+	public function __construct(\App\Repositories\LeaveRepository $LeaveRepo)
+	{
+		$this->leave_repo = $LeaveRepo;
+	}
+
+
+
+
+
     public function showLeaveIndex()
     {
 		$data = array();
@@ -35,7 +46,7 @@ class LeaveController extends Controller
 			'icon' => 'grid',
 			'title' => 'Leave Type'
 		);
-		$data['leave_types'] = \App\Models\LeaveType::where('id', '!=', 6)->orderBy('id', 'ASC')->pluck('name', 'id');
+		$data['leave_types'] = $this->leave_repo->getLeaveType();
 		return View('modules.leave.select', $data);	    	
     }
 
@@ -51,9 +62,7 @@ class LeaveController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         else {
-        	// dd($request->leave_type_id);
-        	// return redirect()->action('\App\Http\Controllers\sv\LeaveController@showLeaveAdd', 1);
-        	return redirect()->route('sv.leave.add')->with('leave_type_id', $request->leave_type_id);
+        	return redirect()->route('sv.mod.leave.create')->withInput();
         }
     }
 
@@ -61,9 +70,6 @@ class LeaveController extends Controller
 
     public function showLeaveCreate(Request $request)
     {
-    	// dd($request);
-    	dd($request->old('leave_type_id'));
-    	// dd(old('leave_type_id'));
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Leave Application', 
@@ -71,19 +77,28 @@ class LeaveController extends Controller
 			'icon' => 'grid',
 			'title' => 'Add Leave'
 		);
-		if ($request->old('leave_type_id')) {
-			return View('sv.leave.add', $data);
+		if (old('leave_type_id')) {
+			return View('modules.leave.create', $data);
 		}
 		else {
-			return redirect()->route('sv.leave.select');
+			return redirect()->route('sv.mod.leave.select');
 		}	    	
     }
 
 
 
-    public function storeLeaveCreate()
+    public function storeLeaveCreate(Requests\LeaveCreate $request, \App\Models\LeaveApplication $leave_app)
     {
-    	return 'sdfdfsdf';
+		if ($leave_app->LeaveCreate($request->all())) {
+            $msg = array('Leave successfully added.', 'success');
+        }
+        else {
+            $msg = array('Insert is fail.', 'danger');
+        }		
+        return redirect()->route('sv.mod.leave.index')->with([
+            'message' => $msg[0], 
+            'label' => 'alert alert-'.$msg[1].' alert-dismissible'
+        ]);	
     }
 
 

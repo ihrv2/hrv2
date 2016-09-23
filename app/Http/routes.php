@@ -159,6 +159,9 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'UserController@destroyUserFamily',
 	));  		
 
+
+
+
 	// modul public holiday
 	Route::get('mod/public-holiday', array(
 		'as'    => 'mod.public.holiday',
@@ -184,3 +187,88 @@ Route::group(['middleware' => ['auth', 'default']], function()
 });
 
 
+
+
+// group for site supervisor
+// -------------------------
+Route::group(['middleware' => ['auth', 'sv']], function()
+{	
+	// leave
+	Route::get('mod/leave', array(
+		'as'    => 'sv.mod.leave.index',
+		'uses'   => 'LeaveController@showLeaveIndex',
+	)); 			
+	Route::post('mod/leave', array(
+		'uses'   => 'LeaveController@postLeaveIndex',
+	));       
+
+	// view leave      
+	Route::get('mod/leave/view/{id}', array(
+		'as'    => 'sv.mod.leave.view',
+		'uses'   => 'LeaveController@showLeaveView',
+	));  
+	Route::post('mod/leave/view/{id}', array(
+		'uses'   => 'LeaveController@postLeaveView',
+	)); 
+
+	// edit leave 
+	Route::get('mod/leave/edit/{id}', array(
+		'as'    => 'sv.mod.leave.edit',
+		'uses'   => 'LeaveController@showLeaveEdit',
+	));
+	Route::post('mod/leave/edit/{id}', array(
+		'uses'   => 'LeaveController@postLeaveEdit',
+	));
+
+	// leave summary
+	Route::get('mod/leave/summary', array(
+		'as'    => 'sv.mod.leave.summary',
+		'uses'   => 'LeaveController@showLeaveSummary',
+	)); 
+
+	// add leave         
+	Route::get('mod/leave/select', array(
+		'as'    => 'sv.mod.leave.select',
+		'uses'   => 'LeaveController@showLeaveSelect',
+	));   
+	Route::post('mod/leave/select', array(
+		'uses'   => 'LeaveController@postLeaveSelect',
+	));    
+	Route::get('mod/leave/create', array(
+		'as'    => 'sv.mod.leave.create',
+		'uses'   => 'LeaveController@showLeaveCreate',
+	));   
+	Route::post('mod/leave/create', array(
+		'uses'   => 'LeaveController@storeLeaveCreate',
+	));    
+	
+	// replacement leave          
+	Route::get('mod/leave/replacement', array(
+		'as'    => 'sv.mod.leave.replacement.index',
+		'uses'   => 'LeaveController@showLeaveRepIndex',
+	));          
+	Route::post('mod/leave/replacement', array(
+		'uses'   => 'LeaveController@postLeaveRepIndex',
+	));      
+	Route::get('mod/leave/replacement/create', array(
+		'as'    => 'sv.mod.leave.replacement.create',
+		'uses'   => 'LeaveController@showLeaveRepCreate',
+	));   
+	Route::post('mod/leave/replacement/create', array(
+		'uses'   => 'LeaveController@storeLeaveRepCreate',
+	));               
+	Route::get('mod/leave/replacement/view/{id}', array(
+		'as'    => 'sv.mod.leave.replacement.view',
+		'uses'   => 'LeaveController@showLeaveRepView',
+	));   
+	Route::post('mod/leave/replacement/view/{id}', array(
+		'uses'   => 'LeaveController@postLeaveRepView',
+	));  
+	Route::get('mod/leave/replacement/edit/{id}', array(
+		'as'    => 'sv.mod.leave.replacement.edit',
+		'uses'   => 'LeaveController@showLeaveRepEdit',
+	));   
+	Route::post('mod/leave/replacement/edit/{id}', array(
+		'uses'   => 'LeaveController@postLeaveRepEdit',
+	)); 
+});
