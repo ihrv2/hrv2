@@ -27,4 +27,18 @@ class LeaveHelper {
 	}	
 
 
+	public static function CheckIfExpired($date) {
+		$today_date = Carbon::now();
+		$end_date = Carbon::createFromFormat('Y-m-d', $date);
+		if ($today_date->gt($end_date)) {
+			$x = 1;
+		}
+		else {
+			$x = 0;
+		}
+		return $x;
+	}
+
+
+
 }

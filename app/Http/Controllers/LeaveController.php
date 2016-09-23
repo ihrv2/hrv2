@@ -32,8 +32,9 @@ class LeaveController extends Controller
 			'icon' => 'grid',
 			'title' => 'View Request Leave'
 		);		
-		return View('modules.leave.index', $data);
+		return View('leave.index', $data);
     }
+
 
 
 
@@ -46,8 +47,26 @@ class LeaveController extends Controller
 			'icon' => 'grid',
 			'title' => 'Leave Type'
 		);
-		$data['leave_types'] = $this->leave_repo->getLeaveType();
-		return View('modules.leave.select', $data);	    	
+		$empty = 0;
+		$expired = 0;
+
+		// check current contract
+		$current = \App\Models\UserContract::where('user_id', \Auth::user()->id)->where('status', 1)->first();
+		if (empty($current)) {	
+			$empty = 1;
+		}
+		else {
+			// check if current contract is expired
+			$check_exp = \App\Helpers\LeaveHelper::CheckIfExpired($current->date_to);
+			if ($check_exp == 1) {
+				$expired = 1;
+			}
+			else {
+				$data['leave_types'] = $this->leave_repo->getLeaveTypeWithPrefix();
+			}
+		}
+		$data['x'] = array('empty' => $empty, 'expired' => $expired);		
+		return View('leave.select', $data);	    	
     }
 
 
@@ -68,6 +87,7 @@ class LeaveController extends Controller
 
 
 
+
     public function showLeaveCreate(Request $request)
     {
 		$data = array();
@@ -78,7 +98,19 @@ class LeaveController extends Controller
 			'title' => 'Add Leave'
 		);
 		if (old('leave_type_id')) {
-			return View('modules.leave.create', $data);
+
+
+
+			// Session::put('leave_type_id', Input::old('leave_type_id'));	
+			// $data['leave_type'] = LeaveType::find(Session::get('leave_type_id'));					
+			// $data['job'] = UserJob::where('user_id', Auth::user()->id)->where('status', 1)->first();		
+			// $data['site'] = Site::where('sites.id', '=', Auth::user()->sitecode)->first();					
+			// $data['rm'] = Helper::getRegionManager(Auth::user()->sitecode);
+			
+
+
+
+			return View('leave.create', $data);
 		}
 		else {
 			return redirect()->route('sv.mod.leave.select');
@@ -112,7 +144,7 @@ class LeaveController extends Controller
 			'icon' => 'grid',
 			'title' => 'Leave Summary'
 		);			
-		return View('modules.leave.summary', $data);
+		return View('leave.summary', $data);
     }
 
 
@@ -127,7 +159,7 @@ class LeaveController extends Controller
 			'icon' => 'note',
 			'title' => 'Replacement Leave'
 		);
-		return View('modules.replacement-leave.index', $data);
+		return View('replacement-leave.index', $data);
     }
 
 
@@ -141,7 +173,7 @@ class LeaveController extends Controller
 			'icon' => 'note',
 			'title' => 'Replacement Leave'
 		);
-		return View('modules.replacement-leave.index', $data);
+		return View('replacement-leave.index', $data);
     }
 
 
@@ -156,7 +188,7 @@ class LeaveController extends Controller
 			'icon' => 'note',
 			'title' => 'Add Replacement Leave'
 		);			
-		return View('modules.replacement-leave.add', $data);	    	
+		return View('replacement-leave.add', $data);	    	
     }
 
 

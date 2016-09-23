@@ -13,7 +13,10 @@ class LeaveRepository {
 	}
 
 
-
+	public function getLeaveTypeWithPrefix()
+	{
+		return \App\Models\LeaveType::select(\DB::raw('concat (code, " - ", name) as name, id'))->where('id', '!=', 6)->orderBy('id', 'ASC')->pluck('name', 'id')->prepend('[Leave Type]', '');
+	}
 
 
 }
