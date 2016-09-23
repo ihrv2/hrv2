@@ -34,7 +34,7 @@
 						@if ($errors->has('status_contract_id'))
 							<p class="text-danger">{{ $errors->first('status_contract_id') }}</p>
 						@endif      
-						{{ Form::select('status_contract_id', $status_contracts, null, array('class' => 'form-control', 'id' => 'selectStatusContract')) }}                 
+						{{ Form::select('status_contract_id', $status_contracts, old('status_contract_id'), array('class' => 'form-control', 'id' => 'selectStatusContract')) }}                 
 						</div>
 					</div>
 				</div>
@@ -49,7 +49,7 @@
 		                @endif 					        
 						<div class="required">{{ Form::label('selectStartDate', 'Start Date') }}</div>
 						<div class="input-group date" id="pick_start_date">
-							{{ Form::text('date_from', null, array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'selectStartDate')) }}
+							{{ Form::text('date_from', old('date_from'), array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'selectStartDate')) }}
 							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 						</div>						
 					</div>
@@ -66,7 +66,7 @@
 		                @endif 					        
 						<div class="required">{{ Form::label('selectEndDate', 'End Date') }}</div>
 						<div class="input-group date" id="pick_end_date">
-							{{ Form::text('date_to', null, array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'selectEndDate')) }}
+							{{ Form::text('date_to', old('date_to'), array('class' => 'form-control', 'data-date-format' => 'DD/MM/YYYY', 'id' => 'selectEndDate')) }}
 							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 						</div>						
 					</div>
@@ -84,7 +84,7 @@
 						@if ($errors->has('salary'))
 							<p class="text-danger">{{ $errors->first('salary') }}</p>
 						@endif              
-						{{ Form::text('salary', null, array('class'=>'form-control', 'id' => 'selectSalary', 'size' => 40)) }}             
+						{{ Form::text('salary', old('salary'), array('class'=>'form-control', 'id' => 'selectSalary', 'size' => 40)) }}             
 						</div>
 					</div>
 				</div>

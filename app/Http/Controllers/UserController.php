@@ -16,6 +16,7 @@ class UserController extends Controller
 
 
     private $user_repo;
+
 	public function __construct(UserRepository $UserRepo)
 	{
 		$this->user_repo = $UserRepo;
@@ -23,7 +24,8 @@ class UserController extends Controller
 
 
 
-	public function showUserIndex() {
+
+	public function showUser() {
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
@@ -55,7 +57,7 @@ class UserController extends Controller
 
 		$i->orderBy('id', 'DESC');
 		$data['users'] = $i->paginate(10);		
-		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group Level]', ''); 
+		$data['groups'] = $this->user_repo->getGroup();
 		$data['sessions'] = array(
 			'group_id' => $group_id,
 			'keyword' => $keyword
@@ -66,7 +68,7 @@ class UserController extends Controller
 
 
 
-	public function postUserIndex(Request $request)
+	public function postUser(Request $request)
 	{
 		$data = array();
 		$data['header'] = array(
@@ -104,7 +106,7 @@ class UserController extends Controller
 		$data['users'] = $i->paginate(10);	
 
 		// dd($data['users']);
-		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group Level]', ''); 
+		$data['groups'] = $this->user_repo->getGroup();
 		$data['sessions'] = array(
 			'group_id' => $group_id,
 			'keyword' => $keyword
@@ -113,26 +115,19 @@ class UserController extends Controller
 	}
 
 
-	// getName
-	// getPrefix
-	// getPath
-	// getActionName
 
 
-	public function showSelectGroup()
+	public function showGroup()
 	{
-		// dd($this->getRouter()->getCurrentRoute()->getPrefix());
-		// $prefix = $this->getRouter()->getCurrentRoute()->getName();
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => '',
-			// 'child-a' => route($prefix.'.mod.user.index'),
+			'child-a' => route('mod.user'),
 			'icon' => 'user-follow',
 			'title' => 'Add Staff'
 			);
-		$data['groups'] = \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Please Select]', ''); 
+		$data['groups'] = $this->user_repo->getGroup();
 		return View('modules.user.group', $data);		
 	}
 
@@ -140,7 +135,7 @@ class UserController extends Controller
 
 
 
-	public function postSelectGroup(Request $request)
+	public function postGroup(Request $request)
 	{
         $validator = Validator::make($request->all(), [
             'group_id' => 'required'
@@ -149,20 +144,20 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         else {
-        	return redirect()->route('hr.mod.user.create')->withInput();
+        	return redirect()->route('mod.user.create')->withInput();
         }	
 	}
 
 
 
 
-	public function showUserCreate(Request $request)
+	public function createUser(Request $request)
 	{
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => '',
+			'child-a' => route('mod.user'),
 			'icon' => 'user-follow',
 			'title' => 'Add Staff'
 		);
@@ -171,23 +166,23 @@ class UserController extends Controller
 			$data['positions'] = \App\Models\Position::where('group_id', Session::get('group_id'))->orderBy('name', 'ASC')->lists('name', 'id');
 			// show lists of region if group regional manager
 			if (Session::get('group_id') == 4) {
-				$data['regions'] = \App\Models\Region::orderBy('name', 'ASC')->lists('name', 'id');
+				$data['regions'] = $this->user_repo->getRegion();
 			}
 			// show lists of sites if group site supervisor
 			if (Session::get('group_id') == 3) {			
-				$data['sites'] = \App\Models\Site::select(\DB::raw('concat (id, " - ", name) as name, id'))->orderBy('name', 'ASC')->lists('name', 'id');	
-				$data['phases'] = \App\Models\Phase::orderBy('name', 'ASC')->lists('name', 'id');						
+				$data['sites'] = $this->user_repo->getSite();
+				$data['phases'] = $this->user_repo->getPhase();
 			}			
-			return View('modules.user.add', $data);
+			return View('modules.user.create', $data);
 		}
 		else {
-        	return redirect()->route('mod.user.select.group');			
+        	return redirect()->route('mod.user.group');			
 		}
 	}
 
 
 
-	public function storeUserCreate(Requests\UserCreate $request, \App\User $user)
+	public function storeUser(Requests\UserCreate $request, \App\User $user)
 	{	
 		if ($user->UserCreate($request->all())) {
             $msg = array('User successfully added.', 'success');
@@ -195,7 +190,7 @@ class UserController extends Controller
         else {
             $msg = array('Insert is fail.', 'danger');
         }		
-        return redirect()->route('hr.mod.user.index')->with([
+        return redirect()->route('mod.user.index')->with([
             'message' => $msg[0], 
             'label' => 'alert alert-'.$msg[1].' alert-dismissible'
         ]);		
@@ -204,13 +199,13 @@ class UserController extends Controller
 
 
 
-	public function showUserPassword($id, $token)
+	public function editUserPassword($id, $token)
 	{
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',	
-			'child-a' => '',				
+			'child-a' => route('mod.user'),						
 			'icon' => 'lock',
 			'title' => 'Change Password'
 			);			
@@ -241,7 +236,7 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => '',					
+			'child-a' => route('mod.user'),					
 			'icon' => 'user',
 			'title' => $data['detail']->name
 		);			
@@ -272,14 +267,14 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => '',		
+			'child-a' => route('mod.user'),	
 			'sub' => 'User Detail',
-			'sub-a' => '',				
+			'sub-a' => route('mod.user.view', array($uid, $token)),				
 			'icon' => 'graph',
 			'title' => 'Add/Renew Contract'
 		);		
-		$data['status_contracts'] = \App\Models\UserContractStatus::orderBy('name', 'ASC')->lists('name', 'id');			
-		return View('modules.user.contract.add', $data);
+		$data['status_contracts'] = $this->user_repo->getUserContractStatus();
+		return View('modules.user.contract.create', $data);
     }
 
 
@@ -295,7 +290,7 @@ class UserController extends Controller
         else {
             $msg = array('Insert is fail.', 'danger');
         }		
-        return redirect()->route('hr.mod.user.view', array($id, $token))->with([
+        return redirect()->route('mod.user.view', array($id, $token))->with([
             'message' => $msg[0], 
             'label' => 'alert alert-'.$msg[1].' alert-dismissible'
         ]);	
@@ -311,13 +306,13 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => '',
+			'child-a' => route('mod.user'),	
 			'sub' => 'User Detail',
-			'sub-a' => '',
+			'sub-a' => route('mod.user.view', array($uid, $token)),	
 			'icon' => 'graph',
 			'title' => 'Edit Contract'
 			);		
-		$data['status_contracts'] = \App\Models\UserContractStatus::orderBy('name', 'ASC')->lists('name', 'id');
+		$data['status_contracts'] = $this->user_repo->getUserContractStatus();
 		$data['detail'] = \App\Models\UserContract::find($id);
 		return View('modules.user.contract.edit', $data);    	
     }
@@ -336,7 +331,7 @@ class UserController extends Controller
         else {
         	$msg = array('Update is fail.', 'danger');
         }
-        return redirect()->route('hr.mod.user.view', array($uid, $token))->with([
+        return redirect()->route('mod.user.view', array($uid, $token))->with([
             'message' => $msg[0], 
             'label' => 'alert alert-'.$msg[1].' alert-dismissible'
         ]);
@@ -376,6 +371,177 @@ class UserController extends Controller
     {
 
     }
+
+
+
+
+    // user education
+    public function createUserEducation()
+    {
+
+    }
+
+    public function storeUserEducation()
+    {
+
+    }
+
+    public function editUserEducation()
+    {
+
+    }
+
+    public function updateUserEducation()
+    {
+
+    }
+    
+    public function destroyUserEducation()
+    {
+
+    }
+
+
+    // user language
+    public function createUserLanguage()
+    {
+
+    }
+
+    public function storeUserLanguage()
+    {
+
+    }
+
+    public function editUserLanguage()
+    {
+
+    }
+
+    public function updateUserLanguage()
+    {
+
+    }
+    
+    public function destroyUserLanguage()
+    {
+
+    }
+
+
+
+    // user skills
+    public function createUserSkill()
+    {
+
+    }
+
+    public function storeUserSkill()
+    {
+
+    }
+
+    public function editUserSkill()
+    {
+
+    }
+
+    public function updateUserSkill()
+    {
+
+    }
+    
+    public function destroyUserSkill()
+    {
+
+    }
+
+
+    // user employment history
+    public function createUserEmployment()
+    {
+
+    }
+
+    public function storeUserEmployment()
+    {
+
+    }
+
+    public function editUserEmployment()
+    {
+
+    }
+
+    public function updateUserEmployment()
+    {
+
+    }
+    
+    public function destroyUserEmployment()
+    {
+
+    }
+
+
+
+    // user references
+    public function createUserReference()
+    {
+
+    }
+
+    public function storeUserReference()
+    {
+
+    }
+
+    public function editUserReference()
+    {
+
+    }
+
+    public function updateUserReference()
+    {
+
+    }
+    
+    public function destroyUserReference()
+    {
+
+    }
+
+
+
+
+
+    // user emergency contacts
+    public function createUserEmergency()
+    {
+
+    }
+
+    public function storeUserEmergency()
+    {
+
+    }
+
+    public function editUserEmergency()
+    {
+
+    }
+
+    public function updateUserEmergency()
+    {
+
+    }
+    
+    public function destroyUserEmergency()
+    {
+
+    }
+
+
 
 
 

@@ -70,14 +70,14 @@
                   ?>
                   <tr>
                      <td>{{ $no }}</td>
-                     <td><a href="{{ route('hr.mod.user.view', array($i->id, $i->api_token)) }}">{{ $i->name }}</a> /<br>{{ $i->icno }}</td>
+                     <td><a href="{{ route('mod.user.view', array($i->id, $i->api_token)) }}">{{ $i->name }}</a> /<br>{{ $i->icno }}</td>
                      <td>{{ $i->username }} /<br>{{ $i->sitecode }}
                      </td>
                      <td>{{ $i->GroupName->name }} /<br>{{ $i->UserLatestJob->PositionName->name }}
                      </td>
                      <td>{{ $i->UserLatestJob->join_date }} /<br>{{ $i->StatusName->name }}
                      </td>
-                     <td class="text-right"><a href="{{ route('hr.mod.user.view', array($i->id, $i->api_token)) }}" alt="" class="btn btn-primary btn-sm" title="View"><i class="icon-magnifier"></i></a>&nbsp;<a href="{{ route('hr.mod.user.password', array($i->id, $i->api_token)) }}" class="btn btn-primary btn-sm" title="Change Password"><i class="icon-lock"></i></a></td>
+                     <td class="text-right"><a href="{{ route('mod.user.view', array($i->id, $i->api_token)) }}" alt="" class="btn btn-primary btn-sm" title="View"><i class="icon-magnifier"></i></a>&nbsp;<a href="{{ route('mod.user.password', array($i->id, $i->api_token)) }}" class="btn btn-primary btn-sm" title="Change Password"><i class="icon-lock"></i></a></td>
                   </tr>
                @endforeach
             @else

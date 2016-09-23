@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -24,7 +24,7 @@
 							<p class="text-danger">{{ $errors->first('dialect') }}</p>
 						@endif      
 						<div class="required">{{ Form::label('selectDialect', 'Language Dialect') }}</div>						
-						{{ Form::text('dialect', Input::old('dialect'), array('class'=>'form-control', 'id' => 'selectDialect', 'size' => 40)) }}                     
+						{{ Form::text('dialect', old('dialect'), array('class'=>'form-control', 'id' => 'selectDialect', 'size' => 40)) }}                     
 					</div>
 				</div>
 
@@ -38,7 +38,7 @@
 						@if ($errors->has('desc'))
 							<p class="text-danger">{{ $errors->first('desc') }}</p>
 						@endif      
-						{{ Form::text('desc', Input::old('desc'), array('class'=>'form-control', 'id' => 'selectStart', 'size' => 40)) }}                     
+						{{ Form::text('desc', old('desc'), array('class'=>'form-control', 'id' => 'selectStart', 'size' => 40)) }}                     
 						</div>
 					</div>
 				</div>
@@ -96,8 +96,7 @@
          </div>   
 
 
-      	{{ Form::hidden('uid', $i['uid']) }}
-		{{ Form::hidden('key', $i['key']) }}		
+		
 		{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}         
 		{{ Form::close() }}  
 

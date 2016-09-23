@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -25,7 +25,7 @@
 						@if ($errors->has('name'))
 							<p class="text-danger">{{ $errors->first('name') }}</p>
 						@endif      
-						{{ Form::text('name', Input::old('name'), array('class'=>'form-control', 'id' => 'selectName', 'size' => 40)) }}                     
+						{{ Form::text('name', old('name'), array('class'=>'form-control', 'id' => 'selectName', 'size' => 40)) }}                     
 						</div>
 					</div>
 				</div>
@@ -52,8 +52,7 @@
 
             </div>               
          </div>   		
-      	{{ Form::hidden('uid', $i['uid']) }}
-		{{ Form::hidden('key', $i['key']) }}		
+		
 		{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}         
 		{{ Form::close() }}  
 

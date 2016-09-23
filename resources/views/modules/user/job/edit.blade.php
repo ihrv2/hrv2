@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -96,10 +96,7 @@
 
 
             </div>               
-        </div>   
-		{{ Form::hidden('id', $i['id']) }}
-      	{{ Form::hidden('uid', $i['uid']) }}            
-		{{ Form::hidden('key', $i['key']) }}      	
+        </div>       	
         {{ Form::close() }}  
 
 

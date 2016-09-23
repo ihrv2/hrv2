@@ -461,7 +461,7 @@
 												</tr>
 												<tr>
 													<td colspan="2">
-														<div class="text-right"><a href="{{ route('hr.mod.user.contract.edit', array($curr_contract->id, $detail->id, $detail->api_token)) }}" class="btn btn-danger" title="Edit"><i class="icon-note"></i>&nbsp;Edit</a>&nbsp;<a href="{{ route('hr.mod.user.contract.add', array($detail->id, $detail->api_token)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;New</a></div>
+														<div class="text-right"><a href="{{ route('mod.user.contract.edit', array($curr_contract->id, $detail->id, $detail->api_token)) }}" class="btn btn-danger" title="Edit"><i class="icon-note"></i>&nbsp;Edit</a>&nbsp;<a href="{{ route('mod.user.contract.create', array($detail->id, $detail->api_token)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;New</a></div>
 													</td>
 												</tr>						            
 											</table>
@@ -505,7 +505,7 @@
 											</div>   
 											@else
 												<p>No record</p>
-												<div class=""><a href="{{ route('hr.mod.user.contract.add', array($detail->id, $detail->api_token)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a></div>
+												<div class=""><a href="{{ route('mod.user.contract.create', array($detail->id, $detail->api_token)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a></div>
 												<br>
 											@endif
 
@@ -564,7 +564,7 @@
 													<td>{{ $family->occupation }}</td>
 													<td>{{ $family->school_office }}</td>
 													<td>{{ $family->relation }}</td>
-													<td class="text-right"><a href="{{ route('hr.mod.user.family.edit', array($family->id, $detail->id, $detail->api_token)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+													<td class="text-right"><a href="{{ route('mod.user.family.edit', array($family->id, $detail->id, $detail->api_token)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 												</tr>
 
 												@endforeach
@@ -576,7 +576,7 @@
 
 											<div class="row">
 												<div class="col-sm-12">
-													<a href="{{ route('hr.mod.user.family.add', array($detail->id, $detail->api_token)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>		
+													<a href="{{ route('mod.user.family.create', array($detail->id, $detail->api_token)) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>		
 												</div>
 											</div>																										             
 										</div>

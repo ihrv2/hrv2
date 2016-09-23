@@ -49,7 +49,6 @@
             </div>
             <div id="token" alt="{{ csrf_token() }}"></div>   
             {{ Form::hidden('base_url', URL::to('/'), array('id' => 'base_url')) }}
-            {{ Form::hidden('prefix', $group->prefix, array('id' => 'prefix')) }}       
             {{ Form::close() }}
 
 
@@ -89,7 +88,7 @@
                 str += '</div>';
                 $('#alert').html(str);
                 $.ajax({
-                    url: $('#base_url').val() + '/' + prefix + '/mod/sync/user',
+                    url: $('#base_url').val() + '/mod/sync/user',
                     type: 'POST',
                     data: {_token: $('#token').attr('alt'), date_from: $('#date_from').val(), group_id: $('#group_id').val()},
                     complete: function(response, textStatus, jqXHR) {   

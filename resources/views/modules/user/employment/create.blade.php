@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -70,7 +70,7 @@
                   @if ($errors->has('company'))
                      <p class="text-danger">{{ $errors->first('company') }}</p>
                   @endif      
-                  {{ Form::text('company', Input::old('company'), array('class'=>'form-control', 'id' => 'selectCompany', 'size' => 40)) }}                     
+                  {{ Form::text('company', old('company'), array('class'=>'form-control', 'id' => 'selectCompany', 'size' => 40)) }}                     
                   </div>
                </div>
             </div>
@@ -83,7 +83,7 @@
                   @if ($errors->has('position'))
                      <p class="text-danger">{{ $errors->first('position') }}</p>
                   @endif      
-                  {{ Form::text('position', Input::old('position'), array('class'=>'form-control', 'id' => 'selectPosition', 'size' => 40)) }}                     
+                  {{ Form::text('position', old('position'), array('class'=>'form-control', 'id' => 'selectPosition', 'size' => 40)) }}                     
                   </div>
                </div>
             </div>
@@ -96,7 +96,7 @@
                   @if ($errors->has('salary'))
                      <p class="text-danger">{{ $errors->first('salary') }}</p>
                   @endif      
-                  {{ Form::text('salary', Input::old('salary'), array('class'=>'form-control', 'id' => 'selectSalary', 'size' => 40)) }}                     
+                  {{ Form::text('salary', old('salary'), array('class'=>'form-control', 'id' => 'selectSalary', 'size' => 40)) }}                     
                   </div>
                </div>
             </div>
@@ -108,8 +108,7 @@
             </div>               
          </div>   
 
-      {{ Form::hidden('uid', $i['uid']) }}
-      {{ Form::hidden('key', $i['key']) }}      
+     
 		{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}         
 		{{ Form::close() }}  
 

@@ -17,9 +17,6 @@
 // initial page
 Route::get('/', 'Auth\AuthController@showLoginForm');
 
-
-
-
 // authentication page
 Route::auth();
 
@@ -58,267 +55,132 @@ Route::post('auth/password', [
 
 
 
-
-// modul of human resource (group_id = 2)
-Route::group(['prefix' => 'hr', 'middleware' => ['auth', 'hr']], function()
+// group for admin/hr/rm
+Route::group(['middleware' => ['auth', 'default']], function()
 {
-
 	// modul sync
+	// ----------
 	Route::get('mod/sync/user', array(
-		'as'    => 'hr.mod.sync.user',
-		'uses'   => '\App\Http\Controllers\SyncController@showSyncUser',
+		'as'    => 'mod.sync.user',
+		'uses'   => 'SyncController@showSyncUser',
 	));   
 	Route::post('mod/sync/user', array(
-		'as'    => 'hr.mod.sync.user',		
-		'uses'   => '\App\Http\Controllers\SyncController@updateSyncUser',
+		'uses'   => 'SyncController@updateSyncUser',
 	)); 	
 	Route::get('mod/sync/public-holiday', array(
-		'as'    => 'hr.mod.sync.public.holiday',
-		'uses'   => '\App\Http\Controllers\SyncController@showSyncPublicHoliday',
+		'as'    => 'mod.sync.public.holiday',
+		'uses'   => 'SyncController@showSyncPublicHoliday',
 	));   
 	Route::post('mod/sync/public-holiday', array(
-		'uses'   => '\App\Http\Controllers\SyncController@updateSyncPublicHoliday',
-	)); 	
+		'uses'   => 'SyncController@updateSyncPublicHoliday',
+	)); 
 
-	// modul user
+	// modul user	
+	// ----------
 	Route::get('mod/user', array(
-		'as'    => 'hr.mod.user.index',
-		'uses'   => '\App\Http\Controllers\UserController@showUserIndex',
-	)); 
+		'as'    => 'mod.user',
+		'uses'   => 'UserController@showUser',
+	));
 	Route::post('mod/user', array(
-		'uses'   => '\App\Http\Controllers\UserController@postUserIndex',
+		'uses'   => 'UserController@postUser',
 	));    
-	Route::get('mod/user/select-group', array(
-		'as'    => 'hr.mod.user.select.group',
-		'uses'   => '\App\Http\Controllers\UserController@showSelectGroup',
+
+	// select group
+	Route::get('mod/user/group', array(
+		'as'    => 'mod.user.group',
+		'uses'   => 'UserController@showGroup',
 	)); 
-	Route::post('mod/user/select-group', array(
-		'uses'   => '\App\Http\Controllers\UserController@postSelectGroup',
+	Route::post('mod/user/group', array(
+		'uses'   => 'UserController@postGroup',
 	));  		
+
+	// add user
 	Route::get('mod/user/create', array(
-		'as'    => 'hr.mod.user.create',
-		'uses'   => '\App\Http\Controllers\UserController@showUserCreate',
+		'as'    => 'mod.user.create',
+		'uses'   => 'UserController@createUser',
 	)); 
 	Route::post('mod/user/create', array(
-		'uses'   => '\App\Http\Controllers\UserController@storeUserCreate',
-	)); 
-	Route::get('mod/user/password/{id}/{token}', array(
-		'as'    => 'hr.mod.user.password',
-		'uses'   => '\App\Http\Controllers\UserController@showUserPassword',
-	)); 
-	Route::post('mod/user/password/{id}/{token}', array(
-		'uses'   => '\App\Http\Controllers\UserController@updateUserPassword',
-	)); 
-	Route::get('mod/user/view/{id}/{token}', array(
-		'as'    => 'hr.mod.user.view',
-		'uses'   => '\App\Http\Controllers\UserController@showUserView',
+		'uses'   => 'UserController@storeUser',
 	)); 
 
+	// edit user password
+	Route::get('mod/user/password/{id}/{token}', array(
+		'as'    => 'mod.user.password',
+		'uses'   => 'UserController@editUserPassword',
+	)); 
+	Route::post('mod/user/password/{id}/{token}', array(
+		'uses'   => 'UserController@updateUserPassword',
+	)); 
+
+	// view user details
+	Route::get('mod/user/view/{id}/{token}', array(
+		'as'    => 'mod.user.view',
+		'uses'   => 'UserController@showUserView',
+	)); 	
+
 	// user contract
-	Route::get('mod/user/contract/add/{uid}/{token}', array(
-		'as'    => 'hr.mod.user.contract.add',
+	// -------------
+	Route::get('mod/user/contract/create/{uid}/{token}', array(
+		'as'    => 'mod.user.contract.create',
 		'uses'   => 'UserController@createUserContract',
 	)); 
-	Route::post('mod/user/contract/add/{uid}/{token}', array(
+	Route::post('mod/user/contract/create/{uid}/{token}', array(
 		'uses'   => 'UserController@storeUserContract',
 	));       
 	Route::get('mod/user/contract/edit/{id}/{uid}/{token}', array(
-		'as'    => 'hr.mod.user.contract.edit',
+		'as'    => 'mod.user.contract.edit',
 		'uses'   => 'UserController@editUserContract',
 	)); 
 	Route::post('mod/user/contract/edit/{id}/{uid}/{token}', array(
 		'uses'   => 'UserController@updateUserContract',
 	)); 
 	Route::get('mod/user/contract/delete/{id}/{uid}/{token}', array(
-		'as'    => 'hr.mod.user.contract.delete',
+		'as'    => 'mod.user.contract.delete',
 		'uses'   => 'UserController@destroyUserContract',
 	));  
 
 	// user family
-	Route::get('mod/user/family/add/{uid}/{token}', array(
-		'as'    => 'hr.mod.user.family.add',
+	Route::get('mod/user/family/create/{uid}/{token}', array(
+		'as'    => 'mod.user.family.create',
 		'uses'   => 'UserController@createUserFamily',
 	)); 
-	Route::post('mod/user/family/add/{uid}/{token}', array(
+	Route::post('mod/user/family/create/{uid}/{token}', array(
 		'uses'   => 'UserController@storeUserFamily',
 	));       
 	Route::get('mod/user/family/edit/{id}/{uid}/{token}', array(
-		'as'    => 'hr.mod.user.family.edit',
+		'as'    => 'mod.user.family.edit',
 		'uses'   => 'UserController@editUserFamily',
 	)); 
 	Route::post('mod/user/family/edit/{id}/{uid}/{token}', array(
 		'uses'   => 'UserController@updateUserFamily',
 	)); 
 	Route::get('mod/user/family/delete/{id}/{uid}/{token}', array(
-		'as'    => 'hr.mod.user.family.delete',
+		'as'    => 'mod.user.family.delete',
 		'uses'   => 'UserController@destroyUserFamily',
-	));  	
+	));  		
 
 	// modul public holiday
 	Route::get('mod/public-holiday', array(
-		'as'    => 'hr.mod.public.holiday',
-		'uses'   => '\App\Http\Controllers\MaintenanceController@showPublicHoliday',
+		'as'    => 'mod.public.holiday',
+		'uses'   => 'MaintenanceController@showPublicHoliday',
 	)); 	
 	Route::post('mod/public-holiday', array(
-		'uses'   => '\App\Http\Controllers\MaintenanceController@postPublicHoliday',
+		'uses'   => 'MaintenanceController@postPublicHoliday',
 	)); 	
 
 	// modul region
 	Route::get('mod/region', array(
-		'as'    => 'hr.mod.region',
-		'uses'   => '\App\Http\Controllers\MaintenanceController@showRegion',
+		'as'    => 'mod.region',
+		'uses'   => 'MaintenanceController@showRegion',
 	)); 	
 	Route::get('mod/region/edit/{id}', array(
-		'as'    => 'hr.mod.region.edit',
-		'uses'   => '\App\Http\Controllers\MaintenanceController@showRegionEdit',
+		'as'    => 'mod.region.edit',
+		'uses'   => 'MaintenanceController@showRegionEdit',
 	)); 
 	Route::post('mod/region/edit/{id}', array(
-		'uses'   => '\App\Http\Controllers\MaintenanceController@updateRegionEdit',
-	)); 	
+		'uses'   => 'MaintenanceController@updateRegionEdit',
+	)); 
 
 });
-
-// modul for site supervisor (group_id = 3)
-Route::group(['middleware' => ['auth', 'sv']], function()
-{	
-	// leave
-	Route::get('mod/leave', array(
-		'as'    => 'sv.mod.leave.index',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveIndex',
-	)); 			
-	Route::post('mod/leave', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@postLeaveIndex',
-	));             
-	Route::get('mod/leave/view/{id}', array(
-		'as'    => 'sv.mod.leave.view',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveView',
-	));  
-	Route::post('mod/leave/view/{id}', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@postLeaveView',
-	));  
-	Route::get('mod/leave/edit/{id}', array(
-		'as'    => 'sv.mod.leave.edit',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveEdit',
-	));
-	Route::post('mod/leave/edit/{id}', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@postLeaveEdit',
-	));
-	Route::get('mod/leave/summary', array(
-		'as'    => 'sv.mod.leave.summary',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveSummary',
-	)); 
-
-	// add leave         
-	Route::get('mod/leave/select', array(
-		'as'    => 'sv.mod.leave.select',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveSelect',
-	));   
-	Route::post('mod/leave/select', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@postLeaveSelect',
-	));    
-	Route::get('mod/leave/create', array(
-		'as'    => 'sv.mod.leave.create',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveCreate',
-	));   
-	Route::post('mod/leave/create', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@storeLeaveCreate',
-	));    
-
-	// replacement leave          
-	Route::get('mod/leave/replacement', array(
-		'as'    => 'sv.mod.leave.replacement.index',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveRepIndex',
-	));          
-	Route::post('mod/leave/replacement', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@postLeaveRepIndex',
-	));      
-	Route::get('mod/leave/replacement/create', array(
-		'as'    => 'sv.mod.leave.replacement.create',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveRepCreate',
-	));   
-	Route::post('mod/leave/replacement/create', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@storeLeaveRepCreate',
-	));               
-	Route::get('mod/leave/replacement/view/{id}', array(
-		'as'    => 'sv.mod.leave.replacement.view',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveRepView',
-	));   
-	Route::post('mod/leave/replacement/view/{id}', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@postLeaveRepView',
-	));  
-	Route::get('mod/leave/replacement/edit/{id}', array(
-		'as'    => 'sv.mod.leave.replacement.edit',
-		'uses'   => '\App\Http\Controllers\LeaveController@showLeaveRepEdit',
-	));   
-	Route::post('mod/leave/replacement/edit/{id}', array(
-		'uses'   => '\App\Http\Controllers\LeaveController@postLeaveRepEdit',
-	)); 
-});
-
-// after login except home controller
-Route::group(['middleware' => ['auth']], function() 
-{		
-	// Route::resource('/sync', 'SyncController');
-});
-
-// modul for administrator (is_admin is true)
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function()
-{
-
-	// modul sync
-	Route::get('mod/sync/user', array(
-		'as'    => 'admin.mod.sync.user',
-		'uses'   => '\App\Http\Controllers\SyncController@showSyncUser',
-	));   
-	Route::post('mod/sync/user', array(
-		'as'    => 'admin.mod.sync.user',		
-		'uses'   => '\App\Http\Controllers\SyncController@updateSyncUser',
-	)); 	
-	Route::get('mod/sync/public-holiday', array(
-		'as'    => 'admin.mod.sync.public.holiday',
-		'uses'   => '\App\Http\Controllers\SyncController@showSyncPublicHoliday',
-	));   
-	Route::post('mod/sync/public-holiday', array(
-		'uses'   => '\App\Http\Controllers\SyncController@updateSyncPublicHoliday',
-	)); 	
-
-	// modul user
-	Route::get('mod/user', array(
-		'as'    => 'admin.mod.user.index',
-		'uses'   => '\App\Http\Controllers\UserController@showUserIndex',
-	)); 
-	Route::post('mod/user', array(
-		'uses'   => '\App\Http\Controllers\UserController@postUserIndex',
-	));    
-	Route::get('mod/user/select-group', array(
-		'as'    => 'admin.mod.user.select.group',
-		'uses'   => '\App\Http\Controllers\UserController@showSelectGroup',
-	)); 
-	Route::post('mod/user/select-group', array(
-		'uses'   => '\App\Http\Controllers\UserController@postSelectGroup',
-	));  		
-	Route::get('mod/user/create', array(
-		'as'    => 'admin.mod.user.create',
-		'uses'   => '\App\Http\Controllers\UserController@showUserCreate',
-	)); 
-	Route::post('mod/user/create', array(
-		'uses'   => '\App\Http\Controllers\UserController@storeUserCreate',
-	)); 
-	Route::get('mod/user/password/{id}', array(
-		'as'    => 'admin.mod.user.password',
-		'uses'   => '\App\Http\Controllers\UserController@showUserPassword',
-	)); 
-	Route::post('mod/user/password/{id}', array(
-		'uses'   => '\App\Http\Controllers\UserController@updateUserPassword',
-	)); 
-	Route::get('mod/user/view/{id}', array(
-		'as'    => 'admin.mod.user.view',
-		'uses'   => '\App\Http\Controllers\UserController@showUserView',
-	)); 
-
-
-});
-
-
 
 

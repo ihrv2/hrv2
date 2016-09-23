@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -116,9 +116,7 @@
          </div>   
 
 
-		{{ Form::hidden('id', $i['id']) }}
-      {{ Form::hidden('uid', $i['uid']) }}            
-      {{ Form::hidden('key', $i['key']) }}      
+     
 		{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}         
 		{{ Form::close() }}  
 

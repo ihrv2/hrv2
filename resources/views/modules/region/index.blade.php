@@ -40,7 +40,7 @@
                            {{ '-' }}
                         @endif
                      </td>
-                     <td class="text-right"><a href="{{ URL::route('hr.mod.region.edit', array($i->id)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a></td>
+                     <td class="text-right"><a href="{{ route('mod.region.edit', array($i->id)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a></td>
                   </tr>
                @endforeach
             @else

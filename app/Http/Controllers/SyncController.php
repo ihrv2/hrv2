@@ -25,7 +25,6 @@ class SyncController extends Controller
             );  
         $currentDate = Carbon::now();
         $data['prev_week'] = $currentDate->subDays($currentDate->dayOfWeek)->subWeeks(2)->format('d-m-Y');
-        $data['group'] = \App\Models\Group::find(\Auth::user()->group_id);
         return View('modules.sync.user.index', $data);    
     }
 
@@ -204,7 +203,6 @@ class SyncController extends Controller
             'icon' => 'refresh',
             'title' => 'Public Holiday'
         );
-        $data['group'] = \App\Models\Group::find(\Auth::user()->group_id);         
         return View('modules.sync.public-holiday.index', $data);
     }
 

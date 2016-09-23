@@ -31,7 +31,6 @@
             </div>
             <div id="token" alt="{{ csrf_token() }}"></div>   
             {{ Form::hidden('base_url', URL::to('/'), array('id' => 'base_url')) }}
-            {{ Form::hidden('prefix', $group->prefix, array('id' => 'prefix')) }}
             {{ Form::close() }}
 
 
@@ -59,7 +58,7 @@
                 str += '</div>';
                 $('#alert').html(str); 
                 $.ajax({
-                    url: $('#base_url').val() + '/' + prefix + '/mod/sync/public-holiday',
+                    url: $('#base_url').val() + '/mod/sync/public-holiday',
                     type: 'POST',
                     data: {_token: $('#token').attr('alt'), year: $('#year').val()},
                     complete: function(response, textStatus, jqXHR) {   

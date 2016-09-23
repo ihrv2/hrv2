@@ -52,5 +52,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminAuthentication::class,
         'hr' => \App\Http\Middleware\HrAuthentication::class,
         'sv' => \App\Http\Middleware\SvAuthentication::class,
+        'default' => \App\Http\Middleware\DefaultAuthentication::class,
     ];
 }

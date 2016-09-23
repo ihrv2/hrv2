@@ -1,8 +1,8 @@
       <li class="">
          <a href="#" aria-expanded="false"><i class="icon-people"></i> Staff Administration <span class="glyphicon arrow "></span></a>
          <ul aria-expanded="false" class="collapse" style="height: 0px;">  
-            <li><a href="{{ route('admin.mod.user.select.group') }}">Add Staff</a></li>                          
-            <li><a href="{{ route('admin.mod.user.index') }}">All Staff</a></li>
+            <li><a href="{{ route('mod.user.group') }}">Add Staff</a></li>                          
+            <li><a href="{{ route('mod.user') }}">All Staff</a></li>
          </ul>
       </li>
 
@@ -20,8 +20,8 @@
             <li class="">
                <a href="#" aria-expanded="false"> Leave Maintenance »</a>
                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                  <li><a href="">Region / Reporting Officer</a></li>   
-                  <li><a href="">Public Holiday</a></li> 
+                  <li><a href="{{ route('mod.region') }}">Region / Reporting Officer</a></li>   
+                  <li><a href="{{ route('mod.public.holiday') }}">Public Holiday</a></li>                   
                </ul>
             </li>            
          </ul>
@@ -56,8 +56,8 @@
             <li class="">
                <a href="#" aria-expanded="false"> Synchronize »</a>
                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                  <li><a href="{{ route('admin.mod.sync.user') }}">Staff</a></li>
-                  <li><a href="{{ route('admin.mod.sync.public.holiday') }}">Public Holiday</a></li>
+                  <li><a href="">Staff</a></li>
+                  <li><a href="">Public Holiday</a></li>
                </ul>
             </li>
          </ul>

@@ -19,7 +19,7 @@
 			@endif      
 			<div class="required"><label class="col-lg-3 control-label">Full Name</label></div>
 			<div class="col-lg-3">
-				{{ Form::text('name', null, array('class'=>'form-control')) }}
+				{{ Form::text('name', old('name'), array('class'=>'form-control')) }}
 			</div>
 		</div>
 
@@ -28,7 +28,7 @@
 		<div class="form-group">  
 			<label class="col-lg-3 control-label">IC No.</label>
 			<div class="col-lg-3">
-				{{ Form::text('icno', null, array('class'=>'form-control', 'maxlength' => 12)) }}
+				{{ Form::text('icno', old('icno'), array('class'=>'form-control', 'maxlength' => 12)) }}
 			</div>
 		</div>
 
@@ -44,7 +44,7 @@
 			@endif      
 			<div class="required"><label class="col-lg-3 control-label">Position</label></div>
 			<div class="col-lg-3">
-				{{ Form::select('position_id', $positions, null, array('class' => 'form-control', 'id' => 'position_id')) }}
+				{{ Form::select('position_id', $positions, old('position_id'), array('class' => 'form-control', 'id' => 'position_id')) }}
 			</div>
 		</div>
 
@@ -57,7 +57,7 @@
 			@endif      
 			<div class="required"><label class="col-lg-3 control-label">Region</label></div>
 			<div class="col-lg-3">
-				{{ Form::select('region_id', $regions, null, array('class' => 'form-control', 'id' => 'region_id')) }}
+				{{ Form::select('region_id', $regions, old('region_id'), array('class' => 'form-control', 'id' => 'region_id')) }}
 			</div>
 		</div>
 		@endif
@@ -72,7 +72,7 @@
 			@endif      
 			<div class="required"><label class="col-lg-3 control-label">Phase</label></div>
 			<div class="col-lg-3">
-				{{ Form::select('phase_id', $phases, null, array('class' => 'form-control', 'id' => 'phase_id')) }}
+				{{ Form::select('phase_id', $phases, old('phase_id'), array('class' => 'form-control', 'id' => 'phase_id')) }}
 			</div>
 		</div>
 
@@ -82,7 +82,7 @@
 			@endif      
 			<div class="required"><label class="col-lg-3 control-label">Site Name</label></div>
 			<div class="col-lg-3">
-				{{ Form::select('sitecode', $sites, null, array('class' => 'form-control', 'id' => 'sitecode')) }}
+				{{ Form::select('sitecode', $sites, old('sitecode'), array('class' => 'form-control', 'id' => 'sitecode')) }}
 			</div>
 		</div>
 		@endif
@@ -96,7 +96,7 @@
 			@endif      
 			<div class="required"><label class="col-lg-3 control-label">Staff ID</label></div>
 			<div class="col-lg-3">
-				{{ Form::text('staff_id', null, array('class'=>'form-control')) }}
+				{{ Form::text('staff_id', old('staff_id'), array('class'=>'form-control')) }}
 			</div>
 		</div>
 
@@ -109,7 +109,7 @@
 			@endif      
 			<div class="required"><label class="col-lg-3 control-label">Email</label></div>
 			<div class="col-lg-3">
-				{{ Form::text('email', null, array('class'=>'form-control')) }}
+				{{ Form::text('email', old('email'), array('class'=>'form-control')) }}
 			</div>
 		</div>
 
