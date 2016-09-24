@@ -152,13 +152,11 @@ class User extends Authenticatable
 
 
 
-    public function UserCreate($data) 
+    public function user_create($data) 
     {
         // users
-        $id = \DB::table('users')->max('id') + 1; 
         $sitecode = isset($data['sitecode']) ? $data['sitecode'] : '';
         $d1 = array(
-            'id' => $id,
             'username' => $data['staff_id'],
             'name' => $data['name'],
             'email' => $data['email'],
@@ -171,12 +169,13 @@ class User extends Authenticatable
         );
         $u = new User($d1);        
         $u->save();
+        $user_id = $u->id;
 
         // user_jobs
         $region_id = isset($data['region_id']) ? $data['region_id'] : '';
         $phase_id = isset($data['phase_id']) ? $data['phase_id'] : '';
         $d2 = array(
-            'user_id' => $id,
+            'user_id' => $user_id,
             'staff_id' => $data['staff_id'],
             'join_date' => Carbon::now()->format('Y-m-d'),
             'position_id' => $data['position_id'],

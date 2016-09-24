@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserCreateFamily extends Request
+class UserFamilyCreate extends Request
 {
     public function authorize()
     {

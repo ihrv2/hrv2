@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserUpdateJob extends Request
+class UserJobCreate extends Request
 {
     public function authorize()
     {

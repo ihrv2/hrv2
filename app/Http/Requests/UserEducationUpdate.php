@@ -4,8 +4,12 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserCreateEducation extends Request
+class UserEducationUpdate extends Request
 {
+
+
+
+    
     public function authorize()
     {
         return true;

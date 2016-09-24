@@ -43,7 +43,7 @@
 				<div class="row">
 					<dl class="dl">
 						<dt class="col-lg-3">Leave Name</dt>
-						<dd class="col-lg-9">-</dd>
+						<dd class="col-lg-9">{{ $leave_type->name }}</dd>
 						<dt class="col-lg-3">Entitled</dt>
 						<dd class="col-lg-9">-</dd>
 						<dt class="col-lg-3">Taken</dt>

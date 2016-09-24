@@ -78,11 +78,11 @@ Route::group(['middleware' => ['auth', 'default']], function()
 	// modul user	
 	// ----------
 	Route::get('mod/user', array(
-		'as'    => 'mod.user',
-		'uses'   => 'UserController@showUser',
+		'as'    => 'mod.user.index',
+		'uses'   => 'UserController@showUserIndex',
 	));
 	Route::post('mod/user', array(
-		'uses'   => 'UserController@postUser',
+		'uses'   => 'UserController@postUserIndex',
 	));    
 
 	// select group
@@ -106,7 +106,7 @@ Route::group(['middleware' => ['auth', 'default']], function()
 	// edit user password
 	Route::get('mod/user/password/{id}/{token}', array(
 		'as'    => 'mod.user.password',
-		'uses'   => 'UserController@editUserPassword',
+		'uses'   => 'UserController@showUserPassword',
 	)); 
 	Route::post('mod/user/password/{id}/{token}', array(
 		'uses'   => 'UserController@updateUserPassword',
@@ -159,9 +159,6 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'UserController@destroyUserFamily',
 	));  		
 
-
-
-
 	// modul public holiday
 	Route::get('mod/public-holiday', array(
 		'as'    => 'mod.public.holiday',
@@ -173,8 +170,8 @@ Route::group(['middleware' => ['auth', 'default']], function()
 
 	// modul region
 	Route::get('mod/region', array(
-		'as'    => 'mod.region',
-		'uses'   => 'MaintenanceController@showRegion',
+		'as'    => 'mod.region.index',
+		'uses'   => 'MaintenanceController@showRegionIndex',
 	)); 	
 	Route::get('mod/region/edit/{id}', array(
 		'as'    => 'mod.region.edit',

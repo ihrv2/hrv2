@@ -22,7 +22,6 @@ class LeaveController extends Controller
 
 
 
-
     public function showLeaveIndex()
     {
 		$data = array();
@@ -57,7 +56,7 @@ class LeaveController extends Controller
 		}
 		else {
 			// check if current contract is expired
-			$check_exp = \App\Helpers\LeaveHelper::CheckIfExpired($current->date_to);
+			$check_exp = $this->leave_repo->CheckIfExpired($current->date_to);
 			if ($check_exp == 1) {
 				$expired = 1;
 			}
@@ -98,18 +97,11 @@ class LeaveController extends Controller
 			'title' => 'Add Leave'
 		);
 		if (old('leave_type_id')) {
-
-
-
-			// Session::put('leave_type_id', Input::old('leave_type_id'));	
-			// $data['leave_type'] = LeaveType::find(Session::get('leave_type_id'));					
-			// $data['job'] = UserJob::where('user_id', Auth::user()->id)->where('status', 1)->first();		
-			// $data['site'] = Site::where('sites.id', '=', Auth::user()->sitecode)->first();					
-			// $data['rm'] = Helper::getRegionManager(Auth::user()->sitecode);
-			
-
-
-
+			\Session::put('leave_type_id', old('leave_type_id'));	
+			$data['leave_type'] = \App\Models\LeaveType::find(\Session::get('leave_type_id'));			
+			$data['job'] = $this->leave_repo->getUserJobByID(\Auth::user()->id);		
+			$data['site'] = \App\Models\Site::where('sites.id', '=', \Auth::user()->sitecode)->first();					
+			$data['rm'] = $this->leave_repo->getRegionManager(\Auth::user()->sitecode);
 			return View('leave.create', $data);
 		}
 		else {

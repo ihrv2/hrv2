@@ -4,8 +4,11 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserCreateEmergency extends Request
+class UserEmergencyUpdate extends Request
 {
+
+
+    
     public function authorize()
     {
         return true;

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Auth;
-use App\User;
 use Hash;
 
 class HomeController extends Controller
@@ -32,7 +31,7 @@ class HomeController extends Controller
     }
 
 
-    public function showProfile() 
+    public function showProfile(\App\Repositories\UserRepository $user_repo) 
     {
         $data = array();
         $data['header'] = array(
@@ -41,10 +40,10 @@ class HomeController extends Controller
             'icon' => 'picture',
             'title' => 'View Profile'
         );          
-        $data['marital'] = \App\Models\MaritalStatus::find(\Auth::user()->marital_id);
-        $data['nationality'] = \App\Models\Nationality::find(\Auth::user()->nationality_id);
-        $data['race'] = \App\Models\Race::find(\Auth::user()->race_id);
-        $data['religion'] = \App\Models\Religion::find(\Auth::user()->religion_id);
+        $data['marital'] = $user_repo->getMaritalStatusByID(Auth::user()->marital_id);
+        $data['nationality'] = $user_repo->getNationalityByID(Auth::user()->nationality_id);
+        $data['race'] = $user_repo->getRaceByID(Auth::user()->race_id);
+        $data['religion'] = $user_repo->getReligionByID(Auth::user()->religion_id);
         return view('auth.profile', $data);
     }
 
@@ -72,13 +71,13 @@ class HomeController extends Controller
             'icon' => 'lock',
             'title' => 'Change Password'
         );                  
-        return view('auth.change_password', $data);
+        return view('auth.password', $data);
     }
 
     
 
 
-    public function updatePassword(Requests\AuthChangePassword $request)
+    public function updatePassword(Requests\AuthPasswordUpdate $request)
     {
         $user = Auth::user();
         if (Hash::check($request->old_password, $user->password)) {

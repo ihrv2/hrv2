@@ -26,10 +26,10 @@
 							{{ Auth::user()->name }}
 						</dd>
 						<dt class="col-lg-3">Position</dt>
-						<dd class="col-lg-9"> -
+						<dd class="col-lg-9">{{ $job->PositionName->name }}
 						</dd>
 						<dt class="col-lg-3">Site Name</dt>
-						<dd class="col-lg-9"> -
+						<dd class="col-lg-9">{{ $site->id.' - '.$site->name }}
 						</dd>
 						<dt class="col-lg-3">Reporting Officer</dt>
 						<dd class="col-lg-9">
@@ -43,7 +43,7 @@
 				<div class="row">
 					<dl class="dl">
 						<dt class="col-lg-3">Leave Name</dt>
-						<dd class="col-lg-9">-</dd>
+						<dd class="col-lg-9">{{ $leave_type->name.' ('.$leave_type->code.')' }}</dd>
 						<dt class="col-lg-3">Entitled</dt>
 						<dd class="col-lg-9">-</dd>
 						<dt class="col-lg-3">Taken</dt>

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserUpdateSkill extends Request
+class UserSkillCreate extends Request
 {
     public function authorize()
     {
@@ -32,5 +32,4 @@ class UserUpdateSkill extends Request
             'name.required' => 'Please insert Name.',
         ];
     } 
-
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserUpdateReference extends Request
+class UserReferenceCreate extends Request
 {
     public function authorize()
     {

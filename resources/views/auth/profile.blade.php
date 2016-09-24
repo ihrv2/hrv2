@@ -99,7 +99,7 @@
 	                    </div>
 	                    <div class="col-sm-7">
 	                    	@if ($nationality)
-	                    		{{ $nationality->name }}
+	                    		{{ $nationality->eng }}
 	                    	@else
 	                    		{{ '-' }}
 	                    	@endif
@@ -112,7 +112,7 @@
 	                    </div>
 	                    <div class="col-sm-7">	 
 	                    	@if ($race)
-	                    		{{ $race->name }}
+	                    		{{ $race->eng }}
 	                    	@else
 	                    		{{ '-' }}
 	                    	@endif
@@ -134,7 +134,13 @@
 
 				</div>
 			</div>	
-	</div>			
+	</div>
+
+   <div class="panel-footer" align="left">
+      <a href="" class="btn btn-primary" title="Add">Edit Profile</a>
+   </div>
+
+
 </div>
 
 

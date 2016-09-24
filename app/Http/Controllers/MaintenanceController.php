@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Session;
+use App\Repositories\UserRepository;
 
 
 class MaintenanceController extends Controller
@@ -13,6 +14,16 @@ class MaintenanceController extends Controller
 
 
 
+    private $user_repo;
+	public function __construct(\App\Repositories\UserRepository $UserRepo)
+	{
+		$this->user_repo = $UserRepo;
+	}
+
+
+
+
+	// public holiday
 	public function showPublicHoliday()
 	{
 		$data = array();
@@ -29,10 +40,6 @@ class MaintenanceController extends Controller
 		);				
 		return View('modules.public-holiday.index', $data);
 	}
-
-
-
-
 
 	public function postPublicHoliday(Request $request)
 	{
@@ -63,7 +70,8 @@ class MaintenanceController extends Controller
 
 
 
-	public function showRegion()
+	// region
+	public function showRegionIndex()
 	{
 		$data = array();
 		$data['header'] = array(
@@ -72,13 +80,9 @@ class MaintenanceController extends Controller
 			'icon' => 'location-pin',
 			'title' => 'Region / Reporting Officer'
 		);		
-		$i = \App\Models\Region::orderBy('regions.id', 'ASC');		
-		$data['regions'] = $i->get();		
+		$data['regions'] = $this->user_repo->getRegionAll();
 		return View('modules.region.index', $data);		
 	}
-
-
-
 
 	public function showRegionEdit($id)
 	{
@@ -86,29 +90,33 @@ class MaintenanceController extends Controller
 		$data['header'] = array(
 			'parent' => 'Region Administration', 
 			'child' => 'All Region',
-			'child-a' => route('hr.mod.region'),			
+			'child-a' => route('mod.region.index'),			
 			'icon' => 'pencil',
 			'title' => 'Edit Region'
 		);
-		$data['detail'] = \App\Models\Region::find($id);
-		$rid = $data['detail']->id;
-		$data['users'] = \App\User::whereHas('UserLatestJob', function($j) use ($rid) {
-				$j->where('region_id', $rid);
+		$data['detail'] = $this->user_repo->getRegionByID($id);
+		$data['region_managers'] = \App\User::whereHas('UserLatestJob', function($j) use ($id) {
+				$j->where('region_id', $id);
 			})	
-			->where('group_id', 4)	
+			->where('group_id', 4)
+			->where('status', 1)	
 			->orderBy('name', 'ASC')
 			->lists('name', 'id');		
 		return View('modules.region.edit', $data);
 	}
 
-
-
-
-
-	public function updateRegionEdit(Requests\RegionUpdate $request)
+	public function updateRegionEdit(Requests\RegionUpdate $request, $id)
 	{
-
+		$region = $this->user_repo->getRegionByID($id);
+    	$save = $region->region_update($request->all());
+        return redirect()->route('mod.region.index')->with([
+            'message' => $save[0], 
+            'label' => 'alert alert-'.$save[1].' alert-dismissible'
+        ]);
 	}
+
+
+
 
 
 

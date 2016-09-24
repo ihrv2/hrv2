@@ -25,7 +25,7 @@ class UserController extends Controller
 
 
 
-	public function showUser() {
+	public function showUserIndex() {
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
@@ -57,7 +57,7 @@ class UserController extends Controller
 
 		$i->orderBy('id', 'DESC');
 		$data['users'] = $i->paginate(10);		
-		$data['groups'] = $this->user_repo->getGroup();
+		$data['groups'] = $this->user_repo->getGroupList();
 		$data['sessions'] = array(
 			'group_id' => $group_id,
 			'keyword' => $keyword
@@ -68,7 +68,7 @@ class UserController extends Controller
 
 
 
-	public function postUser(Request $request)
+	public function postUserIndex(Request $request)
 	{
 		$data = array();
 		$data['header'] = array(
@@ -106,7 +106,7 @@ class UserController extends Controller
 		$data['users'] = $i->paginate(10);	
 
 		// dd($data['users']);
-		$data['groups'] = $this->user_repo->getGroup();
+		$data['groups'] = $this->user_repo->getGroupList();
 		$data['sessions'] = array(
 			'group_id' => $group_id,
 			'keyword' => $keyword
@@ -123,11 +123,11 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('mod.user'),
+			'child-a' => route('mod.user.index'),
 			'icon' => 'user-follow',
 			'title' => 'Add Staff'
 			);
-		$data['groups'] = $this->user_repo->getGroup();
+		$data['groups'] = $this->user_repo->getGroupList();
 		return View('modules.user.group', $data);		
 	}
 
@@ -157,21 +157,21 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('mod.user'),
+			'child-a' => route('mod.user.index'),
 			'icon' => 'user-follow',
 			'title' => 'Add Staff'
 		);
 		if (old('group_id')) {
 			\Session::put('group_id', old('group_id'));
-			$data['positions'] = \App\Models\Position::where('group_id', Session::get('group_id'))->orderBy('name', 'ASC')->lists('name', 'id');
+			$data['positions'] = $this->user_repo->getPositionListByGroup(\Session::get('group_id'));
 			// show lists of region if group regional manager
 			if (Session::get('group_id') == 4) {
-				$data['regions'] = $this->user_repo->getRegion();
+				$data['regions'] = $this->user_repo->getRegionList();
 			}
 			// show lists of sites if group site supervisor
 			if (Session::get('group_id') == 3) {			
-				$data['sites'] = $this->user_repo->getSite();
-				$data['phases'] = $this->user_repo->getPhase();
+				$data['sites'] = $this->user_repo->getSiteListWithID();
+				$data['phases'] = $this->user_repo->getPhaseList();
 			}			
 			return View('modules.user.create', $data);
 		}
@@ -184,7 +184,7 @@ class UserController extends Controller
 
 	public function storeUser(Requests\UserCreate $request, \App\User $user)
 	{	
-		if ($user->UserCreate($request->all())) {
+		if ($user->user_create($request->all())) {
             $msg = array('User successfully added.', 'success');
         }
         else {
@@ -199,25 +199,26 @@ class UserController extends Controller
 
 
 
-	public function editUserPassword($id, $token)
+	public function showUserPassword($id, $token)
 	{
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',	
-			'child-a' => route('mod.user'),						
+			'child-a' => route('mod.user.index'),						
 			'icon' => 'lock',
 			'title' => 'Change Password'
-			);			
+			);		
+    	$check = $this->user_repo->getUserByIDToken($id, $token);				
 		return View('modules.user.password', $data);
 	}
 
 
 
 
-    public function updateUserPassword(Requests\UserChangePassword $request, $id, $token)
+    public function updateUserPassword(Requests\UserPasswordUpdate $request, $id, $token)
     {
-    	$user = $this->user_repo->getUserDetailByToken($id, $token);
+    	$user = $this->user_repo->getUserByIDToken($id, $token);
         $user->fill(['password' => \Hash::make($request->new_password)])->save();            
         $msg = array('Password successfully updated.', 'success');
         return redirect()->back()->with([

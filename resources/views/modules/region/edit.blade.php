@@ -59,7 +59,7 @@
                      @if ($errors->has('report_to'))
                         <p class="text-danger">{{ $errors->first('report_to') }}</p>
                      @endif       
-                     {{ Form::select('report_to', $users, $detail->report_to, array('class' => 'form-control', 'id' => 'selectManager')) }}
+                     {{ Form::select('report_to', $region_managers, $detail->report_to, array('class' => 'form-control', 'id' => 'selectManager')) }}
                      </div>
                   </div>
                </div>
@@ -75,7 +75,6 @@
 
 
 
-      {{ Form::hidden('id', $detail->id) }}          
       {{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-danger']) }}         
       {{ Form::close() }}  
 
