@@ -492,7 +492,7 @@
 														<td>{{ $contract->date_to }}</td>
 														<td>{{ number_format($contract->salary, 2) }}</td>
 														<td class="text-right">
-															<a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
+															<a href="{{ route('mod.user.contract.edit', array($contract->id, $detail->id, $detail->api_token)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
 														</td>
 													</tr>
 													@endforeach

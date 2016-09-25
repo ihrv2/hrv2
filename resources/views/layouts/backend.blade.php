@@ -27,7 +27,7 @@
                  <span class="name">{{ Auth::user()->name }}</span>
               </div>
               <div class="details">
-                 Position: {{ \App\Helpers\UserHelper::PositionName(Auth::user()->group_id) }}
+                 Position: Test
 
                  <!-- site supervisor -->
                  @if (Auth::user()->group_id == 3)
@@ -36,7 +36,7 @@
                  
                  <!-- regional manager -->
                  @elseif (Auth::user()->group_id == 4)
-                    <br>Region: {{ Helper::RegionName(Session::get('user_job')['region_id']) }}
+                    <br>Region: Test2
                  @endif
 
 

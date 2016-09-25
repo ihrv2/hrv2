@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,11 @@ class UserFamily extends Model
     	'school_office',
     	'relation'
     ];
+
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
+
 
 	public function family_create($data) {
 		$this->user_id = $data['uid'];			

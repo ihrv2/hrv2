@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace IhrV2\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use IhrV2\Http\Requests;
 
 use Carbon\Carbon;
-use App\Helpers\ErpHelper;
+use IhrV2\Helpers\ErpHelper;
 // use Illuminate\Support\Facades\DB;
 
 class SyncController extends Controller
@@ -63,7 +63,7 @@ class SyncController extends Controller
                 $join_date = Carbon::parse(trim($i['DateCreated']))->format('Y-m-d');
 
                 // check icno
-                $q = \App\User::where('icno', $ic)->first();
+                $q = \IhrV2\User::where('icno', $ic)->first();
                 if (empty($q)) {
                     $total++;
 
@@ -108,7 +108,7 @@ class SyncController extends Controller
                         'created_at' => Carbon::parse($i['DateCreated'])->format('Y-m-d H:i:s'),
                         'updated_at' => Carbon::parse($i['DateModified'])->format('Y-m-d H:i:s')
                     );
-                    $a = new \App\User($d1);
+                    $a = new \IhrV2\User($d1);
                     $a->save();
                     $user_id = $a->id;
 
@@ -125,7 +125,7 @@ class SyncController extends Controller
                         'sitecode' => $sitecode,
                         'status' => 1,
                     );
-                    $b = new \App\Models\UserJob($d2);
+                    $b = new \IhrV2\Models\UserJob($d2);
                     $b->save();
 
                     // insert user_educations
@@ -134,7 +134,7 @@ class SyncController extends Controller
                             'user_id' => $user_id,
                             'name_education' => trim($i['Qualitification'])
                         );
-                        $c = new \App\Models\UserEducation($d3);                        
+                        $c = new \IhrV2\Models\UserEducation($d3);                        
                         $c->save();
                     }
 
@@ -145,7 +145,7 @@ class SyncController extends Controller
                             'name' => trim($i['Emergency Contact']),
                             'telno' => trim($i['Emergency Contact No'])
                         );
-                        $d = new \App\Models\UserEmergency($d4);                        
+                        $d = new \IhrV2\Models\UserEmergency($d4);                        
                         $d->save();
                     }                    
                 }
@@ -153,10 +153,10 @@ class SyncController extends Controller
                 // icno exist
                 else {
                     // check if staff id is different
-                    $check_staffid = \App\User::where('username', trim($i['ID Staff']))->first();
+                    $check_staffid = \IhrV2\User::where('username', trim($i['ID Staff']))->first();
                     if (empty($check_staffid)) {
-                        $update_username = \App\User::where('id', $q->id)->update(array('username' => trim($i['ID Staff'])));
-                        $update_prevjob = \App\Models\UserJob::where('user_id', '=', $q->id)->where('status', '=', 1)->update(array('status' => 2));
+                        $update_username = \IhrV2\User::where('id', $q->id)->update(array('username' => trim($i['ID Staff'])));
+                        $update_prevjob = \IhrV2\Models\UserJob::where('user_id', '=', $q->id)->where('status', '=', 1)->update(array('status' => 2));
 
                         // insert user_jobs
                         $d5 = array(
@@ -169,7 +169,7 @@ class SyncController extends Controller
                             'sitecode' => $sitecode,
                             'status' => 1,
                         );
-                        $e = new \App\Models\UserJob($d5);
+                        $e = new \IhrV2\Models\UserJob($d5);
                         $e->save();                                              
                     }
 
@@ -265,7 +265,7 @@ class SyncController extends Controller
                 // check year and desc
                 $year_api = Carbon::parse($i['DateCuti'])->format('Y');
                 $desc_api = $i['Regarding'];                
-                $q = \App\Models\LeavePublic::whereYear('date', '=', $year_api)->where('desc', '=', $desc_api)->first();
+                $q = \IhrV2\Models\LeavePublic::whereYear('date', '=', $year_api)->where('desc', '=', $desc_api)->first();
 
                 // insert leave_public
                 if (empty($q)) {
@@ -273,7 +273,7 @@ class SyncController extends Controller
 
                     // insert leave_public
                     $public_id = \DB::table('leave_public')->max('id') + 1;  
-                    $a = new \App\Models\LeavePublic();
+                    $a = new \IhrV2\Models\LeavePublic();
                     $a->id = $public_id;
                     $a->desc = $i['Regarding'];
                     $a->date = Carbon::parse($i['DateCuti'])->format('Y-m-d');
@@ -293,7 +293,7 @@ class SyncController extends Controller
                             'created_at' => date('Y-m-d H:i:s'),
                             'updated_at' => date('Y-m-d H:i:s'),
                         );
-                        \App\Models\LeavePublicState::insert($data);
+                        \IhrV2\Models\LeavePublicState::insert($data);
                     }                           
                 }           
             }

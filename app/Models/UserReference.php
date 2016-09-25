@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +19,12 @@ class UserReference extends Model
     	'occupation',
     	'period_known'
     ];
+
+
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
+
 
 	public function reference_add($data) {
 		$this->user_id = $data['uid'];			

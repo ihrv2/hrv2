@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,16 +20,22 @@ class UserLanguage extends Model
     	'spoken'
     ];
 
+
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
+
+
 	public function WrittenLevel() {
-		return $this->belongsTo('App\Models\SkillLevel', 'written');
+		return $this->belongsTo('IhrV2\Models\SkillLevel', 'written');
 	}
 
 	public function ReadingLevel() {
-		return $this->belongsTo('App\Models\SkillLevel', 'reading');
+		return $this->belongsTo('IhrV2\Models\SkillLevel', 'reading');
 	}
 
 	public function SpokenLevel() {
-		return $this->belongsTo('App\Models\SkillLevel', 'spoken');
+		return $this->belongsTo('IhrV2\Models\SkillLevel', 'spoken');
 	}	
 
 

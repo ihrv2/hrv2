@@ -1,7 +1,7 @@
-<?php namespace App\Repositories;
+<?php namespace IhrV2\Repositories;
 
-use App\User;
-use App\Models\LeaveApplication;
+use IhrV2\User;
+use IhrV2\Models\LeaveApplication;
 use Carbon\Carbon;
 
 class LeaveRepository {
@@ -123,31 +123,31 @@ class LeaveRepository {
 
 	public function getLeaveType()
 	{
-		return \App\Models\LeaveType::where('id', '!=', 6)->orderBy('id', 'ASC')->pluck('name', 'id')->prepend('[Leave Type]', '');
+		return \IhrV2\Models\LeaveType::where('id', '!=', 6)->orderBy('id', 'ASC')->pluck('name', 'id')->prepend('[Leave Type]', '');
 	}
 
 
 	public function getLeaveTypeWithPrefix()
 	{
-		return \App\Models\LeaveType::select(\DB::raw('concat (code, " - ", name) as name, id'))->where('id', '!=', 6)->orderBy('id', 'ASC')->pluck('name', 'id')->prepend('[Leave Type]', '');
+		return \IhrV2\Models\LeaveType::select(\DB::raw('concat (code, " - ", name) as name, id'))->where('id', '!=', 6)->orderBy('id', 'ASC')->pluck('name', 'id')->prepend('[Leave Type]', '');
 	}
 
 
 	public function getLeaveTypeName($id)
 	{
-		return \App\Models\LeaveType::find($id);
+		return \IhrV2\Models\LeaveType::find($id);
 	}
 
 
 	public function getUserJobByID($id)
 	{
-		\App\Models\UserJob::where('user_id', $id)->where('status', 1)->first();
+		\IhrV2\Models\UserJob::where('user_id', $id)->where('status', 1)->first();
 	}
 
 
 
 	public function getRegionManager($sitecode) {
-		$x = \App\Models\Site::select('id', 'region_id')
+		$x = \IhrV2\Models\Site::select('id', 'region_id')
 		->where('id', $sitecode)
 		->with(array('RegionName' => function($h) { 
 			$h->select('id', 'name', 'report_to');

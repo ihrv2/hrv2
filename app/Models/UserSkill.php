@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,8 +20,13 @@ class UserSkill extends Model
 
 
 	public function SkillLevel() {
-		return $this->belongsTo('App\Models\SkillLevel', 'level_id');
+		return $this->belongsTo('IhrV2\Models\SkillLevel', 'level_id');
 	}
+
+
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
 
 
 	public function skill_add($data) {

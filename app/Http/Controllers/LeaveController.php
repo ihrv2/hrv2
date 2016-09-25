@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace IhrV2\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use IhrV2\Http\Requests;
 use Illuminate\Support\Facades\Validator;
 
 class LeaveController extends Controller
@@ -14,7 +14,7 @@ class LeaveController extends Controller
 
     private $leave_repo;
     
-	public function __construct(\App\Repositories\LeaveRepository $LeaveRepo)
+	public function __construct(\IhrV2\Repositories\LeaveRepository $LeaveRepo)
 	{
 		$this->leave_repo = $LeaveRepo;
 	}
@@ -50,7 +50,7 @@ class LeaveController extends Controller
 		$expired = 0;
 
 		// check current contract
-		$current = \App\Models\UserContract::where('user_id', \Auth::user()->id)->where('status', 1)->first();
+		$current = \IhrV2\Models\UserContract::where('user_id', \Auth::user()->id)->where('status', 1)->first();
 		if (empty($current)) {	
 			$empty = 1;
 		}
@@ -98,9 +98,9 @@ class LeaveController extends Controller
 		);
 		if (old('leave_type_id')) {
 			\Session::put('leave_type_id', old('leave_type_id'));	
-			$data['leave_type'] = \App\Models\LeaveType::find(\Session::get('leave_type_id'));			
+			$data['leave_type'] = \IhrV2\Models\LeaveType::find(\Session::get('leave_type_id'));			
 			$data['job'] = $this->leave_repo->getUserJobByID(\Auth::user()->id);		
-			$data['site'] = \App\Models\Site::where('sites.id', '=', \Auth::user()->sitecode)->first();					
+			$data['site'] = \IhrV2\Models\Site::where('sites.id', '=', \Auth::user()->sitecode)->first();					
 			$data['rm'] = $this->leave_repo->getRegionManager(\Auth::user()->sitecode);
 			return View('leave.create', $data);
 		}
@@ -111,7 +111,7 @@ class LeaveController extends Controller
 
 
 
-    public function storeLeaveCreate(Requests\LeaveCreate $request, \App\Models\LeaveApplication $leave_app)
+    public function storeLeaveCreate(Requests\LeaveCreate $request, \IhrV2\Models\LeaveApplication $leave_app)
     {
 		if ($leave_app->LeaveCreate($request->all())) {
             $msg = array('Leave successfully added.', 'success');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +20,9 @@ class UserEmergency extends Model
         'telno'
     ];
 
-
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
 
 	public function emergency_add($data) {
 		$this->user_id = $data['uid'];			

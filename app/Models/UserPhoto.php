@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +20,11 @@ class UserPhoto extends Model
     	'size',
     	'status'
     ];
+
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
+
 
 	public function upload_photo($data) {
 		// inactive current photo

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace IhrV2\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use IhrV2\Http\Requests;
 
 class AttendanceController extends Controller
 {

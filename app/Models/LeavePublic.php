@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +20,7 @@ class LeavePublic extends Model
 
 
 	public function LeavePublicState() {
-		return $this->hasMany('App\Models\LeavePublicState', 'leave_public_id');
+		return $this->hasMany('IhrV2\Models\LeavePublicState', 'leave_public_id');
 	}
 
 

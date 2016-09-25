@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Helpers;
+namespace IhrV2\Helpers;
 
 class UserHelper {
 
@@ -9,7 +9,7 @@ class UserHelper {
 
 	// position name
 	public static function PositionName($x) {
-		$q = \App\Models\Position::find($x);
+		$q = \IhrV2\Models\Position::find($x);
 		if (!empty($q)) {
 			$z = $q->name;
 		}

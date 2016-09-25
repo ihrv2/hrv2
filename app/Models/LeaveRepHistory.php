@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,11 +18,11 @@ class LeaveRepHistory extends Model
 
 
 	public function LeaveStatusName() {
-		return $this->belongsTo('App\Models\LeaveStatus', 'status');
+		return $this->belongsTo('IhrV2\Models\LeaveStatus', 'status');
 	}
 
 	public function LeaveActionByName() {
-		return $this->belongsTo('App\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\Models\User', 'user_id');
 	}
 
 

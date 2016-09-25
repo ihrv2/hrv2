@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace IhrV2\Http\Controllers\api;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use IhrV2\Http\Requests;
+use IhrV2\Http\Controllers\Controller;
 use Carbon\Carbon;
-use App\Helpers\ErpHelper;
+use IhrV2\Helpers\ErpHelper;
 
 class CronController extends Controller
 {
     
+
+
 
 	public function showCronUser()
 	{
@@ -33,7 +35,7 @@ class CronController extends Controller
 				$join_date = Carbon::parse(trim($i['DateCreated']))->format('Y-m-d');
 
 				// check icno
-				$q = \App\User::where('icno', $ic)->first();
+				$q = \IhrV2\User::where('icno', $ic)->first();
 		
 				// not found icno
 				if (empty($q)) {
@@ -80,7 +82,7 @@ class CronController extends Controller
                         'created_at' => Carbon::parse($i['DateCreated'])->format('Y-m-d H:i:s'),
                         'updated_at' => Carbon::parse($i['DateModified'])->format('Y-m-d H:i:s')
                     );
-                    $a = new \App\User($d1);
+                    $a = new \IhrV2\User($d1);
                     $a->save();
                     $user_id = $a->id;
 
@@ -97,7 +99,7 @@ class CronController extends Controller
                         'sitecode' => $sitecode,
                         'status' => 1,
                     );
-                    $b = new \App\Models\UserJob($d2);
+                    $b = new \IhrV2\Models\UserJob($d2);
                     $b->save();
 
                     // insert user_educations
@@ -106,7 +108,7 @@ class CronController extends Controller
                             'user_id' => $user_id,
                             'name_education' => trim($i['Qualitification'])
                         );
-                        $c = new \App\Models\UserEducation($d3);                        
+                        $c = new \IhrV2\Models\UserEducation($d3);                        
                         $c->save();
                     }
 
@@ -117,7 +119,7 @@ class CronController extends Controller
                             'name' => trim($i['Emergency Contact']),
                             'telno' => trim($i['Emergency Contact No'])
                         );
-                        $d = new \App\Models\UserEmergency($d4);                        
+                        $d = new \IhrV2\Models\UserEmergency($d4);                        
                         $d->save();
                     }  
 
@@ -125,12 +127,12 @@ class CronController extends Controller
 
 				// have record icno
 				else {
-					
+
                     // check if staff id is different
-                    $check_staffid = \App\User::where('username', trim($i['ID Staff']))->first();
+                    $check_staffid = \IhrV2\User::where('username', trim($i['ID Staff']))->first();
                     if (empty($check_staffid)) {
-                        $update_username = \App\User::where('id', $q->id)->update(array('username' => trim($i['ID Staff'])));
-                        $update_prevjob = \App\Models\UserJob::where('user_id', '=', $q->id)->where('status', '=', 1)->update(array('status' => 2));
+                        $update_username = \IhrV2\User::where('id', $q->id)->update(array('username' => trim($i['ID Staff'])));
+                        $update_prevjob = \IhrV2\Models\UserJob::where('user_id', '=', $q->id)->where('status', '=', 1)->update(array('status' => 2));
 
                         // insert user_jobs
                         $d5 = array(
@@ -143,7 +145,7 @@ class CronController extends Controller
                             'sitecode' => $sitecode,
                             'status' => 1,
                         );
-                        $e = new \App\Models\UserJob($d5);
+                        $e = new \IhrV2\Models\UserJob($d5);
                         $e->save();                                              
                     }
 
@@ -204,3 +206,7 @@ class CronController extends Controller
 	}
 
 }
+
+
+
+

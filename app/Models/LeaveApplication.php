@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 
 
@@ -42,42 +42,42 @@ class LeaveApplication extends Model
 
 
 	public function LeaveUserDetail() {
-		return $this->belongsTo('App\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\Models\User', 'user_id');
 	}
 
 	public function LeaveSiteName() {
-		return $this->belongsTo('App\Models\Site', 'sitecode');
+		return $this->belongsTo('IhrV2\Models\Site', 'sitecode');
 	}	
 
 	// belongs to
 	public function LeaveTypeName() {
-		return $this->belongsTo('App\Models\LeaveType', 'leave_type_id');
+		return $this->belongsTo('IhrV2\Models\LeaveType', 'leave_type_id');
 	}
 
 	public function LeaveReportToName() {
-		return $this->belongsTo('App\Models\User', 'report_to');
+		return $this->belongsTo('IhrV2\Models\User', 'report_to');
 	}
 
 	// get only latest history
 	public function LeaveLatestHistory() {
-		return $this->hasOne('App\Models\LeaveHistory', 'leave_id')->where('flag', 1);
+		return $this->hasOne('IhrV2\Models\LeaveHistory', 'leave_id')->where('flag', 1);
 	}
 
 	public function LeavePending() {
-		return $this->hasOne('App\Models\LeaveHistory', 'leave_id')->where('flag', 1)->where('status', 1);
+		return $this->hasOne('IhrV2\Models\LeaveHistory', 'leave_id')->where('flag', 1)->where('status', 1);
 	}
 
 	// hasmany
 	public function LeaveAllHistory() {
-		return $this->hasMany('App\Models\LeaveHistory', 'leave_id');
+		return $this->hasMany('IhrV2\Models\LeaveHistory', 'leave_id');
 	}
 
 	public function LeaveDateAll() {
-		return $this->hasMany('App\Models\LeaveDate', 'leave_id');
+		return $this->hasMany('IhrV2\Models\LeaveDate', 'leave_id');
 	}
 		
 	public function LeaveDate() {
-		return $this->hasMany('App\Models\LeaveDate', 'leave_id')->where('status', '=', 1);
+		return $this->hasMany('IhrV2\Models\LeaveDate', 'leave_id')->where('status', '=', 1);
 	}
 
 
@@ -100,7 +100,7 @@ class LeaveApplication extends Model
 			'sitecode' => 'X01C001',
 			'active' => 1,
 		);
-        $l = new App\Models\LeaveApplication($d1);        
+        $l = new IhrV2\Models\LeaveApplication($d1);        
         $l->save();		
 		$msg = array('message' => 'Leave successfully added.', 'label' => 'success');			
 		return $msg;

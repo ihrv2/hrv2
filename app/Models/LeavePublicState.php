@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +18,7 @@ class LeavePublicState extends Model
 
 
 	public function StateName() {
-		return $this->belongsTo('App\Models\State', 'state_id');
+		return $this->belongsTo('IhrV2\Models\State', 'state_id');
 	}	
 
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use App\Repositories\LeaveRepository;
+use IhrV2\Repositories\LeaveRepository;
 
 
 class UserContract extends Model
@@ -12,7 +12,7 @@ class UserContract extends Model
     //
 
  //    private $leave_repo;
-	// public function __construct(\App\Repositories\LeaveRepository $LeaveRepo)
+	// public function __construct(\IhrV2\Repositories\LeaveRepository $LeaveRepo)
 	// {
 	// 	$this->leave_repo = $LeaveRepo;
 	// }
@@ -35,10 +35,12 @@ class UserContract extends Model
 
 
 	public function ContractName() {
-		return $this->belongsTo('App\Models\UserContractStatus', 'status_contract_id');
+		return $this->belongsTo('IhrV2\Models\UserContractStatus', 'status_contract_id');
 	}
 
-
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
 
 
 
@@ -52,7 +54,7 @@ class UserContract extends Model
 		if (Carbon::parse($from)->lte(Carbon::parse($to))) { // true
 
 	    	// update current contract to inactive
-			$update = \App\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->update(array('status' => 2));
+			$update = \IhrV2\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->update(array('status' => 2));
 
 			// get total al
 			$total_al = LeaveRepository::getTotalAL($from, $to);
@@ -62,7 +64,7 @@ class UserContract extends Model
 			$this->date_to = $to;
 			$this->salary = $data['salary'];
 			$this->status_contract_id = $data['status_contract_id'];	
-			$this->sitecode = \App\User::find($id)->sitecode;
+			$this->sitecode = \IhrV2\User::find($id)->sitecode;
 			$this->total_al = $total_al;
 			$this->status = 1;
 			$this->save();

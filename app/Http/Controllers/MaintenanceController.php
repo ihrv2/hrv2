@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace IhrV2\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use IhrV2\Http\Requests;
 use Session;
-use App\Repositories\UserRepository;
+use IhrV2\Repositories\UserRepository;
 
 
 class MaintenanceController extends Controller
@@ -15,7 +15,7 @@ class MaintenanceController extends Controller
 
 
     private $user_repo;
-	public function __construct(\App\Repositories\UserRepository $UserRepo)
+	public function __construct(\IhrV2\Repositories\UserRepository $UserRepo)
 	{
 		$this->user_repo = $UserRepo;
 	}
@@ -33,7 +33,7 @@ class MaintenanceController extends Controller
 			'icon' => 'list',
 			'title' => 'Public Holiday'
 		);		
-		$i = \App\Models\LeavePublic::whereYear('date', '=', date('Y'))->orderBy('date', 'ASC');
+		$i = \IhrV2\Models\LeavePublic::whereYear('date', '=', date('Y'))->orderBy('date', 'ASC');
 		$data['leave_public'] = $i->get();	
 		$data['sessions'] = array(
 			'year' => date('Y')
@@ -51,7 +51,7 @@ class MaintenanceController extends Controller
 			'title' => 'Public Holiday'
 		);		
 		$year = date('Y');
-		$i = \App\Models\LeavePublic::select('*');
+		$i = \IhrV2\Models\LeavePublic::select('*');
 		if ($request->year) {
 			Session::put('year', $request->year);
 		}				
@@ -95,7 +95,7 @@ class MaintenanceController extends Controller
 			'title' => 'Edit Region'
 		);
 		$data['detail'] = $this->user_repo->getRegionByID($id);
-		$data['region_managers'] = \App\User::whereHas('UserLatestJob', function($j) use ($id) {
+		$data['region_managers'] = \IhrV2\User::whereHas('UserLatestJob', function($j) use ($id) {
 				$j->where('region_id', $id);
 			})	
 			->where('group_id', 4)

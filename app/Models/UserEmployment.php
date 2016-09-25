@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,13 @@ class UserEmployment extends Model
     	'position',
     	'salary'
     ];
+
+
+
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
+
 
 
 	public function employment_create($data) {

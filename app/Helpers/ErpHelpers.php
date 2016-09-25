@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Helpers;
+namespace IhrV2\Helpers;
 
 class ErpHelper {
 

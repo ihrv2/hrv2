@@ -1,6 +1,6 @@
-<?php namespace App\Repositories;
+<?php namespace IhrV2\Repositories;
 
-use App\User;
+use IhrV2\User;
 use Carbon\Carbon;
 
 class UserRepository {
@@ -24,7 +24,7 @@ class UserRepository {
 	// user contract
 	public function getUserContractByID($id)
 	{
-		return \App\Models\UserContract::find($id);
+		return \IhrV2\Models\UserContract::find($id);
 	}
 
 	public function getUserContractByToken()
@@ -32,34 +32,185 @@ class UserRepository {
 
 	}
 
+	public function getUserContractWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserContract::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
+
 
 
 
 	// user job
+	public function getUserJobWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserJob::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
 
 
 	// user education
+	public function getUserEducationWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserEducation::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
 
 
 	// user emergency contact
+	public function getUserEmergencyWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserEmergency::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
+
+
 
 
 	// user employment
+	public function getUserEmploymentWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserEmployment::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
 
 
 	// user families
+	public function getUserFamilyWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserFamily::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
 
 
 	// user language
+	public function getUserLanguageWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserLanguage::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
 
 
 	// user photo
+	public function getUserPhotoWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserPhoto::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
 
 
 	// user reference
+	public function getUserReferenceWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserReference::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
+
 
 
 	// user skill
+	public function getUserSkillWithUser($id, $uid, $token)
+	{
+		$filters = array('id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserSkill::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('id', $id)
+		->firstOrFail();	
+		return $query;	
+	}
+
+
 
 
 
@@ -67,13 +218,13 @@ class UserRepository {
 	// user status
 	public function getUserStatusByID($id)
 	{
-		return \App\Models\UserStatus::find($id);
+		return \IhrV2\Models\UserStatus::find($id);
 
 	}
 
 	public function getUserStatusList()
 	{
-		return \App\Models\UserStatus::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[User Status]', '');
+		return \IhrV2\Models\UserStatus::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[User Status]', '');
 
 	}
 
@@ -83,7 +234,7 @@ class UserRepository {
 	// user contract status
 	public function getUserContractStatusList()
 	{
-		return \App\Models\UserContractStatus::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Contract Status]', '');
+		return \IhrV2\Models\UserContractStatus::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Contract Status]', '');
 	}
 
 	public function getUserContractStatusByID($id)
@@ -98,13 +249,13 @@ class UserRepository {
 	// district
 	public function getDistrictList()
 	{
-		return \App\Models\District::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[District]', '');
+		return \IhrV2\Models\District::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[District]', '');
 
 	}
 
 	public function getDistrictByID($id)
 	{
-		return \App\Models\District::find($id);
+		return \IhrV2\Models\District::find($id);
 
 	}
 
@@ -113,13 +264,13 @@ class UserRepository {
 	// gender
 	public function getGenderList()
 	{
-		return \App\Models\Gender::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Gender]', '');
+		return \IhrV2\Models\Gender::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Gender]', '');
 
 	}
 
 	public function getGenderByID($id)
 	{
-		return \App\Models\Gender::find($id);
+		return \IhrV2\Models\Gender::find($id);
 
 	}
 
@@ -129,13 +280,13 @@ class UserRepository {
 	// marital status
 	public function getMaritalStatusList()
 	{
-		return \App\Models\MaritalStatus::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Marital Status]', '');
+		return \IhrV2\Models\MaritalStatus::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Marital Status]', '');
 
 	}
 
 	public function getMaritalStatusByID($id)
 	{
-		return \App\Models\MaritalStatus::find($id);
+		return \IhrV2\Models\MaritalStatus::find($id);
 
 	}
 
@@ -144,13 +295,13 @@ class UserRepository {
 	// month
 	public function getMonthList()
 	{
-		return \App\Models\Month::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Month]', '');
+		return \IhrV2\Models\Month::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Month]', '');
 
 	}
 
 	public function getMonthByID($id)
 	{
-		return \App\Models\Month::find($id);
+		return \IhrV2\Models\Month::find($id);
 
 	}
 
@@ -160,13 +311,13 @@ class UserRepository {
 	// mukim
 	public function getMukimList()
 	{
-		return \App\Models\Mukim::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Mukim]', '');
+		return \IhrV2\Models\Mukim::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Mukim]', '');
 
 	}
 
 	public function getMukimByID($id)
 	{
-		return \App\Models\Mukim::find($id);
+		return \IhrV2\Models\Mukim::find($id);
 
 	}
 
@@ -175,13 +326,13 @@ class UserRepository {
 	// nationality
 	public function getNationalityList()
 	{
-		return \App\Models\Nationality::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Nationality]', '');
+		return \IhrV2\Models\Nationality::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Nationality]', '');
 
 	}
 
 	public function getNationalityByID($id)
 	{
-		return \App\Models\Nationality::find($id);
+		return \IhrV2\Models\Nationality::find($id);
 
 	}
 
@@ -190,13 +341,13 @@ class UserRepository {
 	// occupation
 	public function getOccupationList()
 	{
-		return \App\Models\Occupation::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Occupation]', '');
+		return \IhrV2\Models\Occupation::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Occupation]', '');
 
 	}
 
 	public function getOccupationByID($id)
 	{
-		return \App\Models\Occupation::find($id);
+		return \IhrV2\Models\Occupation::find($id);
 
 	}
 
@@ -206,7 +357,7 @@ class UserRepository {
 	// group
 	public function getGroupList()
 	{
-		return \App\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group]', '');
+		return \IhrV2\Models\Group::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Group]', '');
 	}
 
 	public function getGroupAll()
@@ -216,7 +367,7 @@ class UserRepository {
 
 	public function getGroupByID($id)
 	{
-		return \App\Models\Group::find($id);
+		return \IhrV2\Models\Group::find($id);
 
 	}
 
@@ -225,7 +376,7 @@ class UserRepository {
 	// phase
 	public function getPhaseList()
 	{
-		return \App\Models\Phase::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Phase]', '');
+		return \IhrV2\Models\Phase::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Phase]', '');
 	}
 
 	public function getPhaseAll()
@@ -235,7 +386,7 @@ class UserRepository {
 
 	public function getPhaseByID($id)
 	{
-		return \App\Models\Phase::find($id);
+		return \IhrV2\Models\Phase::find($id);
 
 	}
 
@@ -244,17 +395,17 @@ class UserRepository {
 	// region
 	public function getRegionList()
 	{
-		return \App\Models\Region::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Region]', '');
+		return \IhrV2\Models\Region::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Region]', '');
 	}
 
 	public function getRegionAll()
 	{
-		return \App\Models\Region::orderBy('name', 'ASC')->get();
+		return \IhrV2\Models\Region::orderBy('name', 'ASC')->get();
 	}
 
 	public function getRegionByID($id)
 	{
-		return \App\Models\Region::find($id);
+		return \IhrV2\Models\Region::find($id);
 
 	}
 
@@ -265,12 +416,12 @@ class UserRepository {
 	// site
 	public function getSiteListWithID()
 	{
-		return \App\Models\Site::select(\DB::raw('concat (id, " - ", name) as name, id'))->orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Site]', '');
+		return \IhrV2\Models\Site::select(\DB::raw('concat (id, " - ", name) as name, id'))->orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Site]', '');
 	}
 
 	public function getSiteList()
 	{
-		return \App\Models\Site::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Site]', '');
+		return \IhrV2\Models\Site::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Site]', '');
 
 	}
 
@@ -281,7 +432,7 @@ class UserRepository {
 
 	public function getSiteByID($id)
 	{
-		return \App\Models\Site::find($id);
+		return \IhrV2\Models\Site::find($id);
 
 	}
 
@@ -290,12 +441,12 @@ class UserRepository {
 	// position
 	public function getPositionByID($id)
 	{
-		return \App\Models\Position::find($id);
+		return \IhrV2\Models\Position::find($id);
 	}
 
 	public function getPositionList()
 	{
-		return \App\Models\Position::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Position]', '');
+		return \IhrV2\Models\Position::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Position]', '');
 
 	}
 
@@ -306,7 +457,7 @@ class UserRepository {
 
 	public function getPositionListByGroup($group_id)
 	{
-		return \App\Models\Position::where('group_id', $group_id)->orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Position]', '');
+		return \IhrV2\Models\Position::where('group_id', $group_id)->orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Position]', '');
 	}
 
 
@@ -314,13 +465,13 @@ class UserRepository {
 	// project
 	public function getProjectList()
 	{
-		return \App\Models\Project::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Project]', '');
+		return \IhrV2\Models\Project::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Project]', '');
 
 	}
 
 	public function getProjectByID($id)
 	{
-		return \App\Models\Project::find($id);
+		return \IhrV2\Models\Project::find($id);
 
 	}
 
@@ -330,13 +481,13 @@ class UserRepository {
 	// race
 	public function getRaceList()
 	{
-		return \App\Models\Race::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Race]', '');
+		return \IhrV2\Models\Race::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Race]', '');
 
 	}
 
 	public function getRaceByID($id)
 	{
-		return \App\Models\Race::find($id);
+		return \IhrV2\Models\Race::find($id);
 
 	}
 
@@ -347,13 +498,13 @@ class UserRepository {
 	// religion
 	public function getReligionList()
 	{
-		return \App\Models\Religion::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Religion]', '');
+		return \IhrV2\Models\Religion::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Religion]', '');
 
 	}
 
 	public function getReligionByID($id)
 	{
-		return \App\Models\Religion::find($id);
+		return \IhrV2\Models\Religion::find($id);
 
 	}
 
@@ -363,13 +514,13 @@ class UserRepository {
 	// skill level
 	public function getSkillLevelList()
 	{
-		return \App\Models\SkillLevel::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Skill Level]', '');
+		return \IhrV2\Models\SkillLevel::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Skill Level]', '');
 
 	}
 
 	public function getSkillLevelByID($id)
 	{
-		return \App\Models\SkillLevel::find($id);
+		return \IhrV2\Models\SkillLevel::find($id);
 
 	}
 
@@ -379,13 +530,13 @@ class UserRepository {
 	// state
 	public function getStateList()
 	{
-		return \App\Models\State::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[State]', '');
+		return \IhrV2\Models\State::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[State]', '');
 
 	}
 
 	public function getStateByID($id)
 	{
-		return \App\Models\State::find($id);
+		return \IhrV2\Models\State::find($id);
 
 	}
 
@@ -395,13 +546,13 @@ class UserRepository {
 	// status
 	public function getStatusList()
 	{
-		return \App\Models\Status::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Status]', '');
+		return \IhrV2\Models\Status::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Status]', '');
 
 	}
 
 	public function getStatusByID($id)
 	{
-		return \App\Models\Status::find($id);
+		return \IhrV2\Models\Status::find($id);
 
 	}
 

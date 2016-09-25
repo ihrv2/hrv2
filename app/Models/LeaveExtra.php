@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,11 +18,11 @@ class LeaveExtra extends Model
 
 
 	public function UserDetail() {
-		return $this->belongsTo('App\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\Models\User', 'user_id');
 	}
 
 	public function LeaveTypeName() {
-		return $this->belongsTo('App\Models\LeaveType', 'leave_type_id');
+		return $this->belongsTo('IhrV2\Models\LeaveType', 'leave_type_id');
 	}
 
 

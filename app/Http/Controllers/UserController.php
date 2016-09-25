@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace IhrV2\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use IhrV2\Http\Requests;
 use Illuminate\Support\Facades\Validator;
 use Session;
 use Carbon\Carbon;
@@ -15,10 +15,21 @@ class UserController extends Controller
 
 
     private $user_repo;
-	public function __construct(\App\Repositories\UserRepository $UserRepo)
+    private $leave_repo;
+
+	public function __construct(\IhrV2\Repositories\UserRepository $UserRepo, \IhrV2\Repositories\LeaveRepository $LeaveRepo)
 	{
 		$this->user_repo = $UserRepo;
+		$this->leave_repo = $LeaveRepo;
 	}
+
+
+
+
+	// public function setUserRepo(\IhrV2\Repositories\UserRepository $UserRepo)
+	// {
+	// 	$this->user_repo = $UserRepo;
+	// }
 
 
 
@@ -34,7 +45,7 @@ class UserController extends Controller
 		$group_id = 3;
 		$keyword = null;
 
-		$i = \App\User::with(array('UserLatestJob' => function($x) { 
+		$i = \IhrV2\User::with(array('UserLatestJob' => function($x) { 
 			$x->with('PositionName');
 		}));	
 		$i->with('StatusName');	
@@ -77,7 +88,7 @@ class UserController extends Controller
 			'title' => 'Staff'
 		);	
 		$group_id = 3;
-		$i = \App\User::with(array('UserLatestJob' => function($x) { 
+		$i = \IhrV2\User::with(array('UserLatestJob' => function($x) { 
 			$x->with('PositionName');
 		}));	
 		$i->with('StatusName');	
@@ -102,9 +113,8 @@ class UserController extends Controller
 
 		$i->where('group_id', $group_id);
 		$i->IsActiveAndIDDesc();
-		$data['users'] = $i->paginate(10);	
-		
-		$data['groups'] = $this->user_repo->getGroupList();
+		$data['users'] = $i->paginate(10);			
+		$data['groups'] = $this->setUserRepo()->user_repo->getGroupList();
 		$data['sessions'] = array(
 			'group_id' => $group_id,
 			'keyword' => $keyword
@@ -180,7 +190,7 @@ class UserController extends Controller
 
 
 
-	public function storeUser(Requests\UserCreate $request, \App\User $user)
+	public function storeUser(Requests\UserCreate $request, \IhrV2\User $user)
 	{	
 		if ($user->user_create($request->all())) {
             $msg = array('User successfully added.', 'success');
@@ -240,18 +250,18 @@ class UserController extends Controller
 			'title' => $data['detail']->name
 		);			
 		// job info
-		$data['curr_job'] = \App\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 1)->first();
-		$data['prev_job'] = \App\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
+		$data['curr_job'] = \IhrV2\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 1)->first();
+		$data['prev_job'] = \IhrV2\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
 
 		// contract info
-		$data['curr_contract'] = \App\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->first();
-		$data['prev_contract'] = \App\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
+		$data['curr_contract'] = \IhrV2\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->first();
+		$data['prev_contract'] = \IhrV2\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
 
 		// get age value
 		$data['age'] = date('Y') - date('Y', strtotime($data['detail']->dob));
 
 		// photos
-		$data['photo'] = \App\Models\UserPhoto::where('user_id', $id)->where('status', 1)->first();
+		$data['photo'] = \IhrV2\Models\UserPhoto::where('user_id', $id)->where('status', 1)->first();
 		return View('modules.user.view', $data);
     }
 
@@ -281,7 +291,7 @@ class UserController extends Controller
 
 
 
-    public function storeUserContract(Requests\UserContractCreate $request, $id, $token, \App\Models\UserContract $contract)
+    public function storeUserContract(Requests\UserContractCreate $request, $id, $token, \IhrV2\Models\UserContract $contract)
     {
     	$save = $contract->user_contract_create($request->all(), $id);	
         return redirect()->route($save[2], array($id, $token))->with([
@@ -307,14 +317,7 @@ class UserController extends Controller
 			'title' => 'Edit Contract'
 			);		
 		$data['status_contracts'] = $this->user_repo->getUserContractStatusList();
-
-
-
-		// check users and user_contracts
-		$data['detail'] = \App\Models\UserContract::find($id);
-
-
-
+		$data['detail'] = $this->user_repo->getUserContractWithUser($id, $uid, $token);
 		return View('modules.user.contract.edit', $data);    	
     }
 
@@ -324,7 +327,7 @@ class UserController extends Controller
 
     public function updateUserContract(Requests\UserUpdateContract $request, $id, $uid, $token)
     {
-    	$contract = \App\Models\UserContract::find($id);
+    	$contract = \IhrV2\Models\UserContract::find($id);
     	$save = $contract->UserContractEdit($request->all(), $id);
 		if ($save) { 
         	$msg = array($save['message'], $save['label']);

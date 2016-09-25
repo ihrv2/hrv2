@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,23 +16,23 @@ class Site extends Model
 
 
 	public function PhaseName() {
-		return $this->belongsTo('App\Models\Phase', 'phase_id');
+		return $this->belongsTo('IhrV2\Models\Phase', 'phase_id');
 	}
 
 	public function DistrictName() {
-		return $this->belongsTo('App\Models\District', 'district_id');
+		return $this->belongsTo('IhrV2\Models\District', 'district_id');
 	}
 
 	public function StateName() {
-		return $this->belongsTo('App\Models\State', 'state_id');
+		return $this->belongsTo('IhrV2\Models\State', 'state_id');
 	}
 
 	public function RegionName() {
-		return $this->belongsTo('App\Models\Region', 'region_id');
+		return $this->belongsTo('IhrV2\Models\Region', 'region_id');
 	}		
 
 	public function MukimName() {
-		return $this->belongsTo('App\Models\Mukim', 'mukim_id');
+		return $this->belongsTo('IhrV2\Models\Mukim', 'mukim_id');
 	}		
 
 

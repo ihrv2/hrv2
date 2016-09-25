@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +17,7 @@ class LeaveApprove extends Model
 
 
 	public function LeaveInfo() {
-		return $this->belongsTo('App\Models\LeaveApplication', 'leave_id');
+		return $this->belongsTo('IhrV2\Models\LeaveApplication', 'leave_id');
 	}	
 
 	

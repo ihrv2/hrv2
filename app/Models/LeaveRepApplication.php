@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,11 +30,11 @@ class LeaveRepApplication extends Model
 
 	// get only latest history
 	public function LeaveRepLatestHistory() {
-		return $this->hasOne('App\Models\LeaveRepHistory', 'leave_rep_id')->where('flag', 1);
+		return $this->hasOne('IhrV2\Models\LeaveRepHistory', 'leave_rep_id')->where('flag', 1);
 	}
 
 	public function LeaveRepUserDetail() {
-		return $this->belongsTo('App\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\Models\User', 'user_id');
 	}
 
 

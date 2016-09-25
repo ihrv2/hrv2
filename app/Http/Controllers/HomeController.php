@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace IhrV2\Http\Controllers;
 
-use App\Http\Requests;
+use IhrV2\Http\Requests;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
@@ -31,7 +31,7 @@ class HomeController extends Controller
     }
 
 
-    public function showProfile(\App\Repositories\UserRepository $user_repo) 
+    public function showProfile(\IhrV2\Repositories\UserRepository $user_repo) 
     {
         $data = array();
         $data['header'] = array(

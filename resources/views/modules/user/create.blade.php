@@ -6,7 +6,7 @@
 {{ Form::open(array('class' => 'form-horizontal', 'role' => 'form')) }}
 <div class="panel panel-primary">
 	<div class="panel-heading">
-		<h4 class="panel-title">Registration - {{ \App\Models\Group::find(Session::get('group_id'))->name }}</h4>
+		<h4 class="panel-title">Registration - {{ \IhrV2\Models\Group::find(Session::get('group_id'))->name }}</h4>
 	</div>	
 	<div class="panel-body nopadding">
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +18,7 @@ class LeaveBalance extends Model
 
 
 	public function LeaveTypeName() {
-		return $this->belongsTo('App\Models\LeaveType', 'leave_type_id');
+		return $this->belongsTo('IhrV2\Models\LeaveType', 'leave_type_id');
 	}	
     
 }

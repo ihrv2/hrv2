@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +16,7 @@ class UserDistrict extends Model
     ];
 
 	public function SiteName() {
-		return $this->belongsTo('App\Models\Site', 'sitecode');
+		return $this->belongsTo('IhrV2\Models\Site', 'sitecode');
 	}
     
 }

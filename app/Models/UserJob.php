@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,25 +26,29 @@ class UserJob extends Model
         'status'
     ];
 
+    public function UserDetail() {
+        return $this->belongsTo('IhrV2\User', 'user_id');
+    }
+
 
     public function PositionName() {
-        return $this->belongsTo('App\Models\Position', 'position_id');
+        return $this->belongsTo('IhrV2\Models\Position', 'position_id');
     }
     
     public function PhaseName() {
-        return $this->belongsTo('App\Models\Phase', 'phase_id');
+        return $this->belongsTo('IhrV2\Models\Phase', 'phase_id');
     }
 
     public function RegionName() {
-        return $this->belongsTo('App\Models\Region', 'region_id');
+        return $this->belongsTo('IhrV2\Models\Region', 'region_id');
     }
 
     public function SiteName() {
-        return $this->belongsTo('App\Models\Site', 'sitecode');
+        return $this->belongsTo('IhrV2\Models\Site', 'sitecode');
     }
 
     public function StatusName() {
-        return $this->belongsTo('App\Models\Status', 'status');
+        return $this->belongsTo('IhrV2\Models\Status', 'status');
     }
 
 

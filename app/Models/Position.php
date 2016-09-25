@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace IhrV2\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +12,7 @@ class Position extends Model
 
 
 	public function GroupName() {
-		return $this->belongsTo('App\Models\Group', 'group_id');
+		return $this->belongsTo('IhrV2\Models\Group', 'group_id');
 	}	
 	
 

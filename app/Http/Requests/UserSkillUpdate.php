@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace IhrV2\Http\Requests;
 
-use App\Http\Requests\Request;
+use IhrV2\Http\Requests\Request;
 
 class UserSkillUpdate extends Request
 {
