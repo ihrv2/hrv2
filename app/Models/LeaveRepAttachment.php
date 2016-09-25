@@ -11,6 +11,11 @@ class LeaveRepAttachment extends Model
 	protected $table = 'leave_rep_attachments';
 
 
+    protected $fillable = [
+    	''
+    ];
+
+
 
 	public function create_file($data) {
 		$this->user_id = $data['user_id'];		

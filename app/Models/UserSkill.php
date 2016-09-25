@@ -12,8 +12,15 @@ class UserSkill extends Model
     protected $table = 'user_skills';
 
 
+    protected $fillable = [
+    	'user_id',
+    	'name',
+    	'level_id'
+    ];
+
+
 	public function SkillLevel() {
-		return $this->belongsTo('\App\Models\SkillLevel', 'level_id');
+		return $this->belongsTo('App\Models\SkillLevel', 'level_id');
 	}
 
 

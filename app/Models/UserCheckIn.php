@@ -12,16 +12,24 @@ class UserCheckIn extends Model
 	protected $table = 'user_check_in';
 
 
-
+    protected $fillable = [
+    	'user_id',
+    	'reg_date',
+    	'state_id',
+    	'region_id',
+    	'district_id',
+    	'sitecode',
+    	'status'
+    ];
 
 	public function StateName() {
-		return $this->belongsTo('\App\Models\State', 'state_id');
+		return $this->belongsTo('App\Models\State', 'state_id');
 	}
 	public function RegionName() {
-		return $this->belongsTo('\App\Models\Region', 'region_id');
+		return $this->belongsTo('App\Models\Region', 'region_id');
 	}
 	public function DistrictName() {
-		return $this->belongsTo('\App\Models\District', 'district_id');
+		return $this->belongsTo('App\Models\District', 'district_id');
 	}	
 
 

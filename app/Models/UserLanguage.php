@@ -11,18 +11,25 @@ class UserLanguage extends Model
 
 	protected $table = 'user_languages';
 
-
+    protected $fillable = [
+    	'user_id',
+    	'dialect',
+    	'desc',
+    	'written',
+    	'reading',
+    	'spoken'
+    ];
 
 	public function WrittenLevel() {
-		return $this->belongsTo('\App\Models\SkillLevel', 'written');
+		return $this->belongsTo('App\Models\SkillLevel', 'written');
 	}
 
 	public function ReadingLevel() {
-		return $this->belongsTo('\App\Models\SkillLevel', 'reading');
+		return $this->belongsTo('App\Models\SkillLevel', 'reading');
 	}
 
 	public function SpokenLevel() {
-		return $this->belongsTo('\App\Models\SkillLevel', 'spoken');
+		return $this->belongsTo('App\Models\SkillLevel', 'spoken');
 	}	
 
 

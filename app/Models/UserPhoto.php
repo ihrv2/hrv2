@@ -12,7 +12,14 @@ class UserPhoto extends Model
 	protected $table = 'user_photos';
 
 
-
+    protected $fillable = [
+    	'user_id',
+    	'photo',
+    	'photo_thumb',
+    	'ext',
+    	'size',
+    	'status'
+    ];
 
 	public function upload_photo($data) {
 		// inactive current photo

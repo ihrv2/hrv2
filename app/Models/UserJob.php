@@ -28,29 +28,29 @@ class UserJob extends Model
 
 
     public function PositionName() {
-        return $this->belongsTo('\App\Models\Position', 'position_id');
+        return $this->belongsTo('App\Models\Position', 'position_id');
     }
     
     public function PhaseName() {
-        return $this->belongsTo('\App\Models\Phase', 'phase_id');
+        return $this->belongsTo('App\Models\Phase', 'phase_id');
     }
 
     public function RegionName() {
-        return $this->belongsTo('\App\Models\Region', 'region_id');
+        return $this->belongsTo('App\Models\Region', 'region_id');
     }
 
     public function SiteName() {
-        return $this->belongsTo('\App\Models\Site', 'sitecode');
+        return $this->belongsTo('App\Models\Site', 'sitecode');
     }
 
     public function StatusName() {
-        return $this->belongsTo('\App\Models\Status', 'status');
+        return $this->belongsTo('App\Models\Status', 'status');
     }
 
 
 
 
-    public function job_add($data, $uid) {
+    public function job_create($data, $uid) {
         // add new jobs
         $user = User::find($uid);
         $this->user_id = $data['uid'];  
@@ -68,7 +68,7 @@ class UserJob extends Model
 
 
 
-    public function job_edit($data, $uid) {
+    public function job_update($data, $uid) {
         $this->join_date = date('Y-m-d', strtotime(str_replace('/', '-', $data['join_date'])));
         $this->position_id = $data['position_id'];
         $this->phase_id = $data['phase_id'];

@@ -10,9 +10,16 @@ class UserFamily extends Model
 
 	protected $table = 'user_families';
 
+    protected $fillable = [
+    	'user_id',
+    	'name',
+    	'age',
+    	'occupation',
+    	'school_office',
+    	'relation'
+    ];
 
-
-	public function family_add($data) {
+	public function family_create($data) {
 		$this->user_id = $data['uid'];			
 		$this->name = $data['name'];			
 		$this->age = $data['age'];			
@@ -29,7 +36,7 @@ class UserFamily extends Model
 
 
 
-	public function family_edit($data) {
+	public function family_update($data) {
 		$this->name = $data['name'];			
 		$this->age = $data['age'];			
 		$this->occupation = $data['occupation'];			

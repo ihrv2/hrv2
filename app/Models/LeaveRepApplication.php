@@ -12,14 +12,29 @@ class LeaveRepApplication extends Model
 
 
 
+    protected $fillable = [
+    	'user_id',
+    	'date_apply',
+    	'no_day',
+    	'month',
+    	'year',
+    	'report_to',
+    	'instructed_by',
+    	'location',
+    	'reason',
+    	'notes',
+    	'sitecode'
+    ];
+
+
 
 	// get only latest history
 	public function LeaveRepLatestHistory() {
-		return $this->hasOne('\App\Models\\App\Models\LeaveRepHistory', 'leave_rep_id')->where('flag', 1);
+		return $this->hasOne('App\Models\LeaveRepHistory', 'leave_rep_id')->where('flag', 1);
 	}
 
 	public function LeaveRepUserDetail() {
-		return $this->belongsTo('\App\Models\User', 'user_id');
+		return $this->belongsTo('App\Models\User', 'user_id');
 	}
 
 

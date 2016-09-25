@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Models\LeaveApplication;
+use Carbon\Carbon;
 
 class LeaveRepository {
 
@@ -157,7 +158,7 @@ class LeaveRepository {
 	}
 
 
-	public function getTotalAL($from_date, $to_date) {
+	public static function getTotalAL($from_date, $to_date) {
 		$leap = 0;
 		$from = Carbon::parse($from_date); // 2016-01-01
 		$to = Carbon::parse($to_date); // 2016-12-01

@@ -11,14 +11,20 @@ class LeaveHistory extends Model
 	protected $table = 'leave_histories';
 
 
+    protected $fillable = [
+    	''
+    ];
+
+
+
 
 	public function LeaveStatusName() {
-		return $this->belongsTo('\App\Models\LeaveStatus', 'status');
+		return $this->belongsTo('App\Models\LeaveStatus', 'status');
 	}
 
 
 	public function LeaveActionByName() {
-		return $this->belongsTo('\App\Models\User', 'user_id');
+		return $this->belongsTo('App\Models\User', 'user_id');
 	}
 
 
@@ -27,7 +33,7 @@ class LeaveHistory extends Model
 
 	// get only latest history
 	public function LeaveRepLatestHistory() {
-		return $this->hasOne('\App\Models\LeaveRepHistory', 'leave_rep_id')->where('flag', 1);
+		return $this->hasOne('App\Models\LeaveRepHistory', 'leave_rep_id')->where('flag', 1);
 	}
 
 

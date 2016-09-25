@@ -22,16 +22,16 @@ class Region extends Model
 
 
 	public function RegionManager() {
-		return $this->belongsTo('\App\User', 'report_to', 'id');
+		return $this->belongsTo('App\User', 'report_to', 'id');
 	}
 
 
 	public function RegionManagerJob() {
-		return $this->belongsTo('\App\Models\UserJob', 'report_to', 'user_id')->where('status', 1);
+		return $this->belongsTo('App\Models\UserJob', 'report_to', 'user_id')->where('status', 1);
 	}
 
 	public function ListState() {
-		return $this->hasMany('\App\Models\State', 'region_id');
+		return $this->hasMany('App\Models\State', 'region_id');
 	}
 
 

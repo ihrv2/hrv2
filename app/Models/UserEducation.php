@@ -21,7 +21,7 @@ class UserEducation extends Model
 
 
 
-	public function education_add($data) {
+	public function education_create($data) {
 		$this->user_id = $data['uid'];			
 		$this->year_from = $data['year_from'];
 		$this->year_to = $data['year_to'];
@@ -38,7 +38,7 @@ class UserEducation extends Model
 
 
 
-	public function education_edit($data) {
+	public function education_update($data) {
 		$this->year_from = $data['year_from'];
 		$this->year_to = $data['year_to'];	
 		$this->name_education = $data['name_education'];			

@@ -11,12 +11,18 @@ class LeaveRepHistory extends Model
 	protected $table = 'leave_rep_histories';
 
 
+    protected $fillable = [
+    	''
+    ];
+
+
+
 	public function LeaveStatusName() {
-		return $this->belongsTo('\App\Models\LeaveStatus', 'status');
+		return $this->belongsTo('App\Models\LeaveStatus', 'status');
 	}
 
 	public function LeaveActionByName() {
-		return $this->belongsTo('\App\Models\User', 'user_id');
+		return $this->belongsTo('App\Models\User', 'user_id');
 	}
 
 

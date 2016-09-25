@@ -10,6 +10,9 @@ class LeaveType extends Model
 	protected $table = 'leave_types';
 
 
+    protected $fillable = [
+    	''
+    ];
 
 
 	public function leave_type_create($data) {

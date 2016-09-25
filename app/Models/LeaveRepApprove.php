@@ -9,4 +9,10 @@ class LeaveRepApprove extends Model
 	protected $table = 'leave_rep_approves';
 
 
+
+    protected $fillable = [
+    	''
+    ];
+
+
 }

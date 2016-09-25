@@ -12,7 +12,7 @@ class Position extends Model
 
 
 	public function GroupName() {
-		return $this->belongsTo('\App\Models\Group', 'group_id');
+		return $this->belongsTo('App\Models\Group', 'group_id');
 	}	
 	
 

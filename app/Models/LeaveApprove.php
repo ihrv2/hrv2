@@ -10,9 +10,14 @@ class LeaveApprove extends Model
 	protected $table = 'leave_approves';
 
 
+    protected $fillable = [
+    	''
+    ];
+
+
 
 	public function LeaveInfo() {
-		return $this->belongsTo('\App\Models\LeaveApplication', 'leave_id');
+		return $this->belongsTo('App\Models\LeaveApplication', 'leave_id');
 	}	
 
 	

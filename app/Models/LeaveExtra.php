@@ -11,14 +11,18 @@ class LeaveExtra extends Model
 	protected $table = 'leave_extras';
 
 
+    protected $fillable = [
+    	''
+    ];
+
 
 
 	public function UserDetail() {
-		return $this->belongsTo('\App\Models\User', 'user_id');
+		return $this->belongsTo('App\Models\User', 'user_id');
 	}
 
 	public function LeaveTypeName() {
-		return $this->belongsTo('\App\Models\LeaveType', 'leave_type_id');
+		return $this->belongsTo('App\Models\LeaveType', 'leave_type_id');
 	}
 
 

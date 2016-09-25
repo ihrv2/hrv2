@@ -10,13 +10,13 @@ class State extends Model
 
 
 	public function RegionName() {
-		return $this->belongsTo('\App\Models\Region', 'region_id');
+		return $this->belongsTo('App\Models\Region', 'region_id');
 	}	
 	
 	
 
 	public function ListDistrict() {
-		return $this->hasMany('\App\Models\District', 'state_id');
+		return $this->hasMany('App\Models\District', 'state_id');
 	}
 
 }

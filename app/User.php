@@ -47,47 +47,57 @@ class User extends Authenticatable
 
 
 
+    // always encrypt value password when user enter the password
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 
-    // public function setPasswordAttribute($value)
-    // {
-    //     $this->attributes['password'] = bcrypt($value);
-    // }
 
 
+    public function scopeIsActive($q)
+    {
+        $q->where('status', 1);
+    }
 
+
+    public function scopeIsActiveAndIDDesc($q)
+    {
+        $q->where('status', 1)->orderBy('id', 'DESC');
+    } 
 
 
     // belongs to
     public function GroupName() {
-        return $this->belongsTo('\App\Models\Group', 'group_id');
+        return $this->belongsTo('App\Models\Group', 'group_id');
     }
 
     public function GenderName() {
-        return $this->belongsTo('\App\Models\Gender', 'gender_id');
+        return $this->belongsTo('App\Models\Gender', 'gender_id');
     }
 
     public function MaritalName() {
-        return $this->belongsTo('\App\Models\MaritalStatus', 'marital_id');
+        return $this->belongsTo('App\Models\MaritalStatus', 'marital_id');
     }
 
     public function RaceName() {
-        return $this->belongsTo('\App\Models\Race', 'race_id');
+        return $this->belongsTo('App\Models\Race', 'race_id');
     }
 
     public function ReligionName() {
-        return $this->belongsTo('\App\Models\Religion', 'religion_id');
+        return $this->belongsTo('App\Models\Religion', 'religion_id');
     }
 
     public function NationalityName() {
-        return $this->belongsTo('\App\Models\Nationality', 'nationality_id');
+        return $this->belongsTo('App\Models\Nationality', 'nationality_id');
     }   
 
     public function SiteName() {
-        return $this->belongsTo('\App\Models\Site', 'sitecode');
+        return $this->belongsTo('App\Models\Site', 'sitecode');
     }       
 
     public function StatusName() {
-        return $this->belongsTo('\App\Models\UserStatus', 'status');
+        return $this->belongsTo('App\Models\UserStatus', 'status');
     }   
 
 
@@ -96,7 +106,7 @@ class User extends Authenticatable
 
     // has one
     public function UserLatestJob() {
-        return $this->hasOne('\App\Models\UserJob', 'user_id')->where('status', 1);
+        return $this->hasOne('App\Models\UserJob', 'user_id')->where('status', 1);
     }
 
 
@@ -105,47 +115,47 @@ class User extends Authenticatable
 
     // has many
     public function UserJob() {
-        return $this->hasMany('\App\Models\UserJob', 'user_id');
+        return $this->hasMany('App\Models\UserJob', 'user_id');
     }
 
     public function UserContract() {
-        return $this->hasMany('\App\Models\UserContract', 'user_id');
+        return $this->hasMany('App\Models\UserContract', 'user_id');
     }   
 
     public function UserFamily() {
-        return $this->hasMany('\App\Models\UserFamily', 'user_id')->orderBy('id', 'DESC');
+        return $this->hasMany('App\Models\UserFamily', 'user_id')->orderBy('id', 'DESC');
     }
 
     public function UserEducation() {
-        return $this->hasMany('\App\Models\UserEducation', 'user_id')->orderBy('id', 'DESC');
+        return $this->hasMany('App\Models\UserEducation', 'user_id')->orderBy('id', 'DESC');
     }
 
     public function UserLanguage() {
-        return $this->hasMany('\App\Models\UserLanguage', 'user_id')->orderBy('id', 'DESC');
+        return $this->hasMany('App\Models\UserLanguage', 'user_id')->orderBy('id', 'DESC');
     }
 
     public function UserSkill() {
-        return $this->hasMany('\App\Models\UserSkill', 'user_id')->orderBy('id', 'DESC');
+        return $this->hasMany('App\Models\UserSkill', 'user_id')->orderBy('id', 'DESC');
     }
 
     public function UserEmployment() {
-        return $this->hasMany('\App\Models\UserEmployment', 'user_id')->orderBy('id', 'DESC');
+        return $this->hasMany('App\Models\UserEmployment', 'user_id')->orderBy('id', 'DESC');
     }
 
     public function UserReference() {
-        return $this->hasMany('\App\Models\UserReference', 'user_id')->orderBy('id', 'DESC');
+        return $this->hasMany('App\Models\UserReference', 'user_id')->orderBy('id', 'DESC');
     }
 
     public function UserEmergency() {
-        return $this->hasMany('\App\Models\UserEmergency', 'user_id')->orderBy('id', 'DESC');
+        return $this->hasMany('App\Models\UserEmergency', 'user_id')->orderBy('id', 'DESC');
     }   
 
     public function UserDistrict() {
-        return $this->hasMany('\App\Models\UserDistrict', 'user_id');
+        return $this->hasMany('App\Models\UserDistrict', 'user_id');
     }   
 
     public function UserCheckIn() {
-        return $this->hasMany('\App\Models\UserCheckIn', 'user_id');
+        return $this->hasMany('App\Models\UserCheckIn', 'user_id');
     }   
 
 
@@ -184,7 +194,7 @@ class User extends Authenticatable
             'sitecode' => $sitecode,
             'status' => 1,
         );
-        $uj = new \App\Models\UserJob($d2);
+        $uj = new App\Models\UserJob($d2);
         $uj->save();
         return true;
     }

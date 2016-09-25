@@ -10,7 +10,15 @@ class UserReference extends Model
 
 	protected $table = 'user_references';
 
-
+    protected $fillable = [
+    	'user_id',
+    	'name',
+    	'relation',
+    	'address',
+    	'telno',
+    	'occupation',
+    	'period_known'
+    ];
 
 	public function reference_add($data) {
 		$this->user_id = $data['uid'];			

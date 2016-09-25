@@ -10,8 +10,14 @@ class LeaveState extends Model
 	protected $table = 'leave_states';
 
 
+    protected $fillable = [
+    	''
+    ];
+
+
+
 	public function StateName() {
-		return $this->belongsTo('\App\Models\State', 'state_id');
+		return $this->belongsTo('App\Models\State', 'state_id');
 	}		
 	
 

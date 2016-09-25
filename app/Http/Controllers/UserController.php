@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Validator;
 use Session;
-use App\Repositories\UserRepository;
 use Carbon\Carbon;
 
 
@@ -16,7 +15,6 @@ class UserController extends Controller
 
 
     private $user_repo;
-
 	public function __construct(\App\Repositories\UserRepository $UserRepo)
 	{
 		$this->user_repo = $UserRepo;
@@ -55,7 +53,8 @@ class UserController extends Controller
 			$group_id = Session::get('i-search')['group_id'];
 		}	
 
-		$i->orderBy('id', 'DESC');
+		$i->where('group_id', $group_id);
+		$i->IsActiveAndIDDesc();
 		$data['users'] = $i->paginate(10);		
 		$data['groups'] = $this->user_repo->getGroupList();
 		$data['sessions'] = array(
@@ -102,10 +101,9 @@ class UserController extends Controller
 		}			
 
 		$i->where('group_id', $group_id);
-		$i->orderBy('id', 'DESC');
+		$i->IsActiveAndIDDesc();
 		$data['users'] = $i->paginate(10);	
-
-		// dd($data['users']);
+		
 		$data['groups'] = $this->user_repo->getGroupList();
 		$data['sessions'] = array(
 			'group_id' => $group_id,
@@ -233,11 +231,11 @@ class UserController extends Controller
     public function showUserView($id, $token)
     {
 		$data = array();
-		$data['detail'] = $this->user_repo->getUserDetailByToken($id, $token);
+		$data['detail'] = $this->user_repo->getUserByIDToken($id, $token);
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('mod.user'),					
+			'child-a' => route('mod.user.index'),					
 			'icon' => 'user',
 			'title' => $data['detail']->name
 		);			
@@ -268,13 +266,14 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('mod.user'),	
+			'child-a' => route('mod.user.index'),	
 			'sub' => 'User Detail',
 			'sub-a' => route('mod.user.view', array($uid, $token)),				
 			'icon' => 'graph',
 			'title' => 'Add/Renew Contract'
 		);		
-		$data['status_contracts'] = $this->user_repo->getUserContractStatus();
+		$check = $this->user_repo->getUserByIDToken($uid, $token);
+		$data['status_contracts'] = $this->user_repo->getUserContractStatusList();
 		return View('modules.user.contract.create', $data);
     }
 
@@ -282,18 +281,12 @@ class UserController extends Controller
 
 
 
-    public function storeUserContract(Requests\UserCreateContract $request, $id, $token, \App\Models\UserContract $contract)
+    public function storeUserContract(Requests\UserContractCreate $request, $id, $token, \App\Models\UserContract $contract)
     {
-    	$save = $contract->UserContractCreate($request->all(), $id);
-		if ($save) {
-			$msg = array($save['message'], $save['label']);
-        }
-        else {
-            $msg = array('Insert is fail.', 'danger');
-        }		
-        return redirect()->route('mod.user.view', array($id, $token))->with([
-            'message' => $msg[0], 
-            'label' => 'alert alert-'.$msg[1].' alert-dismissible'
+    	$save = $contract->user_contract_create($request->all(), $id);	
+        return redirect()->route($save[2], array($id, $token))->with([
+            'message' => $save[0], 
+            'label' => 'alert alert-'.$save[1].' alert-dismissible'
         ]);	
     }
 
@@ -307,14 +300,21 @@ class UserController extends Controller
 		$data['header'] = array(
 			'parent' => 'Staff Administration', 
 			'child' => 'All Staff',
-			'child-a' => route('mod.user'),	
+			'child-a' => route('mod.user.index'),	
 			'sub' => 'User Detail',
 			'sub-a' => route('mod.user.view', array($uid, $token)),	
 			'icon' => 'graph',
 			'title' => 'Edit Contract'
 			);		
-		$data['status_contracts'] = $this->user_repo->getUserContractStatus();
+		$data['status_contracts'] = $this->user_repo->getUserContractStatusList();
+
+
+
+		// check users and user_contracts
 		$data['detail'] = \App\Models\UserContract::find($id);
+
+
+
 		return View('modules.user.contract.edit', $data);    	
     }
 

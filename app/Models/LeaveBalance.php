@@ -11,9 +11,14 @@ class LeaveBalance extends Model
 	protected $table = 'leave_balances';
 
 
+    protected $fillable = [
+    	''
+    ];
+
+
 
 	public function LeaveTypeName() {
-		return $this->belongsTo('\App\Models\LeaveType', 'leave_type_id');
+		return $this->belongsTo('App\Models\LeaveType', 'leave_type_id');
 	}	
     
 }

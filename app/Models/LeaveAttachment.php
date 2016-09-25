@@ -10,6 +10,15 @@ class LeaveAttachment extends Model
 
 
 	protected $table = 'leave_attachments';
+	
+    protected $fillable = [
+    	'user_id',
+    	'leave_id',
+    	'filename',
+    	'ext',
+    	'size',
+    	'status'
+    ];
 
 
 	public function create_file($data) {

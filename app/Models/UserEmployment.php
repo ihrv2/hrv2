@@ -10,10 +10,17 @@ class UserEmployment extends Model
 
 	protected $table = 'user_employments';
 
+    protected $fillable = [
+    	'user_id',
+    	'date_from',
+    	'date_to',
+    	'company',
+    	'position',
+    	'salary'
+    ];
 
 
-
-	public function employment_add($data) {
+	public function employment_create($data) {
 		$this->user_id = $data['uid'];				
 		$this->date_from = $data['from_year'].'-'.$data['from_month'].'-'.'01';
 		$this->date_to = $data['to_year'].'-'.$data['to_month'].'-'.'01';
@@ -30,7 +37,7 @@ class UserEmployment extends Model
 
 
 
-	public function employment_edit($data) {
+	public function employment_update($data) {
 		$this->date_from = $data['from_year'].'-'.$data['from_month'].'-'.'01';
 		$this->date_to = $data['to_year'].'-'.$data['to_month'].'-'.'01';
 		$this->company = $data['company'];
