@@ -99,7 +99,11 @@ class LeaveController extends Controller
 			'title' => 'Add Leave'
 		);
 		if (old('leave_type_id')) {
-			\Session::put('leave_type_id', old('leave_type_id'));	
+			\Session::put('leave_type_id', old('leave_type_id'));
+
+			$user_id = \Auth::id();			
+			$leave_type_id = \Session::get('leave_type_id');
+
 			$data['leave_type'] = \IhrV2\Models\LeaveType::find(\Session::get('leave_type_id'));			
 			$data['job'] = $this->user_repo->getUserJobByID(\Auth::user()->id);					
 			$data['rm'] = $this->user_repo->getRegionManager(\Auth::user()->sitecode);
@@ -120,18 +124,18 @@ class LeaveController extends Controller
 			// marriage - 3 days
 
 			$data['to'] = 0;
-			if (in_array(\Session::get('leave_type_id'), array(5, 7, 8, 9, 10))) {
+			if (in_array($leave_type_id, array(5, 7, 8, 9, 10))) {
 				$data['to'] = 1;
 			}
 
 			// get contract info
-			$data['contract'] = $this->user_repo->getUserContractByUserIDStatus(\Auth::user()->id);
+			$data['contract'] = $this->user_repo->getUserContractByUserIDStatus($user_id);
 
 			// check leave entitled
-			if (\Session::get('leave_type_id') == 1) { // annual leave
+			if ($leave_type_id == 1) { // annual leave
 				$data['leave_total'] = $data['contract']->total_al;
 			}			
-			else if (\Session::get('leave_type_id') == 12) { // unpaid leave
+			else if ($leave_type_id == 12) { // unpaid leave
 				$data['leave_total'] = '-';
 			}
 			else { // others leave
@@ -139,15 +143,17 @@ class LeaveController extends Controller
 			}
 
 			// check leave taken
-			$data['leave_taken'] = $this->leave_repo->getTakenLeave(\Auth::user()->id, \Session::get('leave_type_id'), $data['contract']->date_from, $data['contract']->date_to);
-			// dd($data['leave_taken']);
+			$data['leave_taken'] = $this->leave_repo->getTakenLeave($user_id, $leave_type_id, $data['contract']->date_from, $data['contract']->date_to);
 
-			// sum all of leave taken
-
+			// compare leave entitled and leave taken
+			$data['no_bal'] = 0;
+			if ($data['leave_total'] == $data['leave_taken']) {
+				$data['no_bal'] = 1;
+			}
 
 			// check leave balance (all leave types)
-			$balance = \IhrV2\Models\LeaveBalance::where('user_id', \Auth::user()->id)
-				->where('leave_type_id', \Session::get('leave_type_id'))
+			$balance = \IhrV2\Models\LeaveBalance::where('user_id', $user_id)
+				->where('leave_type_id', $leave_type_id)
 				->where('contract_id', $data['contract']->id)
 				->first();
 			// have record
@@ -156,7 +162,7 @@ class LeaveController extends Controller
 			}
 			// no record
 			else {
-				if (\Session::get('leave_type_id') == 1) { // annual leave taken from total_al
+				if ($leave_type_id == 1) { // annual leave taken from total_al
 					$data['leave_balance'] = $data['contract']->total_al;
 				}
 				else {
@@ -172,15 +178,12 @@ class LeaveController extends Controller
 
 
 
+
+
     public function storeLeaveCreate(Requests\LeaveCreate $request, \IhrV2\Models\LeaveApplication $leave_app)
     {
-		if ($leave_app->leave_create($request->all())) {
-            $msg = array('Leave successfully added.', 'success');
-        }
-        else {
-            $msg = array('Insert is fail.', 'danger');
-        }		
-        return redirect()->route('sv.mod.leave.index')->with([
+		$save = $leave_app->leave_create($request->all());	
+        return redirect()->route($msg[2])->with([
             'message' => $msg[0], 
             'label' => 'alert alert-'.$msg[1].' alert-dismissible'
         ]);	

@@ -84,20 +84,27 @@ class LeaveRepository {
 
 
 
+
+
 	// get taken leave (date is within the current contract)
 	public function getTakenLeave($uid, $leave_type_id, $date1, $date2)
 	{
-		$filters = array('date_from' => $date1, 'date_to' => $date2);
+		$filters = array($date1, $date2);
+		$total = 0;				
 		$query = \IhrV2\Models\LeaveApplication::whereHas('LeaveApprove', function($x) use ($filters) { 
-		    foreach ($filters as $column => $key) {
-		        if (!is_null($key)) $x->where($column, $key);
-		    }
+			$x->whereDate('date_from', '>=', $filters[0]);
+			$x->whereDate('date_to', '<=', $filters[1]);
 		})
+		->with('LeaveApprove')	
 		->where('user_id', $uid)
 		->where('leave_type_id', $leave_type_id)
-		->get();	
-		return $query;	
-	
+		->get();
+		if (count($query) > 0) {
+			foreach ($query as $i) {
+				$total += $i->LeaveApprove->date_value;
+			}
+		}
+		return $total;	
 	}
 
 

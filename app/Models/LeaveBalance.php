@@ -21,4 +21,8 @@ class LeaveBalance extends Model
 		return $this->belongsTo('IhrV2\Models\LeaveType', 'leave_type_id');
 	}	
     
+
+
+
+
 }

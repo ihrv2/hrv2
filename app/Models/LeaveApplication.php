@@ -256,16 +256,16 @@ class LeaveApplication extends Model
 
 		// return message
 		if ($invalid == 1) {
-			$msg = array('message' => 'Selected Date is invalid.', 'label' => 'danger');
+			$msg = array('Selected Date is invalid.', 'danger', 'sv.mod.leave.select');
 		}
 		if ($more == 1) {
-			$msg = array('message' => 'Total selected days is more than entitled leave.', 'label' => 'danger');				
+			$msg = array('Total selected days is more than entitled leave.', 'danger', 'sv.mod.leave.select');				
 		}
 		if ($balance == 2) {
-			$msg = array('message' => 'Entitled Leave currently empty.', 'label' => 'danger');		
+			$msg = array('Entitled Leave currently empty.', 'danger', 'sv.mod.leave.select');
 		}
 		if ($success == 1) {
-			$msg = array('message' => 'Leave successfully added.', 'label' => 'success');			
+			$msg = array('Leave successfully added.', 'success', 'sv.mod.leave.index');
 		}
 
 		// send email notification to regional manager

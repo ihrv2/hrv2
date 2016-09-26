@@ -41,7 +41,7 @@
 						<dt class="col-lg-3">Entitled</dt>
 						<dd class="col-lg-9">{{ $leave_total }}</dd>
 						<dt class="col-lg-3">Taken</dt>
-						<dd class="col-lg-9">0</dd>
+						<dd class="col-lg-9">{{ $leave_taken }}</dd>
 						<dt class="col-lg-3">Balance</dt>
 						<dd class="col-lg-9">{{ $leave_balance }}</dd>						
 					</dl>
