@@ -1089,7 +1089,7 @@
 			var formData = new FormData($("#form-upload")[0]);
 			var photo = $('#photo').val();
 			$.ajax({                
-				url: $('#base_url').val() + '/modules/user/photo/upload',
+				url: $('#base_url').val() + '/mod/user/photo/upload',
 				type: 'POST',
 				data: formData,
 				processData: false,
@@ -1126,7 +1126,7 @@
 					$.ajax({
 						type: 'POST',
 						data: {id: id, _token: $('#token').attr('alt')},
-						url: $('#base_url').val() + '/modules/user/photo/remove',
+						url: $('#base_url').val() + '/mod/user/photo/remove',
 						cache: false,
 						success: function(response, status, jqXHR){	 	
 							if (response['msg']['status'] == 1) {

@@ -22,19 +22,13 @@
 						<dt class="col-lg-3">Date Apply</dt>
 						<dd class="col-lg-9">{{ date('d/m/Y') }}</dd>
 						<dt class="col-lg-3">Name</dt>
-						<dd class="col-lg-9">
-							{{ Auth::user()->name }}
-						</dd>
+						<dd class="col-lg-9">{{ Auth::user()->name }}</dd>
 						<dt class="col-lg-3">Position</dt>
-						<dd class="col-lg-9">{{ $job->PositionName->name }}
-						</dd>
+						<dd class="col-lg-9">{{ $job['PositionName']['name'] }}</dd>
 						<dt class="col-lg-3">Site Name</dt>
-						<dd class="col-lg-9">{{ $site->id.' - '.$site->name }}
-						</dd>
+						<dd class="col-lg-9">{{ \Auth::user()->sitecode }}</dd>					
 						<dt class="col-lg-3">Reporting Officer</dt>
-						<dd class="col-lg-9">
-							-
-						</dd>
+						<dd class="col-lg-9">{{ $rm['RegionName']['RegionManager']['name'] }}</dd>
 					</dl>
 				</div>
 				<br>
@@ -45,11 +39,11 @@
 						<dt class="col-lg-3">Leave Name</dt>
 						<dd class="col-lg-9">{{ $leave_type->name.' ('.$leave_type->code.')' }}</dd>
 						<dt class="col-lg-3">Entitled</dt>
-						<dd class="col-lg-9">-</dd>
+						<dd class="col-lg-9">{{ $leave_total }}</dd>
 						<dt class="col-lg-3">Taken</dt>
 						<dd class="col-lg-9">0</dd>
 						<dt class="col-lg-3">Balance</dt>
-						<dd class="col-lg-9">-</dd>						
+						<dd class="col-lg-9">{{ $leave_balance }}</dd>						
 					</dl>
 				</div>
 
@@ -112,7 +106,7 @@
 
 
 
-
+					@if ($to != 1)
 					<div class="form-group">
 						@if ($errors->has('date_to'))
 							<p class="col-lg-12 text-danger">{{ $errors->first('date_to') }}</p>
@@ -127,6 +121,7 @@
 							</div>	
 						</div>
 					</div>
+					@endif
 
 
 

@@ -118,6 +118,14 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'UserController@showUserView',
 	)); 	
 
+	// user photo
+	Route::post('mod/user/photo/upload', array(
+		'uses'   => 'UserController@updateUserPhoto',
+	)); 	
+	Route::post('mod/user/photo/remove', array(
+		'uses'   => 'UserController@destroyUserPhoto',
+	)); 
+
 	// user contract
 	// -------------
 	Route::get('mod/user/contract/create/{uid}/{token}', array(

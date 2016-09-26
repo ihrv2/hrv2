@@ -6,19 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use IhrV2\Repositories\LeaveRepository;
 
-
 class UserContract extends Model
 {
-    //
-
- //    private $leave_repo;
-	// public function __construct(\IhrV2\Repositories\LeaveRepository $LeaveRepo)
-	// {
-	// 	$this->leave_repo = $LeaveRepo;
-	// }
+   
 
 	protected $table = 'user_contracts';
-
 
 
 
@@ -43,8 +35,8 @@ class UserContract extends Model
     }
 
 
-
-	public function user_contract_create($data, $id) {
+    // new contract
+	public function contract_create($data, $id) {
 		$invalid = 0;
 		// convert date
 		$from = Carbon::createFromFormat('d/m/Y', $data['date_from'])->format('Y-m-d'); // "YYYY-MM-DD"
@@ -57,7 +49,8 @@ class UserContract extends Model
 			$update = \IhrV2\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->update(array('status' => 2));
 
 			// get total al
-			$total_al = LeaveRepository::getTotalAL($from, $to);
+			$leave_repo = new LeaveRepository; // call leave repository
+			$total_al = $leave_repo->getTotalAL($from, $to);
 
 			$this->user_id = $id;			
 			$this->date_from = $from;
@@ -84,8 +77,8 @@ class UserContract extends Model
 
 
 
-
-	public function user_contract_update($data) {	
+	// update contract
+	public function contract_update($data) {	
 	
 	}	
 

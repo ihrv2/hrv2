@@ -20,12 +20,31 @@ class UserRepository {
 
 
 
+	// region manager name
+	public function getRegionManager($sitecode) {
+		$x = \IhrV2\Models\Site::select('id', 'region_id')
+		->where('id', $sitecode)
+		->with(array('RegionName' => function($h) { 
+			$h->select('id', 'name', 'report_to');
+			$h->with('RegionManager');
+		}))
+		->first();
+		return $x;
+	}
+
+
+
 
 	// user contract
 	public function getUserContractByID($id)
 	{
 		return \IhrV2\Models\UserContract::find($id);
 	}
+
+	public function getUserContractByUserIDStatus($user_id)
+	{
+		return \IhrV2\Models\UserContract::where('user_id', $user_id)->where('status', 1)->first();
+	}	
 
 	public function getUserContractByToken()
 	{
@@ -48,9 +67,6 @@ class UserRepository {
 
 
 
-
-
-
 	// user job
 	public function getUserJobWithUser($id, $uid, $token)
 	{
@@ -64,6 +80,15 @@ class UserRepository {
 		->firstOrFail();	
 		return $query;	
 	}
+
+
+
+	public function getUserJobByID($id)
+	{
+		return \IhrV2\Models\UserJob::where('user_id', $id)->where('status', 1)->firstOrFail();
+	}
+
+
 
 
 

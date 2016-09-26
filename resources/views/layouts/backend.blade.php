@@ -27,16 +27,16 @@
                  <span class="name">{{ Auth::user()->name }}</span>
               </div>
               <div class="details">
-                 Position: Test
+                 Position: {{ \IhrV2\Helpers\UserHelper::UserJobInfo(Auth::user()->id)['PositionName']['name'] }}
 
                  <!-- site supervisor -->
                  @if (Auth::user()->group_id == 3)
                     <br>Sitecode: {{ Auth::user()->sitecode }}
-                    <br>Reporting Officer: 
+                    <br>Reporting Officer: {{ \IhrV2\Helpers\UserHelper::getRegionManager(Auth::user()->sitecode)['RegionName']['RegionManager']['name'] }}
                  
                  <!-- regional manager -->
                  @elseif (Auth::user()->group_id == 4)
-                    <br>Region: Test2
+                    <br>Region: {{ Helper::RegionName(Session::get('user_job')['region_id']) }}
                  @endif
 
 

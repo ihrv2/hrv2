@@ -216,7 +216,7 @@ class UserController extends Controller
 			'child-a' => route('mod.user.index'),						
 			'icon' => 'lock',
 			'title' => 'Change Password'
-			);		
+		);		
     	$check = $this->user_repo->getUserByIDToken($id, $token);				
 		return View('modules.user.password', $data);
 	}
@@ -293,7 +293,7 @@ class UserController extends Controller
 
     public function storeUserContract(Requests\UserContractCreate $request, $id, $token, \IhrV2\Models\UserContract $contract)
     {
-    	$save = $contract->user_contract_create($request->all(), $id);	
+    	$save = $contract->contract_create($request->all(), $id);	
         return redirect()->route($save[2], array($id, $token))->with([
             'message' => $save[0], 
             'label' => 'alert alert-'.$save[1].' alert-dismissible'
@@ -328,7 +328,7 @@ class UserController extends Controller
     public function updateUserContract(Requests\UserUpdateContract $request, $id, $uid, $token)
     {
     	$contract = \IhrV2\Models\UserContract::find($id);
-    	$save = $contract->UserContractEdit($request->all(), $id);
+    	$save = $contract->contract_update($request->all(), $id);
 		if ($save) { 
         	$msg = array($save['message'], $save['label']);
         }
@@ -346,6 +346,43 @@ class UserController extends Controller
     	
     }
 
+
+
+
+    // user photo
+    public function updateUserPhoto(Request $request)
+    {
+		$validator = Validator::make();		
+		if ($validator->fails()) {
+			$array['msg'] = array('status' => 0, 'error' => $validator->messages()->all());			
+		}
+		else {					
+			$id = Input::get('id');		
+			if (old('photo')) {			
+				    	
+			}	
+			else {
+				$array['msg'] = array('status' => 0, 'id' => $id, 'filename' => 0);
+			}
+		}
+        return response()->json($data);	
+    }
+
+
+
+
+    public function destroyUserPhoto(Request $request)
+    {
+		// inactive current photo, status set to 0
+		$update = \IhrV2\Models\UserPhoto::where('user_id', $request->id)->where('status', 1)->update(array('status' => 0));
+		if ($update) {
+			$data['msg'] = array('message' => 'Ok', 'status' => 1);
+		}
+		else {
+			$data['msg'] = array('message' => 'Delete fail', 'status' => 0);
+		}
+        return response()->json($data);           
+    }
 
 
 

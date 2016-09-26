@@ -4,31 +4,25 @@ namespace IhrV2\Helpers;
 
 class UserHelper {
 
-
+	// user for backend
 
 
 	// position name
-	public static function PositionName($x) {
-		$q = \IhrV2\Models\Position::find($x);
-		if (!empty($q)) {
-			$z = $q->name;
-		}
-		else {
-			$z = '-';
-		}
-		return $z;
+	public static function UserJobInfo($x) {
+		return \IhrV2\Models\UserJob::where('user_id', $x)->first();
 	}
 
 
-	public static function GroupName($x) {
-		$q = Group::find($x);
-		if (!empty($q)) {
-			$z = $q->name;
-		}
-		else {
-			$z = '-';
-		}
-		return $z;
+	// region manager name
+	public static function getRegionManager($sitecode) {
+		$x = \IhrV2\Models\Site::select('id', 'region_id')
+		->where('id', $sitecode)
+		->with(array('RegionName' => function($h) { 
+			$h->select('id', 'name', 'report_to');
+			$h->with('RegionManager');
+		}))
+		->first();
+		return $x;
 	}
 
 
