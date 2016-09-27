@@ -12,7 +12,11 @@ class LeaveBalance extends Model
 
 
     protected $fillable = [
-    	''
+    	'user_id',
+    	'leave_type_id',
+    	'balance',
+    	'contract_id',
+    	'year'
     ];
 
 

@@ -55,13 +55,11 @@
 
 
 
-
-
-
-
 {{ Form::open(array('class' => 'form-horizontal', 'role' => 'form', 'files' => true)) }}
 <div class="row">
 	<div class="col-lg-12">
+
+
 
 			
 		<div class="panel panel-default">
@@ -120,7 +118,7 @@
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>	
 						</div>
-					</div>
+					</div>							
 					@endif
 
 
@@ -148,10 +146,9 @@
 							<p class="col-lg-12 text-danger">{{ $errors->first('leave_file') }}</p>
 						@endif  					
 						<label class="col-lg-3 control-label" for="textArea">Attachment</label>
-						<div class="col-lg-4">
+						<div class="col-lg-9">
 							<label>
 								{{ Form::file('leave_file') }}
-								<label>file of type: jpeg/jpg/bmp/png/pdf/doc/docx.</label>
 							</label>
 						</div>
 					</div>
@@ -159,10 +156,11 @@
 
 
 
-
-					<p><strong>Remarks: </strong>
-					<br>1) Please ensure the correct info before submittng this leave. Once successfully it will send the notification to Reporting Officer.
-					<br>2) End Date for Haji/Umrah/Maternity/Paternity/Marriage is calculate automatically.
+					<br>
+					<p><strong>Remarks: </strong>					
+					<br>1) Please ensure the correct info before submittng this leave. Reporting Officer (RM) will receive the notification.
+					<br>2) End Date for Haji/Umrah/Maternity/Paternity/Marriage is calculate automatically. Please ensure it did not on public holiday date.
+					<br>3) File attachment must be in following types .jpeg/.jpg/.png/.bmp/.gif/.svg and below 2MB.
 					</p>
 				</fieldset>
 			</div>
@@ -170,21 +168,35 @@
 
 
 
-			<div class="panel-footer">   
-				{{ Form::hidden('leave_type_id', Session::get('leave_type_id')) }} 		
-				{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-primary']) }} 
+			<div class="panel-footer">  
+
+
+
+
+				<div class="row">
+					<div class="col-md-6"> 
+						<a href="{{ route('sv.leave.select') }}" class="btn btn-danger" title="Back"><i class="icon-arrow-left"></i>&nbsp;Back</a>
+					</div>
+					<div class="col-md-6 text-right">
+						{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-primary']) }} 
+					</div>
+				</div>
+
+
 			</div>
 		</div>
 
 
 
-		
-
- 
 	</div>
 </div>
 
+
+
+{{ Form::hidden('leave_type_id', Session::get('leave_type_id')) }} 		
+{{ Form::hidden('report_to', $rm['RegionName']['RegionManager']['id']) }} 
 {{ Form::close() }} 
+
 
 
 

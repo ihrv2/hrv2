@@ -199,81 +199,81 @@ Route::group(['middleware' => ['auth', 'default']], function()
 Route::group(['middleware' => ['auth', 'sv']], function()
 {	
 	// leave
-	Route::get('mod/leave', array(
-		'as'    => 'sv.mod.leave.index',
+	Route::get('leave', array(
+		'as'    => 'sv.leave.index',
 		'uses'   => 'LeaveController@showLeaveIndex',
 	)); 			
-	Route::post('mod/leave', array(
+	Route::post('leave', array(
 		'uses'   => 'LeaveController@postLeaveIndex',
 	));       
 
 	// view leave      
-	Route::get('mod/leave/view/{id}', array(
-		'as'    => 'sv.mod.leave.view',
+	Route::get('leave/view/{id}', array(
+		'as'    => 'sv.leave.view',
 		'uses'   => 'LeaveController@showLeaveView',
 	));  
-	Route::post('mod/leave/view/{id}', array(
+	Route::post('leave/view/{id}', array(
 		'uses'   => 'LeaveController@postLeaveView',
 	)); 
 
 	// edit leave 
-	Route::get('mod/leave/edit/{id}', array(
-		'as'    => 'sv.mod.leave.edit',
+	Route::get('leave/edit/{id}', array(
+		'as'    => 'sv.leave.edit',
 		'uses'   => 'LeaveController@showLeaveEdit',
 	));
-	Route::post('mod/leave/edit/{id}', array(
+	Route::post('leave/edit/{id}', array(
 		'uses'   => 'LeaveController@postLeaveEdit',
 	));
 
 	// leave summary
-	Route::get('mod/leave/summary', array(
-		'as'    => 'sv.mod.leave.summary',
+	Route::get('leave/summary', array(
+		'as'    => 'sv.leave.summary',
 		'uses'   => 'LeaveController@showLeaveSummary',
 	)); 
 
 	// add leave         
-	Route::get('mod/leave/select', array(
-		'as'    => 'sv.mod.leave.select',
+	Route::get('leave/select', array(
+		'as'    => 'sv.leave.select',
 		'uses'   => 'LeaveController@showLeaveSelect',
 	));   
-	Route::post('mod/leave/select', array(
+	Route::post('leave/select', array(
 		'uses'   => 'LeaveController@postLeaveSelect',
 	));    
-	Route::get('mod/leave/create', array(
-		'as'    => 'sv.mod.leave.create',
+	Route::get('leave/create', array(
+		'as'    => 'sv.leave.create',
 		'uses'   => 'LeaveController@showLeaveCreate',
 	));   
-	Route::post('mod/leave/create', array(
+	Route::post('leave/create', array(
 		'uses'   => 'LeaveController@storeLeaveCreate',
 	));    
 	
 	// replacement leave          
-	Route::get('mod/leave/replacement', array(
-		'as'    => 'sv.mod.leave.replacement.index',
+	Route::get('leave/replacement', array(
+		'as'    => 'sv.leave.replacement.index',
 		'uses'   => 'LeaveController@showLeaveRepIndex',
 	));          
-	Route::post('mod/leave/replacement', array(
+	Route::post('leave/replacement', array(
 		'uses'   => 'LeaveController@postLeaveRepIndex',
 	));      
-	Route::get('mod/leave/replacement/create', array(
-		'as'    => 'sv.mod.leave.replacement.create',
+	Route::get('leave/replacement/create', array(
+		'as'    => 'sv.leave.replacement.create',
 		'uses'   => 'LeaveController@showLeaveRepCreate',
 	));   
-	Route::post('mod/leave/replacement/create', array(
+	Route::post('leave/replacement/create', array(
 		'uses'   => 'LeaveController@storeLeaveRepCreate',
 	));               
-	Route::get('mod/leave/replacement/view/{id}', array(
-		'as'    => 'sv.mod.leave.replacement.view',
+	Route::get('leave/replacement/view/{id}', array(
+		'as'    => 'sv.leave.replacement.view',
 		'uses'   => 'LeaveController@showLeaveRepView',
 	));   
-	Route::post('mod/leave/replacement/view/{id}', array(
+	Route::post('leave/replacement/view/{id}', array(
 		'uses'   => 'LeaveController@postLeaveRepView',
 	));  
-	Route::get('mod/leave/replacement/edit/{id}', array(
-		'as'    => 'sv.mod.leave.replacement.edit',
+	Route::get('leave/replacement/edit/{id}', array(
+		'as'    => 'sv.leave.replacement.edit',
 		'uses'   => 'LeaveController@showLeaveRepEdit',
 	));   
-	Route::post('mod/leave/replacement/edit/{id}', array(
+	Route::post('leave/replacement/edit/{id}', array(
 		'uses'   => 'LeaveController@postLeaveRepEdit',
 	)); 
 });

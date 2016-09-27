@@ -82,7 +82,7 @@ class LeaveController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         else {
-        	return redirect()->route('sv.mod.leave.create')->withInput();
+        	return redirect()->route('sv.leave.create')->withInput();
         }
     }
 
@@ -104,13 +104,13 @@ class LeaveController extends Controller
 			$user_id = \Auth::id();			
 			$leave_type_id = \Session::get('leave_type_id');
 
-			$data['leave_type'] = \IhrV2\Models\LeaveType::find(\Session::get('leave_type_id'));			
-			$data['job'] = $this->user_repo->getUserJobByID(\Auth::user()->id);					
+			$data['leave_type'] = \IhrV2\Models\LeaveType::find($leave_type_id);			
+			$data['job'] = $this->user_repo->getUserJobByID($user_id);					
 			$data['rm'] = $this->user_repo->getRegionManager(\Auth::user()->sitecode);
 
 			// check if reporting officer is not set
 			if (!$data['rm']['RegionName']['RegionManager']) {
-				return redirect()->route('sv.mod.leave.select')
+				return redirect()->route('sv.leave.select')
 					->with('message', 'Reporting Officer is not set.')
 					->with('label', 'alert alert-danger alert-dismissible');				
 			}
@@ -135,20 +135,25 @@ class LeaveController extends Controller
 			if ($leave_type_id == 1) { // annual leave
 				$data['leave_total'] = $data['contract']->total_al;
 			}			
-			else if ($leave_type_id == 12) { // unpaid leave
-				$data['leave_total'] = '-';
-			}
 			else { // others leave
 				$data['leave_total'] = $data['leave_type']->total;				
 			}
 
 			// check leave taken
-			$data['leave_taken'] = $this->leave_repo->getTakenLeave($user_id, $leave_type_id, $data['contract']->date_from, $data['contract']->date_to);
+			$data['leave_taken'] = $this->leave_repo->getLeaveTaken($user_id, $leave_type_id, $data['contract']->date_from, $data['contract']->date_to);
 
-			// compare leave entitled and leave taken
-			$data['no_bal'] = 0;
+			// total leave is 0
+			if ($data['leave_total'] < 1) {
+				return redirect()->route('sv.leave.select')
+					->with('message', 'Entitled Leave is empty. Please contact HR.')
+					->with('label', 'alert alert-danger alert-dismissible');				
+			}
+
+			// leave entitled and leave taken is same 		
 			if ($data['leave_total'] == $data['leave_taken']) {
-				$data['no_bal'] = 1;
+				return redirect()->route('sv.leave.select')
+					->with('message', 'Balance is empty. Please contact HR.')
+					->with('label', 'alert alert-danger alert-dismissible');				
 			}
 
 			// check leave balance (all leave types)
@@ -156,11 +161,16 @@ class LeaveController extends Controller
 				->where('leave_type_id', $leave_type_id)
 				->where('contract_id', $data['contract']->id)
 				->first();
-			// have record
 			if ($balance) {
+
+				// check balance on the fly and leave_balances
+				if ($balance->balance != ($data['leave_total'] - $data['leave_taken'])) {
+					return redirect()->route('sv.leave.select')
+						->with('message', 'Leave Balance is incorrect. Please contact HR.')
+						->with('label', 'alert alert-danger alert-dismissible');						
+				}
 				$data['leave_balance'] = $balance->balance;
 			}
-			// no record
 			else {
 				if ($leave_type_id == 1) { // annual leave taken from total_al
 					$data['leave_balance'] = $data['contract']->total_al;
@@ -172,7 +182,7 @@ class LeaveController extends Controller
 			return View('leave.create', $data);
 		}
 		else {
-			return redirect()->route('sv.mod.leave.select');
+			return redirect()->route('sv.leave.select');
 		}	    	
     }
 
@@ -180,12 +190,12 @@ class LeaveController extends Controller
 
 
 
-    public function storeLeaveCreate(Requests\LeaveCreate $request, \IhrV2\Models\LeaveApplication $leave_app)
+    public function storeLeaveCreate(Requests\LeaveApplicationCreate $request, \IhrV2\Models\LeaveApplication $leave_app)
     {
 		$save = $leave_app->leave_create($request->all());	
-        return redirect()->route($msg[2])->with([
-            'message' => $msg[0], 
-            'label' => 'alert alert-'.$msg[1].' alert-dismissible'
+        return redirect()->route($save[2])->with([
+            'message' => $save[0], 
+            'label' => 'alert alert-'.$save[1].' alert-dismissible'
         ]);	
     }
 
@@ -240,7 +250,7 @@ class LeaveController extends Controller
 		$data['header'] = array(
 			'parent' => 'Leave Application', 
 			'child' => 'All Replacement Leave',
-			'child-a' => route('sv.mod.leave.replacement.index'),			
+			'child-a' => route('sv.leave.replacement.index'),			
 			'icon' => 'note',
 			'title' => 'Add Replacement Leave'
 		);			

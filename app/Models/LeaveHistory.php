@@ -12,7 +12,12 @@ class LeaveHistory extends Model
 
 
     protected $fillable = [
-    	''
+    	'user_id',
+    	'leave_id',
+    	'action_date',
+    	'action_remark',
+    	'status',
+    	'flag'
     ];
 
 

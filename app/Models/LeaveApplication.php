@@ -92,82 +92,108 @@ class LeaveApplication extends Model
 	public function leave_create($data) 
 	{
 		$msg = array();
-		$invalid = 0;
-		$status = 0;
-		$balance = 0;
-		$more = 0;
-		$success = 0;
-		$email = 0;
+		$invalid = 0; // 1 = date range is incorrect
+		$balance = 0; // 1 = no record | 2 = no balance or equal entitled | 3 = have balance
+		$more = 0; // 1 = total apply leave more than entitled
+		$success = 0; // 1 = success insert new leave
+		$empty = 0; // 1 = entitled is 0
+		$tally = 0; // 1 = total balance on db and (entitled - taken) is same
 
 		$user_id = \Auth::id();
+		$leave_type_id = $data['leave_type_id'];
 		$leave_repo = new LeaveRepository;
+		$user_repo = new UserRepository;
+
+		$leave_type = $leave_repo->getLeaveTypeByID($leave_type_id);
+		$contract = $user_repo->getUserContractByUserIDStatus($user_id);
 
 		// convert date
 		$from = Carbon::createFromFormat('d/m/Y', $data['date_from'])->format('Y-m-d'); // "YYYY-MM-DD"
 
 		// check date to
-		if (!empty($data['date_to'])) {
-			$to = Carbon::createFromFormat('d/m/Y', $data['date_to'])->format('Y-m-d');
+		if (empty($data['date_to'])) {
+			$to = Carbon::createFromFormat('d/m/Y', $data['date_from'])->addDays($leave_type->total)->subDay(1)->toDateTimeString();
 		}
 		else {
-			// get date to automatically
-			$to = Carbon::createFromFormat('d/m/Y', $data['date_from'])->addDays(2)->toDateTimeString();
+			$to = Carbon::createFromFormat('d/m/Y', $data['date_to'])->format('Y-m-d');
 		}
 
 		// check if date from is less than or equal date to
-		if (Carbon::parse($from)->lte(Carbon::parse($to))) { // true
+		if (Carbon::parse($from)->lte(Carbon::parse($to))) {
 
 			// get date range
 			$duration = $leave_repo->DateRange($from, $to);	
 
-			// check if selected date is more than entitled leave 
-			if (!in_array($data['leave_type_id'], array(1, 6, 12))) { // exclude annual/replacement/unpaid
-				$type = \IhrV2\Models\LeaveType::where('id', $data['leave_type_id'])->first(); // get total from leave_types
-				if (count($duration) > $type->total) {
+			// check entitled leave 
+			if ($leave_type_id == 1) {
+				$entitled = $contract->total_al;
+				if (count($duration) > $contract->total_al) {
 					$more = 1; // skip insert leave
 				}
 			}
+			else {
+				$entitled = $leave_type->total;
+				if (count($duration) > $leave_type->total) {
+					$more = 1; 
+				}
+			}
 
-			if ($more != 1) {
-				// check record on leave_balances
-				$q = \IhrV2\Models\LeaveBalance::where('user_id', $user_id)
-					->where('leave_type_id', $data['leave_type_id'])
-					->where('contract_id', 1)
-					->first();		
-				if ($q) {	
+			// annual leave is 0 when contract date is short / total at leave type is 0
+			if ($entitled == 0) { 
+				$empty = 1;
+			}
+
+			// selected date is valid and have entitled
+			if ($more != 1 && $empty != 1) {				
+				// check leave taken
+				$taken = $leave_repo->getLeaveTaken($user_id, $leave_type_id, $contract->date_from, $contract->date_to);
+				
+				// taken and entitled same
+				if ($taken == $entitled) { 
+					$balance = 2;
+				}
+
+				// calculate balance 
+				$bal = $entitled - $taken;
+
+				// check balance at leave_balances
+				$check_bal = $leave_repo->getLeaveBalance($user_id, $leave_type_id, $contract->id);	
+				if ($check_bal) {	
 					// no balance leave
-					if ($q->balance == 0) {
-						$balance = 2; // skip insert leave
+					if ($check_bal->balance == 0) {
+						$balance = 2;
 					}
-					// balance still have value
+					// have balance 
 					else {
-						$status = 1;
-						$balance = 0;
+						$balance = 3;
+						if ($check_bal->balance == $bal) {
+							$tally = 1;
+						}
 					}
 				}
 				// no record on leave_balances
 				else {
-					$status = 1;
 					$balance = 1;
 				}
 			}
 
-			if ($status == 1 && $more != 1) {
+			// balance is tally or no record on leave_balances
+			if ($tally == 1 || $balance == 1) {
 				// insert leave_applications
 				$this->user_id = $user_id;
-				$this->leave_type_id = $data['leave_type_id'];
+				$this->leave_type_id = $leave_type_id;
 				$this->date_apply = date('Y-m-d');
 				$this->report_to = $data['report_to'];
 				$this->date_from = $from;
 				$this->date_to = $to;			
-				if (!empty($data['is_half_day'])) {
+				if (!empty($data['is_half_day']) && count($duration) == 1) {
 					$this->is_half_day = $data['is_half_day'];
 				}
 				$this->desc = $data['desc'];
 				$this->sitecode = \Auth::user()->sitecode;
-				$this->active = 1; // leave active
+				$this->active = 1;
 				$this->save();
-
+				$leave_id = $this->id;
 
 				// check public holiday date
 				$s = $leave_repo->getUserStateID(\Auth::user()->sitecode);
@@ -185,7 +211,6 @@ class LeaveApplication extends Model
 				}
 
 				// insert leave_dates
-				$d = array();		
 				$day = 0;	
 				foreach ($duration as $date) {
 					if (in_array($date, $s_p)) {
@@ -199,54 +224,62 @@ class LeaveApplication extends Model
 						'user_id' => $user_id,			
 						'leave_id' => $leave_id,
 						'leave_date' => $date,
-						'status' => $status,
-						'created_at' => date('Y-m-d H:i:s'),
-						'updated_at' => date('Y-m-d H:i:s'),
+						'status' => $status
 					);
-					\IhrV2\Models\LeaveDate::insert($d);
+					$ld = new \IhrV2\Models\LeaveDate($d);
+					$ld->save();					
 				}
 				
 				// insert leave_histories
-				$h = new \IhrV2\Models\LeaveHistory();
-				$h->user_id = $user_id;
-				$h->leave_id = $leave_id;
-				$h->action_date = date('Y-m-d');
-				$h->action_remark = '';
-				$h->status = 1; // pending
-				$h->flag = 1; // active 1st
-				$h->save();
+                $dh = array(
+                    'user_id' => $user_id,
+                    'leave_id' => $leave_id,
+                    'action_date' => date('Y-m-d'),
+                    'action_remark' => '',
+                    'status' => 1, // pending
+                    'flag' => 1, // active 1st
+                );				
+				$lh = new \IhrV2\Models\LeaveHistory($dh);
+				$lh->save();
+	
+				// insert leave_balances
+				if ($balance == 1) {
+					$db = array(
+						'user_id' => $user_id,
+						'leave_type_id' => $leave_type_id,
+						'balance' => $entitled,
+						'contract_id' => $contract->id,
+						'year' => date('Y')
+					);
+					$lb = new \IhrV2\Models\LeaveBalance($db); 
+					$lb->save();
+				}
 
 				// check if have attachment
-				if ($data['leave_file']) {			
+				if (!empty($data['leave_file'])) {		
+					$file = $data['leave_file'];
+					$path = public_path().'/assets/files/leave/';
+					$filename = date('YmdHis').'_'.\Auth::user()->sitecode.'_'.str_random(20);
+					$fileext = $file->getClientOriginalExtension();
+					$filesize = $file->getSize();						
+					$filenew = $filename.'.'.$fileext;
+					$upload = $file->move($path, $filenew);
 
-				}	
+					// insert leave_attachments
+					$da = array(
+						'user_id' => $user_id,
+						'leave_id' => $leave_id,
+						'filename' => $filename,
+						'ext' => $fileext,
+						'size' => $filesize,
+						'status' => 1
+					);
+					$la = new \IhrV2\Models\LeaveAttachment($da);
+					$la->save();
+				}
+
+				// return success
 				$success = 1;	
-			}
-
-			if ($balance == 1 && $more != 1) {
-				// insert leave_balances									
-				if ($data['leave_type_id'] == 1) { // annual lave
-					
-					// get total entitled days from contract date
-					$total = $leave_repo->getTotalAL($data['contract_date_from'], $data['contract_date_to']); 					
-				}
-				else {
-					// get total entitled days from leave_types
-					$t = \IhrV2\Models\LeaveType::where('id', $data['leave_type_id'])->first(); 
-					$total = $t->total;
-				}
-
-				// get contract id
-				$c = \IhrV2\Models\UserContract::where('user_id', $user_id)->where('status', 1)->first();
-
-				$b = new \IhrV2\Models\LeaveBalance();
-				$b->user_id = $user_id;
-				$b->leave_type_id = $data['leave_type_id'];
-				$b->balance = $total;
-				$b->contract_id = 0;
-				$b->year = date('Y');
-				$b->save();
-				$success = 1;				
 			}
 		} 
 		else {
@@ -256,27 +289,27 @@ class LeaveApplication extends Model
 
 		// return message
 		if ($invalid == 1) {
-			$msg = array('Selected Date is invalid.', 'danger', 'sv.mod.leave.select');
+			$msg = array('Selected Date is invalid.', 'danger', 'sv.leave.select');
 		}
 		if ($more == 1) {
-			$msg = array('Total selected days is more than entitled leave.', 'danger', 'sv.mod.leave.select');				
+			$msg = array('Total selected days is more than entitled leave.', 'danger', 'sv.leave.select');				
 		}
 		if ($balance == 2) {
-			$msg = array('Entitled Leave currently empty.', 'danger', 'sv.mod.leave.select');
+			$msg = array('Entitled Leave currently empty.', 'danger', 'sv.leave.select');
 		}
-		if ($success == 1) {
-			$msg = array('Leave successfully added.', 'success', 'sv.mod.leave.index');
+		if ($success == 1) {			
+			// get region manager
+			$rm = \IhrV2\User::find($data['report_to']);
+			if ($rm) {
+				// send email notification
+			}
+			$msg = array('Leave successfully added.', 'success', 'sv.leave.index');
 		}
 
-		// send email notification to regional manager
-		if ($email == 1) {
-			$user_repo = new UserRepository;
-			$rm = $user_repo->getRegionManager(\Auth::user()->sitecode);
-			if ($rm) {
-				// $name = $rm['region_name']['region_manager']['name'];
-				// $email = $rm['region_name']['region_manager']['work_email'];
-			}
-		}
+		// future note:
+		// a) how to cater if leave for hj/um/pa/ma/mr including one or more public holiday date. total is not same
+		// b) what type of leave to required the attachment
+
 		return $msg;
 	}	
 

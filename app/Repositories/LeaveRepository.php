@@ -27,7 +27,7 @@ class LeaveRepository {
 
 
 
-
+	// get this when to create / update user_contracts row
 	public function getTotalAL($from_date, $to_date) {
 		$leap = 0;
 		$from = Carbon::parse($from_date); // 2016-01-01
@@ -87,7 +87,7 @@ class LeaveRepository {
 
 
 	// get taken leave (date is within the current contract)
-	public function getTakenLeave($uid, $leave_type_id, $date1, $date2)
+	public function getLeaveTaken($uid, $leave_type_id, $date1, $date2)
 	{
 		$filters = array($date1, $date2);
 		$total = 0;				
@@ -109,6 +109,31 @@ class LeaveRepository {
 
 
 
+
+	public function getLeaveEntitled($user_id, $leave_type_id)
+	{
+		if ($leave_type_id == 1) {
+			$query = \IhrV2\Models\UserContract::where('user_id', $user_id)->where('status', 1)->first();
+			$total = $query->total_al;
+		}
+		else {
+			$query = \IhrV2\Models\LeaveType::find($leave_type_id);
+			$total = $query->total;
+		}
+		return $total;
+	}
+
+
+
+
+	public function getLeaveBalance($user_id, $leave_type_id, $contract_id)
+	{
+		$query = \IhrV2\Models\LeaveBalance::where('user_id', $user_id)
+			->where('leave_type_id', $leave_type_id)
+			->where('contract_id', $contract_id)
+			->first();
+		return $query;
+	}
 
 
 
@@ -178,12 +203,11 @@ class LeaveRepository {
 	// leave type
 	public function getLeaveTypeList()
 	{
-
 	}
 
-	public function getLeaveTypeByID()
+	public function getLeaveTypeByID($leave_type_id)
 	{
-
+		return \IhrV2\Models\LeaveType::find($leave_type_id);
 	}
 
 	public function getLeaveTypeAll()
