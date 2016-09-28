@@ -33,6 +33,35 @@ class LeaveController extends Controller
 			'icon' => 'grid',
 			'title' => 'View Request Leave'
 		);		
+		$year = date('Y'); 
+		$filters = [
+			'flag' => 1,		
+		];
+		$i = \IhrV2\Models\LeaveApplication::whereHas('LeaveLatestHistory', function($q) use ($filters) {
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $q->where($column, $key);
+		    }
+		})
+		->with(array('LeaveLatestHistory' => function($h) { 
+			$h->with('LeaveStatusName');
+			$h->where('flag', 1);
+		}))
+		->with('LeaveTypeName')
+		->with('LeaveDate')
+		->with('LeaveDateAll')
+    	->where('user_id', \Auth::id())
+    	->where('leave_type_id', '!=', 6)
+    	->whereYear('date_from', '=', $year)
+    	->whereYear('date_to', '=', $year)	
+		->orderBy('id', 'DESC')
+		->get();
+		$data['leaves'] = $i;
+		$data['types'] = \IhrV2\Models\LeaveType::where('id', '!=', 6)->get();
+		$data['leave_status'] = $this->leave_repo->getLeaveStatusList();
+		$data['sessions'] = array(
+			'year' => $year,
+			'leave_status' => null
+		);
 		return View('leave.index', $data);
     }
 

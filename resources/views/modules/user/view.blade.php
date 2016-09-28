@@ -554,22 +554,22 @@
 													</tr>
 												</thead>
 												@if (count($detail->UserFamily) > 0)
-												<?php $no = 0; ?>											
-												@foreach ($detail->UserFamily as $family)
-												<?php $no++; ?>												
-												<tr>
-													<td>{{ $no }}</td>
-													<td>{{ $family->name }}</td>
-													<td>{{ $family->age }}</td>
-													<td>{{ $family->occupation }}</td>
-													<td>{{ $family->school_office }}</td>
-													<td>{{ $family->relation }}</td>
-													<td class="text-right"><a href="{{ route('mod.user.family.edit', array($family->id, $detail->id, $detail->api_token)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
-												</tr>
+													<?php $no = 0; ?>											
+													@foreach ($detail->UserFamily as $family)
+													<?php $no++; ?>												
+													<tr>
+														<td>{{ $no }}</td>
+														<td>{{ $family->name }}</td>
+														<td>{{ $family->age }}</td>
+														<td>{{ $family->occupation }}</td>
+														<td>{{ $family->school_office }}</td>
+														<td>{{ $family->relation }}</td>
+														<td class="text-right"><a href="{{ route('mod.user.family.edit', array($family->id, $detail->id, $detail->api_token)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+													</tr>
 
-												@endforeach
+													@endforeach
 												@else
-												<tr><td colspan="7">No record</td></tr>
+													<tr><td colspan="7">No record</td></tr>
 												@endif
 
 											</table>	

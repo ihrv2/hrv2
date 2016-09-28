@@ -208,11 +208,11 @@ Route::group(['middleware' => ['auth', 'sv']], function()
 	));       
 
 	// view leave      
-	Route::get('leave/view/{id}', array(
+	Route::get('leave/view/{id}/{uid}/{token}', array(
 		'as'    => 'sv.leave.view',
 		'uses'   => 'LeaveController@showLeaveView',
 	));  
-	Route::post('leave/view/{id}', array(
+	Route::post('leave/view/{id}/{uid}/{token}', array(
 		'uses'   => 'LeaveController@postLeaveView',
 	)); 
 

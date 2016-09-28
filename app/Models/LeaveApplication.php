@@ -59,10 +59,15 @@ class LeaveApplication extends Model
 		return $this->belongsTo('IhrV2\Models\User', 'report_to');
 	}
 
+
+
+
 	// get only latest history
 	public function LeaveLatestHistory() {
 		return $this->hasOne('IhrV2\Models\LeaveHistory', 'leave_id')->where('flag', 1);
 	}
+
+
 
 	public function LeavePending() {
 		return $this->hasOne('IhrV2\Models\LeaveHistory', 'leave_id')->where('flag', 1)->where('status', 1);

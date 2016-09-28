@@ -152,70 +152,12 @@ class SyncController extends Controller
 
                 // icno exist
                 else {
-                    // check if staff id is different
-                    $check_staffid = \IhrV2\User::where('username', trim($i['ID Staff']))->first();
-                    if (empty($check_staffid)) {
-                        $update_username = \IhrV2\User::where('id', $q->id)->update(array('username' => trim($i['ID Staff'])));
-                        $update_prevjob = \IhrV2\Models\UserJob::where('user_id', '=', $q->id)->where('status', '=', 1)->update(array('status' => 2));
 
-                        // insert user_jobs
-                        $d5 = array(
-                            'user_id' => $q->id,
-                            'staff_id' => trim($i['ID Staff']),
-                            'join_date' => $join_date,
-                            'position_id' => ErpHelper::JobTitle(trim($i['Job Title'])),
-                            'phase_id' => trim($i['Phase::PhaseID']),
-                            'notes' => trim($i['Notes']),
-                            'sitecode' => $sitecode,
-                            'status' => 1,
-                        );
-                        $e = new \IhrV2\Models\UserJob($d5);
-                        $e->save();                                              
-                    }
 
-                    // check modified date
-                    $modified = Carbon::parse($i['DateModified'])->format('Y-m-d H:i:s');
-                    if ($q->updated_at != $modified) {
-                        $total++;
 
-                        // update users
-                        $q->name = trim($i['Person Name']);
-                        $q->email = trim($i['Work Email']);
-                        $q->icno = trim($i['NRIC']);
-                        $q->permanent_street_1 = trim($i['Permanent Street 1']);
-                        $q->permanent_street_2 = trim($i['Permanent Street 2']);
-                        $q->permanent_postcode = trim($i['Permanent Postcode']);
-                        $q->permanent_city = trim($i['Permanent City']);
-                        $q->permanent_state = trim($i['Permanent State']);
-                        $q->correspondence_street_1 = trim($i['Correspondence Street 1']);
-                        $q->correspondence_street_2 = trim($i['Correspondence Street 2']);
-                        $q->correspondence_postcode = trim($i['Correspondence Postcode']);
-                        $q->correspondence_city = trim($i['Correspondence City']);
-                        $q->correspondence_state = trim($i['Correspondence State']);
-                        $q->telno1 = trim($i['Phone No1']);
-                        $q->telno2 = trim($i['Phone No2']);
-                        $q->hpno = trim($i['Mobile No']);
-                        $q->faxno = trim($i['Fax No']);
-                        $q->website = trim($i['Website']);
-                        $q->personal_email = trim($i['Personal Email']);
-                        $q->work_email = trim($i['Work Email']);
-                        $q->gender_id = ErpHelper::GenderName($i['Gender']);
-                        $q->marital_id = ErpHelper::MaritialStatus($i['Maritial Status']);                          
-                        $q->dob = Carbon::parse(trim($i['DOB']))->format('Y-m-d');
-                        $q->pob = trim($i['POB']);
-                        $q->nationality_id = ErpHelper::Nationality($i['Nationality']);
-                        $q->race_id = ErpHelper::RaceName($i['Race']);
-                        $q->religion_id = ErpHelper::ReligionName($i['Religion']);                          
-                        $q->sitecode = $sitecode;
-                        $q->itaxno = '';
-                        $q->epfno = trim($i['EPF No']);
-                        $q->socsono = '';
-                        $q->bankname = trim($i['Bank Registered']);
-                        $q->bankno = trim($i['Bank Acc No']);
-                        $q->status = ErpHelper::StatusEmployment(trim($i['StatusEmployment']));
-                        $q->updated_at = $modified;
-                        $q->save();
-                    }
+
+
+
                 }
             }
             // endforeach

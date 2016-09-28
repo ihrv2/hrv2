@@ -184,7 +184,7 @@ class LeaveRepository {
 	// leave status
 	public function getLeaveStatusList()
 	{
-
+		return \IhrV2\Models\LeaveStatus::orderBy('id', 'ASC')->pluck('name', 'id')->prepend('[All Status]', '');
 	}
 
 	public function getLeaveStatusByID()
