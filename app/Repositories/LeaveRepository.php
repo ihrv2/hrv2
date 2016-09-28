@@ -77,6 +77,47 @@ class LeaveRepository {
 
 
 
+
+	public function LeaveCompareDate($from, $to, $half) {
+		$x = Carbon::createFromFormat('Y-m-d', $from);
+		$y = Carbon::createFromFormat('Y-m-d', $to);
+		// if ($x == $y) {
+		if ($x->diff($y)->days < 1) {		
+			if ($half == 1) {
+				$diff = 'Half Day';
+			}
+			else {
+				$diff = '1 Day';
+			}
+		}
+		else {
+			$diff = ($x->diffInDays($y)+1).' Days';
+		}
+		return $diff;
+	}
+
+
+
+	public function LeaveHalfDay($from, $to, $half) {
+		if ($from == $to) {
+			if ($half == 1) {
+				$x = 'Yes';
+			}
+			else {
+				$x = 'No';
+			}
+		}
+		else {
+			$x = '-';
+		}
+		return $x;
+	}
+
+
+
+
+
+
 	public function getUserStateID($sitecode) {
 		$x = \IhrV2\Models\Site::where('id', $sitecode)->first();
 		return $x;

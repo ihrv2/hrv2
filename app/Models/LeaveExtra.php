@@ -18,7 +18,7 @@ class LeaveExtra extends Model
 
 
 	public function UserDetail() {
-		return $this->belongsTo('IhrV2\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\User', 'user_id');
 	}
 
 	public function LeaveTypeName() {

@@ -29,7 +29,7 @@ class LeaveHistory extends Model
 
 
 	public function LeaveActionByName() {
-		return $this->belongsTo('IhrV2\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\User', 'user_id');
 	}
 
 

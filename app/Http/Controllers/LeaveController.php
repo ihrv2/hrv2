@@ -34,6 +34,8 @@ class LeaveController extends Controller
 			'title' => 'View Request Leave'
 		);		
 		$year = date('Y'); 
+		$leave_status = null; 
+
 		$filters = [
 			'flag' => 1,		
 		];
@@ -60,9 +62,112 @@ class LeaveController extends Controller
 		$data['leave_status'] = $this->leave_repo->getLeaveStatusList();
 		$data['sessions'] = array(
 			'year' => $year,
-			'leave_status' => null
+			'leave_status' => $leave_status
 		);
 		return View('leave.index', $data);
+    }
+
+
+
+
+
+    public function postLeaveIndex(Request $request)
+    {
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Leave Application', 
+			'child' => 'All leave',
+			'icon' => 'grid',
+			'title' => 'View Request Leave'
+		);		
+
+		// searching
+		\Session::put('i-search', $request->all());		
+		if (!empty(\Session::get('i-search')['year'])) {
+			$year = \Session::get('i-search')['year'];
+		}	
+		else {
+			$year = date('Y');
+		}
+		if (!empty(\Session::get('i-search')['leave_status'])) {
+			$leave_status = \Session::get('i-search')['leave_status'];
+		}	
+		else {
+			$leave_status = null;
+		}
+
+		$filters = [
+			'flag' => 1,
+		    'status' => $leave_status
+		];
+		$i = \IhrV2\Models\LeaveApplication::whereHas('LeaveLatestHistory', function($q) use ($filters) {
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $q->where($column, $key);
+		    }
+		})
+		->with(array('LeaveLatestHistory' => function($h) { 
+			$h->with('LeaveStatusName');
+			$h->where('flag', 1);
+		}))
+		->with('LeaveTypeName')
+		->with('LeaveDate')
+		->with('LeaveDateAll')
+    	->where('user_id', \Auth::id())
+    	->where('leave_type_id', '!=', 6)
+    	->whereYear('date_from', '=', $year)
+    	->whereYear('date_to', '=', $year)	
+		->orderBy('id', 'DESC')
+		->get();
+		$data['leaves'] = $i;
+		$data['types'] = \IhrV2\Models\LeaveType::where('id', '!=', 6)->get();
+		$data['leave_status'] = $this->leave_repo->getLeaveStatusList();
+		$data['sessions'] = array(
+			'year' => $year,
+			'leave_status' => $leave_status
+		);
+		return View('leave.index', $data);
+    }
+
+
+
+
+
+    public function showLeaveView($id, $uid, $token)
+    {
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Leave Application', 
+			'child' => 'All leave',
+			'child-a' => route('sv.leave.index'),			
+			'icon' => 'grid',
+			'title' => 'View Leave'
+		);		
+		$cond = array('id' => $uid, 'api_token' => $token);
+		$data['leave'] = \IhrV2\Models\LeaveApplication::whereHas('LeaveUserDetail', function($q) use ($cond) {
+		    foreach ($cond as $column => $key) {
+		        if (!is_null($key)) $q->where($column, $key);
+		    }
+		})
+		->with('LeaveUserDetail')
+		->with('LeaveDate')
+		->with('LeaveDateAll')
+		->get()->find($id);
+
+		$data['diff'] = $this->leave_repo->LeaveCompareDate($data['leave']->date_from, $data['leave']->date_to, $data['leave']->is_half_day);
+		$data['attachment'] = \IhrV2\Models\LeaveAttachment::where('leave_id', $id)->where('status', 1)->first();
+		if ($data['attachment']) {
+			$data['file'] = asset("assets/files/leave/".$data['attachment']->filename.'.'.$data['attachment']->ext);
+		}
+		$data['history'] = \IhrV2\Models\LeaveHistory::where('user_id', \Auth::id())->where('leave_id', $id)->where('flag', 0)->orderBy('id', 'DESC')->get();
+		return View('leave.view', $data);	    	
+    }
+
+
+
+
+    public function postLeaveView()
+    {
+    	
     }
 
 

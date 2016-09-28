@@ -1,4 +1,4 @@
-@extends('layout/backend')
+@extends('layouts/backend')
 
 @section('content')
 
@@ -66,7 +66,7 @@
 						<div class="input-group">Half Day</div>
 					</div>
 					<div class="col-sm-10">
-						{{ Helper::LeaveHalfDay($leave->date_from, $leave->date_to, $leave->is_half_day) }}
+						-
 					</div>
 				</div>
 

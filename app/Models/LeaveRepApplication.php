@@ -34,7 +34,7 @@ class LeaveRepApplication extends Model
 	}
 
 	public function LeaveRepUserDetail() {
-		return $this->belongsTo('IhrV2\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\User', 'user_id');
 	}
 
 

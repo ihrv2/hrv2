@@ -11,7 +11,10 @@ class LeaveRepApprove extends Model
 
 
     protected $fillable = [
-    	''
+    	'user_id',
+    	'leave_rep_id',
+    	'total_day',
+    	'flag'
     ];
 
 

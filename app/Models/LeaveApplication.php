@@ -43,7 +43,7 @@ class LeaveApplication extends Model
 
 
 	public function LeaveUserDetail() {
-		return $this->belongsTo('IhrV2\Models\User', 'user_id');
+		return $this->belongsTo('IhrV2\User', 'user_id');
 	}
 
 	public function LeaveSiteName() {
@@ -56,7 +56,7 @@ class LeaveApplication extends Model
 	}
 
 	public function LeaveReportToName() {
-		return $this->belongsTo('IhrV2\Models\User', 'report_to');
+		return $this->belongsTo('IhrV2\User', 'report_to');
 	}
 
 

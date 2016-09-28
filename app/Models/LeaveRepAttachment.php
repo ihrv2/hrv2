@@ -12,7 +12,11 @@ class LeaveRepAttachment extends Model
 
 
     protected $fillable = [
-    	''
+    	'user_id',
+    	'leave_rep_id',
+    	'filename',
+    	'ext',
+    	'size'
     ];
 
 

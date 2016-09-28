@@ -14,8 +14,8 @@
          <div class="row">
             <div class="col-md-6">                              
                <div class="row">
-                  <div class="col-md-6">{{ Form::select('year', array_combine(range(2008, date('Y')), range(2008, date('Y'))), 2016, array('class' => 'form-control')) }}</div>  
-                  <div class="col-md-6">{{ Form::select('leave_status', $leave_status, null, array('class' => 'form-control')) }}</div>
+                  <div class="col-md-6">{{ Form::select('year', array_combine(range(2008, date('Y')), range(2008, date('Y'))), $sessions['year'], array('class' => 'form-control')) }}</div>  
+                  <div class="col-md-6">{{ Form::select('leave_status', $leave_status, $sessions['leave_status'], array('class' => 'form-control')) }}</div>
                </div>
                <br>
                {{ Form::button('Search', array('class' => 'btn btn-warning', 'type' => 'submit','name' => 'btn-search')) }}
@@ -76,7 +76,7 @@
                            <td class="text-center">{{ $i->LeaveLatestHistory->LeaveStatusName->name }}</td>
                            <td class="text-center">{{ \Carbon\Carbon::parse($i->LeaveLatestHistory->action_date)->format('d/m/Y') }}</td>
                            <td class="text-right">
-                              <a href="{{ route('sv.leave.view', array($i->id, Auth::user()->id, Auth::user()->key)) }}" class="btn btn-primary btn-sm" title="View Leave"><i class="icon-magnifier"></i></a>                              
+                              <a href="{{ route('sv.leave.view', array($i->id, Auth::user()->id, Auth::user()->api_token)) }}" class="btn btn-primary btn-sm" title="View Leave"><i class="icon-magnifier"></i></a>                              
                            </td>
                         </tr>
                      @endif
