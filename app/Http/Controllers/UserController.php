@@ -254,14 +254,15 @@ class UserController extends Controller
 		$data['prev_job'] = \IhrV2\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
 
 		// contract info
-		$data['curr_contract'] = \IhrV2\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->first();
-		$data['prev_contract'] = \IhrV2\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
+		$data['curr_contract'] = \IhrV2\Models\UserContract::where('user_id', $id)->where('status', 1)->first();
+		$data['prev_contract'] = \IhrV2\Models\UserContract::where('user_id', $id)->where('status', 2)->orderBy('id', 'DESC')->get();
 
 		// get age value
 		$data['age'] = date('Y') - date('Y', strtotime($data['detail']->dob));
 
 		// photos
 		$data['photo'] = \IhrV2\Models\UserPhoto::where('user_id', $id)->where('status', 1)->first();
+
 		return View('modules.user.view', $data);
     }
 

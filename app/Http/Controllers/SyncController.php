@@ -114,7 +114,7 @@ class SyncController extends Controller
 
                     // insert user_jobs
                     $region_id = ($group_id == 4) ? trim($i['IDRegion::IDReg']) : '';
-                    $d2 = array(
+                    $dj = array(
                         'user_id' => $user_id,
                         'staff_id' => trim($i['ID Staff']),
                         'join_date' => $join_date,
@@ -125,28 +125,44 @@ class SyncController extends Controller
                         'sitecode' => $sitecode,
                         'status' => 1,
                     );
-                    $b = new \IhrV2\Models\UserJob($d2);
-                    $b->save();
+                    $uj = new \IhrV2\Models\UserJob($dj);
+                    $uj->save();
+
+                    // insert user_contracts
+                    if (trim($i['Contract Start']) != '' && trim($i['Contract End']) != '') {
+                        $dc = array(
+                            'user_id' => $user_id,
+                            'date_from' => Carbon::parse(trim($i['Contract Start']))->format('Y-m-d'),
+                            'date_to' => Carbon::parse(trim($i['Contract End']))->format('Y-m-d'),
+                            'salary' => '',
+                            'status_contract_id' => ErpHelper::JobStatus(trim($i['Level Staff'])),
+                            'sitecode' => $sitecode,
+                            'total_al' => trim($i['AL Entitlement']),
+                            'status' => 1,
+                        );
+                        $uc = new \IhrV2\Models\UserContract($dc);
+                        $uc->save();
+                    }
 
                     // insert user_educations
                     if (trim($i['Qualitification']) != '' || trim($i['Qualitification']) != null) {
-                        $d3 = array(
+                        $de = array(
                             'user_id' => $user_id,
                             'name_education' => trim($i['Qualitification'])
                         );
-                        $c = new \IhrV2\Models\UserEducation($d3);                        
-                        $c->save();
+                        $ue = new \IhrV2\Models\UserEducation($de);
+                        $ue->save();
                     }
 
                     // insert user_emergency_contacts
                     if (trim($i['Emergency Contact']) != '' || trim($i['Emergency Contact']) != null) {
-                        $d4 = array(
+                        $dec = array(
                             'user_id' => $user_id,
                             'name' => trim($i['Emergency Contact']),
                             'telno' => trim($i['Emergency Contact No'])
                         );
-                        $d = new \IhrV2\Models\UserEmergency($d4);                        
-                        $d->save();
+                        $uec = new \IhrV2\Models\UserEmergency($dec);
+                        $uec->save();
                     }                    
                 }
 

@@ -118,6 +118,43 @@ class MaintenanceController extends Controller
 
 
 
+	public function showSiteIndex()
+	{
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Site Administration', 
+			'child' => 'All Site',
+			'icon' => 'flag',
+			'title' => 'Site'
+		);	
+		$data['sites'] = \IhrV2\Models\Site::paginate(10);	
+		return View('modules.site.index', $data);	
+	}
+
+
+
+
+
+	public function showSiteEdit()
+	{
+
+	}
+
+	public function updateSiteEdit()
+	{
+		
+	}
+
+	public function createSiteAdd()
+	{
+		
+	}
+
+	public function storeSiteAdd()
+	{
+		
+	}		
+
 
 
 }

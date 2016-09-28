@@ -338,7 +338,7 @@
 														</tr>			
 														<tr>
 															<td>Sitename</td>
-															<td>{{ $curr_job->SiteName->name }}</td>
+															<td>{{ '-' }}</td>
 														</tr>
 													@else
 														<tr>

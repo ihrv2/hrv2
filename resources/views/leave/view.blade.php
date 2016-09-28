@@ -66,7 +66,7 @@
 						<div class="input-group">Half Day</div>
 					</div>
 					<div class="col-sm-10">
-						-
+						{{ $half_day }}
 					</div>
 				</div>
 
@@ -117,8 +117,8 @@
 
 
 				<legend>Apply Date</legend>
-				@if ($leave->leave_date_all)
-					@foreach ($leave->leave_date_all as $i)
+				@if ($leave->LeaveDateAll)
+					@foreach ($leave->LeaveDateAll as $i)
 						@if ($i->status == 0)
 							<?php $label = 'Public Holiday'; ?>
 						@else
@@ -186,21 +186,21 @@
 				<div class="row">
 					<div class="col-sm-12">
 						@if ($leave->LeaveLatestHistory->LeaveStatusName->id == 1) 
-							{{ "<i>Note: This leave is waiting for Approval from Regional Officer.</i>"}}
+							{{ "Note: This leave is waiting for Approval from Regional Officer."}}
 						@elseif ($leave->LeaveLatestHistory->LeaveStatusName->id == 2)
-							{{ "<i>Note: This leave is Approved.</i>"}}							
+							{{ "Note: This leave is Approved."}}
 						@elseif ($leave->LeaveLatestHistory->LeaveStatusName->id == 3)
-							{{ "<i>Note: This leave is Rejected. Please contact Regional Officer for Further Information.</i>"}}
+							{{ "Note: This leave is Rejected. Please contact Regional Officer for Further Information."}}
 						@elseif ($leave->LeaveLatestHistory->LeaveStatusName->id == 4)
-							{{ "<i>Note: This leave already approve but Canceled by Site Supervisor. Awaits Approval from Regional Officer.</i>"}}
+							{{ "Note: This leave already approve but Canceled by Site Supervisor. Awaits Approval from Regional Officer."}}
 						@elseif ($leave->LeaveLatestHistory->LeaveStatusName->id == 5)
-							{{ "<i>Note: This leave already cancel. Awaits approval from Regional Officer.</i>"}}
+							{{ "Note: This leave already cancel. Awaits approval from Regional Officer."}}
 						@elseif ($leave->LeaveLatestHistory->LeaveStatusName->id == 6)
-							{{ "<i>Note: This leave is Approved for Apply Cancel.</i>"}}
+							{{ "Note: This leave is Approved for Apply Cancel."}}
 						@elseif ($leave->LeaveLatestHistory->LeaveStatusName->id == 7)
-							{{ "<i>Note: This leave is Rejected for Apply Cancel.</i>"}}
+							{{ "Note: This leave is Rejected for Apply Cancel."}}
 						@else
-							{{ "<i>Note: Unknown status</i>" }}
+							{{ "Note: Unknown status" }}
 						@endif
 					</div>
 				</div>
@@ -252,7 +252,7 @@
 
 	<div class="panel-footer" align="left">
 		@if ($leave->LeaveLatestHistory->LeaveStatusName->id == 1) 
-			{{ Form::button('Cancel', array('class' => 'btn btn-danger', 'id' => 'popup-modal', 'title' => 'Cancel Leave', 'alt' => 5)) }}
+			{{ Form::button('Cancel Leave', array('class' => 'btn btn-danger', 'id' => 'popup-modal', 'title' => 'Cancel Leave', 'alt' => 5)) }}
 		@elseif ($leave->LeaveLatestHistory->LeaveStatusName->id == 2)
 			{{ Form::button('Cancel Approve', array('class' => 'btn btn-danger', 'id' => 'popup-modal', 'title' => 'Cancel Approve', 'alt' => 4)) }}
 		@endif
@@ -287,7 +287,7 @@ $(document).ready(function(){
     		alert('Please insert Remark.');
     	}
     	else {
-	        var answer = confirm('Are you sure want to submit this leave?');
+	        var answer = confirm('Are you sure want to cancel this leave?');
 	        if (answer == true) {
 	            $('#form-list').submit(); 
 	        }

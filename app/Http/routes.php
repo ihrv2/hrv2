@@ -189,6 +189,27 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'MaintenanceController@updateRegionEdit',
 	)); 
 
+	// modul site
+	Route::get('mod/site', array(
+		'as'    => 'mod.site.index',
+		'uses'   => 'MaintenanceController@showSiteIndex',
+	)); 	
+	Route::get('mod/site/edit/{id}', array(
+		'as'    => 'mod.site.edit',
+		'uses'   => 'MaintenanceController@showSiteEdit',
+	)); 
+	Route::post('mod/site/edit/{id}', array(
+		'uses'   => 'MaintenanceController@updateSiteEdit',
+	));
+	Route::get('mod/site/create', array(
+		'as'    => 'mod.site.create',
+		'uses'   => 'MaintenanceController@createSiteAdd',
+	)); 
+	Route::post('mod/site/create', array(
+		'uses'   => 'MaintenanceController@storeSiteAdd',
+	));
+
+
 });
 
 

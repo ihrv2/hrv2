@@ -159,13 +159,15 @@ class LeaveController extends Controller
 			$data['file'] = asset("assets/files/leave/".$data['attachment']->filename.'.'.$data['attachment']->ext);
 		}
 		$data['history'] = \IhrV2\Models\LeaveHistory::where('user_id', \Auth::id())->where('leave_id', $id)->where('flag', 0)->orderBy('id', 'DESC')->get();
+
+		$data['half_day'] = $this->leave_repo->LeaveHalfDay($data['leave']->date_from, $data['leave']->date_to, $data['leave']->is_half_day);
 		return View('leave.view', $data);	    	
     }
 
 
 
 
-    public function postLeaveView()
+    public function postLeaveView(Request $request)
     {
     	
     }
@@ -335,6 +337,8 @@ class LeaveController extends Controller
 
 
 
+
+
     public function showLeaveSummary()
     {
 		$data = array();
@@ -346,6 +350,8 @@ class LeaveController extends Controller
 		);			
 		return View('leave.summary', $data);
     }
+
+
 
 
 
@@ -387,13 +393,36 @@ class LeaveController extends Controller
 			'child-a' => route('sv.leave.replacement.index'),			
 			'icon' => 'note',
 			'title' => 'Add Replacement Leave'
-		);			
-		return View('replacement-leave.add', $data);	    	
+		);		
+		$expired = 0;		
+		$data['contract'] = \IhrV2\Models\UserContract::where('user_id', \Auth::user()->id)->where('status', 1)->first();
+		if (!empty($data['contract'])) {
+			// check if contract is expired
+			$check_exp = $this->leave_repo->CheckIfExpired($data['contract']->date_to);
+			if ($check_exp == 1) {
+				$expired = 1;
+			}
+			else {
+				$months = array(); 
+				foreach (range(1, 12) as $month) { 
+				    $months[$month] = strftime('%B', mktime(0, 0, 0, $month, 1)); 
+				}		
+				$data['months'] = $months;
+				$data['job'] = \IhrV2\Models\UserJob::where('user_id', \Auth::user()->id)->where('status', 1)->first();		
+				$data['site'] = \IhrV2\Models\Site::where('sites.id', '=', \Auth::user()->sitecode)->first();		
+				$data['days'] = array('' => '[Day]') + array(1 => 1, 2 => 2);
+
+				// get region manager		
+				$data['rm'] = $this->user_repo->getRegionManager(\Auth::user()->sitecode);
+			}	
+		}
+		$data['expired'] = $expired;			
+		return View('replacement-leave.create', $data);	    	
     }
 
 
     
-    public function storeLeaveRepCreate()
+    public function storeLeaveRepCreate(Requests\LeaveRepApplicationCreate $request)
     {
 
     }

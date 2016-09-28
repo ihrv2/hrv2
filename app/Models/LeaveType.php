@@ -11,7 +11,9 @@ class LeaveType extends Model
 
 
     protected $fillable = [
-    	''
+    	'name',
+    	'code',
+    	'total'
     ];
 
 

@@ -12,7 +12,15 @@ class Site extends Model
 	public $timestamps = false;
 
 
-
+    protected $fillable = [
+    	'id',
+    	'name',
+    	'phase_id',
+    	'mukim_id',
+    	'district_id',
+    	'state_id',
+    	'region_id'
+    ];
 
 
 	public function PhaseName() {

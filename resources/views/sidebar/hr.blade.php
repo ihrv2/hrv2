@@ -16,6 +16,7 @@
                <ul aria-expanded="false" class="collapse" style="height: 0px;">
                   <li><a href="{{ route('mod.region.index') }}">Region / Reporting Officer</a></li>   
                   <li><a href="{{ route('mod.public.holiday') }}">Public Holiday</a></li> 
+                  <li><a href="{{ route('mod.site.index')}}">Site</a></li> 
                </ul>
             </li>
          </ul>

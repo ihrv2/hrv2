@@ -21,17 +21,23 @@
 						<dt class="col-lg-3">Date Apply</dt>
 						<dd class="col-lg-9">{{ date('d/m/Y') }}</dd>
 						<dt class="col-lg-3">Name</dt>
-						<dd class="col-lg-9"> -
+						<dd class="col-lg-9">{{ Auth::user()->name }}
 						</dd>
 						<dt class="col-lg-3">Position</dt>
-						<dd class="col-lg-9"> -
+						<dd class="col-lg-9">{{ $job->PositionName->name }}
 						</dd>
 						<dt class="col-lg-3">Site Name</dt>
-						<dd class="col-lg-9"> -
+						<dd class="col-lg-9">{{ Auth::user()->sitecode }}
 						</dd>
 						<dt class="col-lg-3">Reporting Officer</dt>
 						<dd class="col-lg-9">
-							-
+						@if ($rm)
+							{{ $rm->name }}
+							<?php $rid = $rm->id; ?>
+						@else
+							{{ '-' }}
+							<?php $rid = 0; ?>
+						@endif						
 						</dd>
 					</dl>
 				</div>
@@ -100,7 +106,7 @@
 					<div class="form-group">					
 						<label class="col-lg-3 control-label" for="selectIns">Instructed By</label>
 						<div class="col-lg-4">
-							{{ Form::text('instructed_by', Input::old('instructed_by'), array('class'=>'form-control', 'id' => 'selectIns', 'size' => 40)) }}
+							{{ Form::text('instructed_by', old('instructed_by'), array('class'=>'form-control', 'id' => 'selectIns', 'size' => 40)) }}
 						</div>
 					</div>
 
@@ -111,7 +117,7 @@
 					<div class="form-group">
 						<label class="col-lg-3 control-label" for="selectLoc">Location</label>
 						<div class="col-lg-4">
-							{{ Form::text('location', Input::old('location'), array('class'=>'form-control', 'id' => 'selectLoc', 'size' => 40)) }}
+							{{ Form::text('location', old('location'), array('class'=>'form-control', 'id' => 'selectLoc', 'size' => 40)) }}
 						</div>
 					</div>
 
@@ -121,7 +127,7 @@
 					<div class="form-group"> 
 						<label class="col-lg-3 control-label" for="textArea">Reason</label>
 						<div class="col-lg-4">
-							{{ Form::textarea('reason', Input::old('reason'), ['class' => 'form-control', 'size' => '30x3']) }}
+							{{ Form::textarea('reason', old('reason'), ['class' => 'form-control', 'size' => '30x3']) }}
 						</div>
 					</div>
 
@@ -131,7 +137,7 @@
 					<div class="form-group">
 						<label class="col-lg-3 control-label" for="textArea">Notes</label>
 						<div class="col-lg-4">
-							{{ Form::textarea('notes', Input::old('notes'), ['class' => 'form-control', 'size' => '30x3']) }}
+							{{ Form::textarea('notes', old('notes'), ['class' => 'form-control', 'size' => '30x3']) }}
 						</div>
 					</div>
 
@@ -168,9 +174,6 @@
 
 
 
-
-
-
 <script type="text/javascript">
 $(function () {
     $('#pick_start_date').datetimepicker({
@@ -184,9 +187,8 @@ $(function () {
 
 
 
-
-
-
-
-
 @stop
+
+
+
+
