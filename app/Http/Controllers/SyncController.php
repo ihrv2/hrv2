@@ -13,11 +13,19 @@ class SyncController extends Controller
 {
     
 
+    // update table sites structure and site management
+
+
+    public function showSyncUserSelect() 
+    {
+        // show selection by 3 group
+    }
 
 
 
     public function showSyncUser()
     {
+        // if site supervisor display date + phase + sitecode
         $data = array();
         $data['header'] = array(
             'parent' => 'Synchronize', 
@@ -168,12 +176,6 @@ class SyncController extends Controller
 
                 // icno exist
                 else {
-
-
-
-
-
-
                 }
             }
             // endforeach

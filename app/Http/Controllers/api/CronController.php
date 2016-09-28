@@ -88,7 +88,7 @@ class CronController extends Controller
 
                     // insert user_jobs
                     $region_id = ($group_id == 4) ? trim($i['IDRegion::IDReg']) : '';
-                    $d2 = array(
+                    $dj = array(
                         'user_id' => $user_id,
                         'staff_id' => trim($i['ID Staff']),
                         'join_date' => $join_date,
@@ -99,100 +99,49 @@ class CronController extends Controller
                         'sitecode' => $sitecode,
                         'status' => 1,
                     );
-                    $b = new \IhrV2\Models\UserJob($d2);
-                    $b->save();
+                    $uj = new \IhrV2\Models\UserJob($dj);
+                    $uj->save();
+
+                    // insert user_contracts
+                    if (trim($i['Contract Start']) != '' && trim($i['Contract End']) != '') {
+                        $dc = array(
+                            'user_id' => $user_id,
+                            'date_from' => Carbon::parse(trim($i['Contract Start']))->format('Y-m-d'),
+                            'date_to' => Carbon::parse(trim($i['Contract End']))->format('Y-m-d'),
+                            'salary' => '',
+                            'status_contract_id' => ErpHelper::JobStatus(trim($i['Level Staff'])),
+                            'sitecode' => $sitecode,
+                            'total_al' => trim($i['AL Entitlement']),
+                            'status' => 1,
+                        );
+                        $uc = new \IhrV2\Models\UserContract($dc);
+                        $uc->save();
+                    }
 
                     // insert user_educations
                     if (trim($i['Qualitification']) != '' || trim($i['Qualitification']) != null) {
-                        $d3 = array(
+                        $de = array(
                             'user_id' => $user_id,
                             'name_education' => trim($i['Qualitification'])
                         );
-                        $c = new \IhrV2\Models\UserEducation($d3);                        
-                        $c->save();
+                        $ue = new \IhrV2\Models\UserEducation($de);
+                        $ue->save();
                     }
 
                     // insert user_emergency_contacts
                     if (trim($i['Emergency Contact']) != '' || trim($i['Emergency Contact']) != null) {
-                        $d4 = array(
+                        $dec = array(
                             'user_id' => $user_id,
                             'name' => trim($i['Emergency Contact']),
                             'telno' => trim($i['Emergency Contact No'])
                         );
-                        $d = new \IhrV2\Models\UserEmergency($d4);                        
-                        $d->save();
+                        $uec = new \IhrV2\Models\UserEmergency($dec);
+                        $uec->save();
                     }  
-
 				}
 
 				// have record icno
 				else {
-
-                    // check if staff id is different
-                    $check_staffid = \IhrV2\User::where('username', trim($i['ID Staff']))->first();
-                    if (empty($check_staffid)) {
-                        $update_username = \IhrV2\User::where('id', $q->id)->update(array('username' => trim($i['ID Staff'])));
-                        $update_prevjob = \IhrV2\Models\UserJob::where('user_id', '=', $q->id)->where('status', '=', 1)->update(array('status' => 2));
-
-                        // insert user_jobs
-                        $d5 = array(
-                            'user_id' => $q->id,
-                            'staff_id' => trim($i['ID Staff']),
-                            'join_date' => $join_date,
-                            'position_id' => ErpHelper::JobTitle(trim($i['Job Title'])),
-                            'phase_id' => trim($i['Phase::PhaseID']),
-                            'notes' => trim($i['Notes']),
-                            'sitecode' => $sitecode,
-                            'status' => 1,
-                        );
-                        $e = new \IhrV2\Models\UserJob($d5);
-                        $e->save();                                              
-                    }
-
-                    // check modified date
-                    $modified = Carbon::parse($i['DateModified'])->format('Y-m-d H:i:s');
-                    if ($q->updated_at != $modified) {
-                        $total++;
-
-                        // update users
-                        $q->name = trim($i['Person Name']);
-                        $q->email = trim($i['Work Email']);
-                        $q->icno = trim($i['NRIC']);
-                        $q->permanent_street_1 = trim($i['Permanent Street 1']);
-                        $q->permanent_street_2 = trim($i['Permanent Street 2']);
-                        $q->permanent_postcode = trim($i['Permanent Postcode']);
-                        $q->permanent_city = trim($i['Permanent City']);
-                        $q->permanent_state = trim($i['Permanent State']);
-                        $q->correspondence_street_1 = trim($i['Correspondence Street 1']);
-                        $q->correspondence_street_2 = trim($i['Correspondence Street 2']);
-                        $q->correspondence_postcode = trim($i['Correspondence Postcode']);
-                        $q->correspondence_city = trim($i['Correspondence City']);
-                        $q->correspondence_state = trim($i['Correspondence State']);
-                        $q->telno1 = trim($i['Phone No1']);
-                        $q->telno2 = trim($i['Phone No2']);
-                        $q->hpno = trim($i['Mobile No']);
-                        $q->faxno = trim($i['Fax No']);
-                        $q->website = trim($i['Website']);
-                        $q->personal_email = trim($i['Personal Email']);
-                        $q->work_email = trim($i['Work Email']);
-                        $q->gender_id = ErpHelper::GenderName($i['Gender']);
-                        $q->marital_id = ErpHelper::MaritialStatus($i['Maritial Status']);                          
-                        $q->dob = Carbon::parse(trim($i['DOB']))->format('Y-m-d');
-                        $q->pob = trim($i['POB']);
-                        $q->nationality_id = ErpHelper::Nationality($i['Nationality']);
-                        $q->race_id = ErpHelper::RaceName($i['Race']);
-                        $q->religion_id = ErpHelper::ReligionName($i['Religion']);                          
-                        $q->sitecode = $sitecode;
-                        $q->itaxno = '';
-                        $q->epfno = trim($i['EPF No']);
-                        $q->socsono = '';
-                        $q->bankname = trim($i['Bank Registered']);
-                        $q->bankno = trim($i['Bank Acc No']);
-                        $q->status = ErpHelper::StatusEmployment(trim($i['StatusEmployment']));
-                        $q->updated_at = $modified;
-                        $q->save();
-                    }
-
 				}						
 			} // end foreach
 		} 

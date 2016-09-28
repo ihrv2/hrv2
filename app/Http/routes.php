@@ -60,6 +60,13 @@ Route::group(['middleware' => ['auth', 'default']], function()
 {
 	// modul sync
 	// ----------
+	Route::get('mod/sync/user/select', array(
+		'as'    => 'mod.sync.user.select',
+		'uses'   => 'SyncController@showSyncUserSelect',
+	)); 
+	Route::posr('mod/sync/user/select', array(
+		'uses'   => 'SyncController@postSyncUserSelect',
+	)); 		
 	Route::get('mod/sync/user', array(
 		'as'    => 'mod.sync.user',
 		'uses'   => 'SyncController@showSyncUser',

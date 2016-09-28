@@ -30,7 +30,7 @@
             <li class="">
                <a href="#" aria-expanded="false"> Synchronize »</a>
                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                  <li><a href="{{ route('mod.sync.user') }}">Staff</a></li>
+                  <li><a href="{{ route('mod.sync.user.select') }}">Staff</a></li>
                   <li><a href="{{ route('mod.sync.public.holiday') }}">Public Holiday</a></li>
                </ul>
             </li>
