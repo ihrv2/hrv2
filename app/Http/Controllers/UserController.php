@@ -114,7 +114,7 @@ class UserController extends Controller
 		$i->where('group_id', $group_id);
 		$i->IsActiveAndIDDesc();
 		$data['users'] = $i->paginate(10);			
-		$data['groups'] = $this->setUserRepo()->user_repo->getGroupList();
+		$data['groups'] = $this->user_repo->getGroupList();
 		$data['sessions'] = array(
 			'group_id' => $group_id,
 			'keyword' => $keyword

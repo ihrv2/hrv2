@@ -374,41 +374,41 @@
 
 
 										@if ($detail->group_id == 3)
-										<legend>Previous Job</legend>
-										<div class="well">
-											<table class="table table-striped table-condensed table-responsive table-hover">
-												<thead>
-													<tr class="bg-default">
-														<th>No</th>
-														<th>Join Date</th>
-														<th>Position</th>
-														<th>Phase</th>														
-														<th>Site</th>
-														<th class="actions text-right">Actions</th>
-													</tr>
-												</thead>
-												@if (count($prev_job) > 0)
-													<?php $no = 0; ?>
-													@foreach ($prev_job as $i)
-													<?php $no++; ?>
-													<tr>
-														<td>{{ $no }}</td>
-														<td>{{ $i->join_date }}</td>
-														<td>{{ $i->PositionName->name }}</td>
-														<td>{{ $i->PhaseName->name }}</td>
-														<td>{{ $i->sitecode.' - '.$i->SiteName->name }}</td>
-														<td class="text-right">
-															<a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="#" alt="{{ $i->id }}" id="job-delete" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
-														</td>
-													</tr>
-													@endforeach
-												@else
-													<tr>
-														<td colspan="7">No record</td>
-													</tr>
-												@endif
-											</table>
-										</div>
+											<legend>Previous Job</legend>
+											<div class="well">
+												<table class="table table-striped table-condensed table-responsive table-hover">
+													<thead>
+														<tr class="bg-default">
+															<th>No</th>
+															<th>Join Date</th>
+															<th>Position</th>
+															<th>Phase</th>														
+															<th>Site</th>
+															<th class="actions text-right">Actions</th>
+														</tr>
+													</thead>
+													@if (count($prev_job) > 0)
+														<?php $no = 0; ?>
+														@foreach ($prev_job as $i)
+														<?php $no++; ?>
+														<tr>
+															<td>{{ $no }}</td>
+															<td>{{ $i->join_date }}</td>
+															<td>{{ $i->PositionName->name }}</td>
+															<td>{{ $i->PhaseName->name }}</td>
+															<td>{{ $i->sitecode.' - '.$i->SiteName->name }}</td>
+															<td class="text-right">
+																<a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="#" alt="{{ $i->id }}" id="job-delete" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a>
+															</td>
+														</tr>
+														@endforeach
+													@else
+														<tr>
+															<td colspan="7">No record</td>
+														</tr>
+													@endif
+												</table>
+											</div>
 										@endif
 
 
