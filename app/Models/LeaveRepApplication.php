@@ -40,12 +40,11 @@ class LeaveRepApplication extends Model
 
 
 
+	public function leave_rep_create($data) {
+		$user_id = \Auth::user()->id;
 
-	public function leave_replace_create($data) {
-		// leave_rep_applications
-		$id = DB::table('leave_rep_applications')->max('id') + 1;		
-		$this->id = $id;		
-		$this->user_id = Auth::user()->id;
+		// insert leave_rep_applications
+		$this->user_id = $user_id;
 		$this->date_apply = date('Y-m-d');
 		$this->no_day = $data['no_day'];		
 		$this->month = $data['month'];		
@@ -55,62 +54,56 @@ class LeaveRepApplication extends Model
 		$this->location = $data['location'];		
 		$this->reason = $data['reason'];
 		$this->notes = $data['notes'];		
-		$this->sitecode = Auth::user()->sitecode;		
+		$this->sitecode = \Auth::user()->sitecode;		
 		$this->save();
+		$leave_rep_id = $this->id;
 
-		// leave_rep_histories
-		$z = new LeaveRepHistory();
-		$z->user_id = Auth::user()->id;
-		$z->leave_rep_id = $id;
-		$z->action_date = date('Y-m-d');
-		$z->status = 1; // pending	
-		$z->flag = 1;	
-		$z->save();
+		// insert leave_rep_histories
+        $history = array(
+            'user_id' => $user_id,
+            'leave_rep_id' => $leave_rep_id,
+            'action_date' => date('Y-m-d'),
+            'action_remark' => '',
+            'next_action_by' => '',
+            'status' => 1, // pending
+            'flag' => 1 // active
+        );
+        $h = new \IhrV2\Models\LeaveRepHistory($history);
+        $h->save();
 
-		// upload file
-		if ($data['rep_file']) {			
-			$image = $data['rep_file'];
+		// check if have attachment
+		if (!empty($data['rep_file'])) {		
+			$file = $data['rep_file'];
 			$path = public_path().'/assets/files/replacement-leave/';
-			$filename = date('YmdHis').rand();
-			$fileext = $image->getClientOriginalExtension();
-			$filesize = $image->getSize();			
+			$filename = date('YmdHis').'_'.\Auth::user()->sitecode.'_'.str_random(20);
+			$fileext = $file->getClientOriginalExtension();
+			$filesize = $file->getSize();						
 			$filenew = $filename.'.'.$fileext;
-			$upload = $image->move($path, $filenew);
+			$upload = $file->move($path, $filenew);
 
 			// insert leave_attachments
-			$j = new LeaveRepAttachment();
-			$data = array(
-				'user_id' => Auth::user()->id,
-				'leave_rep_id' => $id,
+			$attachment = array(
+				'user_id' => $user_id,
+				'leave_rep_id' => $leave_rep_id,
 				'filename' => $filename,
 				'ext' => $fileext,
-				'size' => $filesize
+				'size' => $filesize,
+				'status' => 1
 			);
-			$j->create_file($data);
+			$t = new \IhrV2\Models\LeaveRepAttachment($attachment);
+			$t->save();
 		}
 
-
-		return true;		
+		$msg = array('Replacement Leave successfully added.', 'success', 'sv.leave.replacement.index');
+		return $msg;		
 	}	
 
 
 
 
 
-	public function leave_replace_update($data) {
-		$this->no_days = $data['no_days'];		
-		$this->month = $data['month'];		
-		$this->year = $data['year'];		
-		$this->instructed_by = $data['instructed_by'];		
-		$this->site_location = $data['site_location'];		
-		$this->reason = $data['reason'];
-		$this->notes = $data['notes'];		
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}	
+	public function leave_rep_update($data) {
+
 	}
 	    
 }

@@ -422,9 +422,13 @@ class LeaveController extends Controller
 
 
     
-    public function storeLeaveRepCreate(Requests\LeaveRepApplicationCreate $request)
+    public function storeLeaveRepCreate(Requests\LeaveRepApplicationCreate $request, \IhrV2\Models\LeaveRepApplication $leave_rep)
     {
-
+		$save = $leave_rep->leave_rep_create($request->all());	
+        return redirect()->route($save[2])->with([
+            'message' => $save[0], 
+            'label' => 'alert alert-'.$save[1].' alert-dismissible'
+        ]);	
     }
 
 

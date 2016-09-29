@@ -28,6 +28,8 @@ class CronController extends Controller
 		if (false !== ($json = @file_get_contents($api))) {
 			$url = json_decode($json, true);
 
+            $limit = 100; // limit process up to 100 records only (to encounter error maximum execution time)
+
 			// loop all records
 			foreach($url['data'] as $i) {
 				$ic = str_replace("-", "", trim($i['NRIC']));
@@ -38,7 +40,7 @@ class CronController extends Controller
 				$q = \IhrV2\User::where('icno', $ic)->first();
 		
 				// not found icno
-				if (empty($q)) {
+				if (empty($q) && $total < $limit) {
 					$total++;
 
 					// insert users

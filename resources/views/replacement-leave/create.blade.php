@@ -30,15 +30,7 @@
 						<dd class="col-lg-9">{{ Auth::user()->sitecode }}
 						</dd>
 						<dt class="col-lg-3">Reporting Officer</dt>
-						<dd class="col-lg-9">
-						@if ($rm)
-							{{ $rm->name }}
-							<?php $rid = $rm->id; ?>
-						@else
-							{{ '-' }}
-							<?php $rid = 0; ?>
-						@endif						
-						</dd>
+						<dd class="col-lg-9">{{ $rm['RegionName']['RegionManager']['name'] }}</dd>
 					</dl>
 				</div>
 			</div>
@@ -51,13 +43,12 @@
 
 
 
-
+{{ Form::open(array('class' => 'form-horizontal', 'role' => 'form', 'files' => true)) }}
 <div class="row">
 	<div class="col-lg-12">
 
 
 
-    	{{ Form::open(array('class' => 'form-horizontal', 'role' => 'form', 'files' => true)) }}
 		<div class="panel panel-default">
 			<div class="panel-body">
 
@@ -73,7 +64,7 @@
 							<label class="col-lg-3 control-label">No. of Days</label>
 						</div>
 						<div class="col-lg-2">
-							{{ Form::select('no_day', array(), null, array('class' => 'form-control')) }}
+							{{ Form::select('no_day', $days, old('no_day'), array('class' => 'form-control')) }}
 						</div>
 					</div>
 
@@ -93,8 +84,8 @@
 						</div>
 						<div class="col-lg-4">
 			               <div class="row">
-			                  <div class="col-md-6">{{ Form::select('month', array_merge(['' => '[Month]']) + array(), null, ['class' => 'form-control']) }}</div>  
-			                  <div class="col-md-6">{{ Form::selectRange('year', 2011, date('Y'), date('Y'), ['class' => 'form-control']) }}</div>
+			                  <div class="col-md-6">{{ Form::selectMonth('month', old('month'), ['class' => 'form-control']) }}</div>  
+			                  <div class="col-md-6">{{ Form::selectRange('year', 2011, date('Y'), old('year'), ['class' => 'form-control']) }}</div>
 			               </div>							
 						</div>
 					</div>
@@ -156,34 +147,20 @@
 			</div>
 
 
-
-
 			<div class="panel-footer">        
 				{{ Form::button('Save&nbsp;<i class="icon-arrow-right"></i>',['type' => 'submit', 'class' => 'btn btn-primary']) }} 
 			</div>
 		</div>
 
 
-
-		{{ Form::close() }} 
-
- 
 	</div>
 </div>
 
 
 
 
-<script type="text/javascript">
-$(function () {
-    $('#pick_start_date').datetimepicker({
-        pickTime: false
-    });        
-    $('#pick_end_date').datetimepicker({
-        pickTime: false
-    });      
-});
-</script>
+{{ Form::hidden('report_to', $rm['RegionName']['RegionManager']['id']) }} 
+{{ Form::close() }} 
 
 
 
