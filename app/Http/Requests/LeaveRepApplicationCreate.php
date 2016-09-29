@@ -21,7 +21,8 @@ class LeaveRepApplicationCreate extends Request
         return [
             'no_day' => 'required',
             'month' => 'required',
-            'year' => 'required'
+            'year' => 'required',
+            'rep_file' => 'min:1|max:2000|mimes:jpeg,jpg,png,bmp,gif,svg' 
         ];
     }
 

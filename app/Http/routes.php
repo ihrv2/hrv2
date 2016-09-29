@@ -58,6 +58,23 @@ Route::post('auth/password', [
 // group for admin/hr/rm
 Route::group(['middleware' => ['auth', 'default']], function()
 {
+
+
+
+
+	Route::get('mod/user/view/personal', array(
+		'as'    => 'mod.user.view.personal',
+		'uses'   => 'UserController@showUserViewPersonal',
+	));  
+	Route::get('mod/user/view/job/{id}', array(
+		'as'    => 'mod.user.view.job',
+		'uses'   => 'UserController@showUserViewJob',
+	));  
+
+
+
+
+
 	// modul sync
 	// ----------
 	Route::get('mod/sync/user', array(

@@ -249,24 +249,25 @@ class UserController extends Controller
 			'icon' => 'user',
 			'title' => $data['detail']->name
 		);			
-		// job info
-		$data['curr_job'] = \IhrV2\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 1)->first();
-		$data['prev_job'] = \IhrV2\Models\UserJob::where('user_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
-
-		// contract info
-		$data['curr_contract'] = \IhrV2\Models\UserContract::where('user_id', $id)->where('status', 1)->first();
-		$data['prev_contract'] = \IhrV2\Models\UserContract::where('user_id', $id)->where('status', 2)->orderBy('id', 'DESC')->get();
-
 		// get age value
 		$data['age'] = date('Y') - date('Y', strtotime($data['detail']->dob));
-
-		// photos
-		$data['photo'] = \IhrV2\Models\UserPhoto::where('user_id', $id)->where('status', 1)->first();
-
 		return View('modules.user.view', $data);
     }
 
 
+
+    public function showUserViewPersonal()
+    {
+		$data['data'] = array('message' => 'No record found.', 'total' => 3);
+		return response()->json($data);
+    }
+
+
+    public function showUserViewJob($id)
+    {
+		$data['job'] = \IhrV2\Models\UserJob::where('user_id', $id)->first();
+		return response()->json($data);
+    }
 
 
 

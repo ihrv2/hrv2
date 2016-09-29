@@ -136,6 +136,9 @@
 
 
 					<div class="form-group" id="i2">
+						@if ($errors->has('rep_file'))
+							<p class="col-lg-12 text-danger">{{ $errors->first('rep_file') }}</p>
+						@endif  					
 						<label class="col-lg-3 control-label" for="textArea">Attachment</label>
 						<div class="col-lg-4">
 							<label>
@@ -143,6 +146,10 @@
 							</label>
 						</div>
 					</div>
+
+
+
+					
 				</fieldset>
 			</div>
 
