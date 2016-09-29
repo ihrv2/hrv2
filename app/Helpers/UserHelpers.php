@@ -15,8 +15,8 @@ class UserHelper {
 
 	// region manager name
 	public static function getRegionManager($sitecode) {
-		$x = \IhrV2\Models\Site::select('id', 'region_id')
-		->where('id', $sitecode)
+		$x = \IhrV2\Models\Site::select('code', 'region_id')
+		->where('code', $sitecode)
 		->with(array('RegionName' => function($h) { 
 			$h->select('id', 'name', 'report_to');
 			$h->with('RegionManager');

@@ -118,6 +118,7 @@ class MaintenanceController extends Controller
 
 
 
+	// site
 	public function showSiteIndex()
 	{
 		$data = array();
@@ -127,20 +128,77 @@ class MaintenanceController extends Controller
 			'icon' => 'flag',
 			'title' => 'Site'
 		);	
-		$data['sites'] = \IhrV2\Models\Site::paginate(10);	
+		$i = \IhrV2\Models\Site::orderBy('code', 'ASC');
+
+		// check session
+		if (Session::has('search')) {		
+			$search = Session::get('search');					
+			$i->where("sites.code", "like", "%".$search."%");
+			$i->orWhere("sites.address", "like", "%".$search."%");
+		}
+		else {
+			$search = null;
+		}
+
+		$data['sites'] = $i->paginate(20);	
+		$data['sessions'] = array(
+			'search' => $search
+		);			
 		return View('modules.site.index', $data);	
 	}
 
 
 
-
-
-	public function showSiteEdit()
+	public function postSiteIndex(Request $request)
 	{
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Site Administration', 
+			'child' => 'All Site',
+			'icon' => 'flag',
+			'title' => 'Site'
+		);	
 
+		// register session
+		if ($request->search && !empty($request->search)) {
+			Session::put('search', $request->search);	
+			$search = Session::get('search');		
+		}	
+		else {
+			Session::forget('search');
+			$search = null;			
+		}
+
+		// query 					
+		$i = \IhrV2\Models\Site::orderBy('code', 'ASC');
+		if (Session::has('search')) {	
+			$i->where("sites.code", "like", "%".$search."%");
+			$i->orWhere("sites.address", "like", "%".$search."%");
+		}	
+		$data['sites'] = $i->paginate(20);
+		$data['sessions'] = array(
+			'search' => $search
+		);		
+		return View('modules.site.index', $data);	
 	}
 
-	public function updateSiteEdit()
+
+
+	public function showSiteEdit($id)
+	{
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Site Administration', 
+			'child' => 'All Site',
+			'child-a' => route('mod.site.index'),			
+			'icon' => 'flag',
+			'title' => 'Edit Site'
+		);
+		$data['detail'] = $this->user_repo->getSiteByID($id);	
+		return View('modules.site.edit', $data);
+	}
+
+	public function updateSiteEdit(Requests\SiteUpdate $request)
 	{
 		
 	}

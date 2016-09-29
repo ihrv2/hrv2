@@ -409,7 +409,7 @@ class LeaveController extends Controller
 				}		
 				$data['months'] = $months;
 				$data['job'] = \IhrV2\Models\UserJob::where('user_id', \Auth::user()->id)->where('status', 1)->first();		
-				$data['site'] = \IhrV2\Models\Site::where('sites.id', '=', \Auth::user()->sitecode)->first();		
+				$data['site'] = \IhrV2\Models\Site::where('code', \Auth::user()->sitecode)->first();		
 				$data['days'] = array('' => '[Day]') + array(1 => 1, 2 => 2);
 
 				// get region manager		

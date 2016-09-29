@@ -9,17 +9,18 @@ class Site extends Model
 
 	protected $table = 'sites';
 
-	public $timestamps = false;
+	// public $timestamps = false;
 
 
     protected $fillable = [
-    	'id',
-    	'name',
+    	'code',
+    	'address',
+    	'region_id',
+    	'email',
+    	'state_id',
     	'phase_id',
     	'mukim_id',
-    	'district_id',
-    	'state_id',
-    	'region_id'
+    	'district_id'
     ];
 
 
@@ -45,19 +46,7 @@ class Site extends Model
 
 
 	public function site_create($data) {
-		$this->id = $data['id'];			
-		$this->name = $data['name'];
-		$this->phase_id = $data['phase_id'];
-		$this->mukim_id = $data['mukim_id'];
-		$this->district_id = $data['district_id'];
-		$this->state_id = $data['state_id'];		
-		$this->region_id = $data['region_id'];	
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		
 	}	
 
 
@@ -65,18 +54,7 @@ class Site extends Model
 
 
 	public function site_update($data) {
-		$this->name = $data['name'];
-		$this->phase_id = $data['phase_id'];
-		$this->mukim_id = $data['mukim_id'];
-		$this->district_id = $data['district_id'];
-		$this->state_id = $data['state_id'];		
-		$this->region_id = $data['region_id'];			
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}	
+
 	}
 
 

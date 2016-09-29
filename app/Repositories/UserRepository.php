@@ -22,8 +22,8 @@ class UserRepository {
 
 	// region manager name
 	public function getRegionManager($sitecode) {
-		$x = \IhrV2\Models\Site::select('id', 'region_id')
-		->where('id', $sitecode)
+		$x = \IhrV2\Models\Site::select('code', 'region_id')
+		->where('code', $sitecode)
 		->with(array('RegionName' => function($h) { 
 			$h->select('id', 'name', 'report_to');
 			$h->with('RegionManager');
@@ -441,12 +441,12 @@ class UserRepository {
 	// site
 	public function getSiteListWithID()
 	{
-		return \IhrV2\Models\Site::select(\DB::raw('concat (id, " - ", name) as name, id'))->orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Site]', '');
+		return \IhrV2\Models\Site::select(\DB::raw('concat (code, " - ", address) as name, code'))->orderBy('code', 'ASC')->pluck('name', 'code')->prepend('[Site]', '');
 	}
 
 	public function getSiteList()
 	{
-		return \IhrV2\Models\Site::orderBy('name', 'ASC')->pluck('name', 'id')->prepend('[Site]', '');
+		return \IhrV2\Models\Site::orderBy('address', 'ASC')->pluck('address', 'code')->prepend('[Site]', '');
 
 	}
 

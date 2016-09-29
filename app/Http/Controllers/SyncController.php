@@ -13,19 +13,10 @@ class SyncController extends Controller
 {
     
 
-    // update table sites structure and site management
-
-
-    public function showSyncUserSelect() 
-    {
-        // show selection by 3 group
-    }
-
 
 
     public function showSyncUser()
     {
-        // if site supervisor display date + phase + sitecode
         $data = array();
         $data['header'] = array(
             'parent' => 'Synchronize', 
@@ -33,6 +24,7 @@ class SyncController extends Controller
             'icon' => 'refresh',
             'title' => 'Staff'
             );  
+        $data['groups'] = array(3 => 'Site Supervisor', 4 => 'Region Manager', 2 => 'Human Resource');
         $currentDate = Carbon::now();
         $data['prev_week'] = $currentDate->subDays($currentDate->dayOfWeek)->subWeeks(2)->format('d-m-Y');
         return View('modules.sync.user.index', $data);    
@@ -46,7 +38,7 @@ class SyncController extends Controller
     {
         $group_id = $request->group_id;
         $date_from = Carbon::parse($request->date_from)->format('m-d-Y'); // selected date "07-24-2016"
-        $date_to = Carbon::now()->format('m-d-Y');
+        $date_to = Carbon::parse($request->date_to)->format('m-d-Y');
         $path = 'http://ws.msd.net.my/RESTfm/contacts/layout/API_Staff.json?';
         $last = '&RFMkey=qwertyuio234567sdfgh&RFMmax=0';
 

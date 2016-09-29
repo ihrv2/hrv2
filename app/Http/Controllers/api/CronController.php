@@ -151,7 +151,7 @@ class CronController extends Controller
 		else {
 			$data['data'] = array('message' => 'No record found.', 'total' => $total);
 		}
-		return Response::json($data);
+		return response()->json($data);
 	}
 
 }
