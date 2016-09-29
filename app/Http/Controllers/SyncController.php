@@ -53,18 +53,22 @@ class SyncController extends Controller
         }     
         
         $total = 0;
+
         if (false !== ($json = @file_get_contents($path.$api.$last))) {
             $url = json_decode($json, true);            
 
+            $limit = 100; // limit process up to 100 records only (to encounter error maximum execution time)
+
+            $total_all = count($url['data']);
             // loop all records
-            foreach($url['data'] as $i) {
+            foreach($url['data'] as $i) {                
                 $ic = str_replace("-", "", trim($i['NRIC']));
                 $sitecode = trim($i['SiteCode::SiteCode']);
                 $join_date = Carbon::parse(trim($i['DateCreated']))->format('Y-m-d');
 
                 // check icno
                 $q = \IhrV2\User::where('icno', $ic)->first();
-                if (empty($q)) {
+                if (empty($q) && $total < $limit) {
                     $total++;
 
                     // insert users
@@ -173,7 +177,7 @@ class SyncController extends Controller
             // endforeach
         }
         if ($total > 0) {
-            $data['message'] = 'Synchronize completed. '.$total.' records effected.';
+            $data['message'] = 'Synchronize completed. '.$total.' of '.$total_all;
         }
         else {
             $data['message'] = 'No record found.';
