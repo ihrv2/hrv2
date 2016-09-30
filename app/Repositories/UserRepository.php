@@ -7,6 +7,141 @@ class UserRepository {
 
 
 
+
+	public function getUserPersonalByUserIDToken($uid, $token)
+	{
+		$query = \IhrV2\Models\User::where('id', $uid)->where('api_token', $token)->first();	
+		return $query;	
+	}
+
+	public function getUserJobByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserJob::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('status', 1)
+		->first();	
+		return $query;	
+	}
+
+	public function getUserContractByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserContract::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('status', 1)
+		->first();	
+		return $query;			
+	}
+
+	public function getUserFamilyByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserFamily::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->first();	
+		return $query;				
+	}
+
+	public function getUserEducationByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserEducation::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->first();	
+		return $query;				
+	}
+
+	public function getUserLanguageByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserLanguage::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->first();	
+		return $query;				
+	}
+
+	public function getUserSkillByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserSkill::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->first();	
+		return $query;				
+	}
+
+	public function getUserEmploymentByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserEmployment::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->first();	
+		return $query;				
+	}
+
+	public function getUserReferenceByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserReference::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->first();	
+		return $query;				
+	}
+
+	public function getUserEmergencyByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserEmergency::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->first();	
+		return $query;				
+	}
+
+	public function getUserPhotoByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserPhoto::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('status', 1)
+		->first();	
+		return $query;				
+	}
+
+
+
+
+
+
 	// user
 	public function getUserByID($id)
 	{
@@ -50,6 +185,14 @@ class UserRepository {
 	{
 
 	}
+
+
+
+
+
+
+
+
 
 	public function getUserContractWithUser($id, $uid, $token)
 	{

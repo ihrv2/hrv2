@@ -61,19 +61,51 @@ Route::group(['middleware' => ['auth', 'default']], function()
 
 
 
-
-	Route::get('mod/user/view/personal', array(
+	// tabs
+	Route::get('mod/user/view/personal/{id}/{token}', array(
 		'as'    => 'mod.user.view.personal',
 		'uses'   => 'UserController@showUserViewPersonal',
 	));  
-	Route::get('mod/user/view/job/{id}', array(
+	Route::get('mod/user/view/job/{id}/{token}', array(
 		'as'    => 'mod.user.view.job',
 		'uses'   => 'UserController@showUserViewJob',
 	));  
-
-
-
-
+	Route::get('mod/user/view/contract/{id}/{token}', array(
+		'as'    => 'mod.user.view.contract',
+		'uses'   => 'UserController@showUserViewContract',
+	));  
+	Route::get('mod/user/view/family/{id}/{token}', array(
+		'as'    => 'mod.user.view.family',
+		'uses'   => 'UserController@showUserViewFamily',
+	));  
+	Route::get('mod/user/view/education/{id}/{token}', array(
+		'as'    => 'mod.user.view.education',
+		'uses'   => 'UserController@showUserViewEducation',
+	));  
+	Route::get('mod/user/view/language/{id}/{token}', array(
+		'as'    => 'mod.user.view.language',
+		'uses'   => 'UserController@showUserViewLanguage',
+	));  
+	Route::get('mod/user/view/skill/{id}/{token}', array(
+		'as'    => 'mod.user.view.skill',
+		'uses'   => 'UserController@showUserViewSkill',
+	));  
+	Route::get('mod/user/view/employment/{id}/{token}', array(
+		'as'    => 'mod.user.view.employment',
+		'uses'   => 'UserController@showUserViewEmployment',
+	));  
+	Route::get('mod/user/view/reference/{id}/{token}', array(
+		'as'    => 'mod.user.view.reference',
+		'uses'   => 'UserController@showUserViewReference',
+	));  
+	Route::get('mod/user/view/emergency/{id}/{token}', array(
+		'as'    => 'mod.user.view.emergency',
+		'uses'   => 'UserController@showUserViewEmergency',
+	));  
+	Route::get('mod/user/view/photo/{id}/{token}', array(
+		'as'    => 'mod.user.view.photo',
+		'uses'   => 'UserController@showUserViewPhoto',
+	));  
 
 	// modul sync
 	// ----------
