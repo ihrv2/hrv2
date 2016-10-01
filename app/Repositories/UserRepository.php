@@ -10,7 +10,7 @@ class UserRepository {
 
 	public function getUserPersonalByUserIDToken($uid, $token)
 	{
-		$query = \IhrV2\Models\User::where('id', $uid)->where('api_token', $token)->first();	
+		$query = \IhrV2\User::where('id', $uid)->where('api_token', $token)->first();	
 		return $query;	
 	}
 
@@ -27,7 +27,7 @@ class UserRepository {
 		return $query;	
 	}
 
-	public function getUserContractByUserIDToken($uid, $token)
+	public function getUserContractCurrByUserIDToken($uid, $token)
 	{
 		$filters = array('user_id' => $uid, 'api_token' => $token);
 		$query = \IhrV2\Models\UserContract::whereHas('UserDetail', function($x) use ($filters) { 
@@ -40,6 +40,19 @@ class UserRepository {
 		return $query;			
 	}
 
+	public function getUserContractPrevByUserIDToken($uid, $token)
+	{
+		$filters = array('user_id' => $uid, 'api_token' => $token);
+		$query = \IhrV2\Models\UserContract::whereHas('UserDetail', function($x) use ($filters) { 
+		    foreach ($filters as $column => $key) {
+		        if (!is_null($key)) $x->where($column, $key);
+		    }
+		})
+		->where('status', 2)
+		->get();	
+		return $query;			
+	}
+
 	public function getUserFamilyByUserIDToken($uid, $token)
 	{
 		$filters = array('user_id' => $uid, 'api_token' => $token);
@@ -48,7 +61,7 @@ class UserRepository {
 		        if (!is_null($key)) $x->where($column, $key);
 		    }
 		})
-		->first();	
+		->get();	
 		return $query;				
 	}
 
@@ -60,7 +73,7 @@ class UserRepository {
 		        if (!is_null($key)) $x->where($column, $key);
 		    }
 		})
-		->first();	
+		->get();	
 		return $query;				
 	}
 
@@ -72,7 +85,7 @@ class UserRepository {
 		        if (!is_null($key)) $x->where($column, $key);
 		    }
 		})
-		->first();	
+		->get();	
 		return $query;				
 	}
 
@@ -84,7 +97,7 @@ class UserRepository {
 		        if (!is_null($key)) $x->where($column, $key);
 		    }
 		})
-		->first();	
+		->get();	
 		return $query;				
 	}
 
@@ -96,7 +109,7 @@ class UserRepository {
 		        if (!is_null($key)) $x->where($column, $key);
 		    }
 		})
-		->first();	
+		->get();	
 		return $query;				
 	}
 
@@ -108,7 +121,7 @@ class UserRepository {
 		        if (!is_null($key)) $x->where($column, $key);
 		    }
 		})
-		->first();	
+		->get();	
 		return $query;				
 	}
 
@@ -120,7 +133,7 @@ class UserRepository {
 		        if (!is_null($key)) $x->where($column, $key);
 		    }
 		})
-		->first();	
+		->get();	
 		return $query;				
 	}
 

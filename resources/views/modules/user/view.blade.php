@@ -159,7 +159,7 @@ $(document).ready(function(){
 												<td>Marital Status</td>
 												<td>
 													@if ($detail->MaritalStatus)
-													{{ $detail->MaritalStatus->name }}
+														{{ $detail->MaritalStatus->name }}
 													@endif
 												</td>
 											</tr>
@@ -191,7 +191,7 @@ $(document).ready(function(){
 												<td>Nationality</td>
 												<td>
 													@if ($detail->NationalityName)
-													{{ $detail->NationalityName->eng }}
+														{{ $detail->NationalityName->eng }}
 													@endif
 												</td>
 											</tr>		
@@ -211,7 +211,7 @@ $(document).ready(function(){
 												<td>Staff Level</td>
 												<td>
 													@if ($detail->GroupName)
-													{{ $detail->GroupName->name }}
+														{{ $detail->GroupName->name }}
 													@endif
 												</td>
 											</tr>	

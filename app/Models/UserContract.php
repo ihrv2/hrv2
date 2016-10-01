@@ -36,7 +36,7 @@ class UserContract extends Model
 
 
     // new contract
-	public function contract_create($data, $id) {
+	public function contract_create($data, $uid) {
 		$invalid = 0;
 		// convert date
 		$from = Carbon::createFromFormat('d/m/Y', $data['date_from'])->format('Y-m-d'); // "YYYY-MM-DD"
@@ -46,13 +46,13 @@ class UserContract extends Model
 		if (Carbon::parse($from)->lte(Carbon::parse($to))) { // true
 
 	    	// update current contract to inactive
-			$update = \IhrV2\Models\UserContract::where('user_id', '=', $id)->where('status', '=', 1)->update(array('status' => 2));
+			$update = \IhrV2\Models\UserContract::where('user_id', '=', $uid)->where('status', '=', 1)->update(array('status' => 2));
 
 			// get total al
 			$leave_repo = new LeaveRepository; // call leave repository
 			$total_al = $leave_repo->getTotalAL($from, $to);
 
-			$this->user_id = $id;			
+			$this->user_id = $uid;			
 			$this->date_from = $from;
 			$this->date_to = $to;
 			$this->salary = $data['salary'];
@@ -79,8 +79,39 @@ class UserContract extends Model
 
 	// update contract
 	public function contract_update($data) {	
-	
+		$invalid = 0;
+		// convert date
+		$from = Carbon::createFromFormat('d/m/Y', $data['date_from'])->format('Y-m-d'); // "YYYY-MM-DD"
+		$to = Carbon::createFromFormat('d/m/Y', $data['date_to'])->format('Y-m-d'); // "YYYY-MM-DD"
+
+		// check if date from is less than or equal date to
+		if (Carbon::parse($from)->lte(Carbon::parse($to))) { // true
+			
+			// get total al
+			$leave_repo = new LeaveRepository; // call leave repository
+			$total_al = $leave_repo->getTotalAL($from, $to);
+
+			// update data
+			$this->date_from = $from;
+			$this->date_to = $to;
+			$this->salary = $data['salary'];				
+			$this->status_contract_id = $data['status_contract_id'];
+			$this->total_al = $total_al;	
+			$this->save();	
+		}
+		else {
+			$invalid = 1;
+		}
+		if ($invalid == 1) {
+			$msg = array('Selected Date is invalid.', 'danger', 'mod.user.contract.create');			
+		}
+		else {
+			$msg = array('Contract successfully updated.', 'success', 'mod.user.view');						
+		}		
+		return $msg;	
 	}	
+
+
 
 
 

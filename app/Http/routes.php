@@ -60,6 +60,46 @@ Route::group(['middleware' => ['auth', 'default']], function()
 {
 
 
+	Route::get('mod/user/job/create/{uid}/{token}', array(
+		'as'    => 'mod.user.job.create',
+		'uses'   => 'UserController@createUserJob',
+	)); 
+
+	Route::get('mod/user/education/create/{uid}/{token}', array(
+		'as'    => 'mod.user.education.create',
+		'uses'   => 'UserController@createUserEducation',
+	)); 
+
+	Route::get('mod/user/language/create/{uid}/{token}', array(
+		'as'    => 'mod.user.language.create',
+		'uses'   => 'UserController@createUserLanguage',
+	)); 
+
+	Route::get('mod/user/skill/create/{uid}/{token}', array(
+		'as'    => 'mod.user.skill.create',
+		'uses'   => 'UserController@createUserSkill',
+	)); 
+
+	Route::get('mod/user/employment/create/{uid}/{token}', array(
+		'as'    => 'mod.user.employment.create',
+		'uses'   => 'UserController@createUserEmployment',
+	)); 
+
+	Route::get('mod/user/reference/create/{uid}/{token}', array(
+		'as'    => 'mod.user.reference.create',
+		'uses'   => 'UserController@createUserReference',
+	)); 
+
+	Route::get('mod/user/emergency/create/{uid}/{token}', array(
+		'as'    => 'mod.user.emergency.create',
+		'uses'   => 'UserController@createUserEmergency',
+	)); 
+
+
+
+
+
+
 
 	// tabs
 	Route::get('mod/user/view/personal/{id}/{token}', array(
@@ -215,6 +255,15 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'as'    => 'mod.user.family.delete',
 		'uses'   => 'UserController@destroyUserFamily',
 	));  		
+
+
+
+
+
+
+
+
+
 
 	// modul public holiday
 	Route::get('mod/public-holiday', array(

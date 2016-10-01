@@ -34,6 +34,7 @@ class UserController extends Controller
 
 
 
+
 	public function showUserIndex() {
 		$data = array();
 		$data['header'] = array(
@@ -259,81 +260,82 @@ class UserController extends Controller
 
 
 
-
     // tabs
     public function showUserViewPersonal($uid, $token)
     {
         $data['personal'] = $this->user_repo->getUserPersonalByUserIDToken($uid, $token);
+        $data['age'] = date('Y') - date('Y', strtotime($data['personal']->dob));        
         return View('modules.user.tab.personal', $data);
     }
 
     public function showUserViewJob($uid, $token)
     {
 		$data['job'] = $this->user_repo->getUserJobByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
 		return View('modules.user.tab.job', $data);
     }
 
     public function showUserViewContract($uid, $token)
     {
-        $data['contract'] = $this->user_repo->getUserContractByUserIDToken($uid, $token);
+        $data['curr_contract'] = $this->user_repo->getUserContractCurrByUserIDToken($uid, $token);
+        $data['prev_contract'] = $this->user_repo->getUserContractPrevByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
         return View('modules.user.tab.contract', $data);
     }
 
     public function showUserViewFamily($uid, $token)
     {
-        $data['family'] = $this->user_repo->getUserFamilyByUserIDToken($uid, $token);
+        $data['detail'] = $this->user_repo->getUserFamilyByUserIDToken($uid, $token);        
+        $data['user'] = array('id' => $uid, 'token' => $token);
         return View('modules.user.tab.family', $data);
     }
 
     public function showUserViewEducation($uid, $token)
     {
-        $data['education'] = $this->user_repo->getUserEducationByUserIDToken($uid, $token);
+        $data['detail'] = $this->user_repo->getUserEducationByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
         return View('modules.user.tab.education', $data);
     }
 
     public function showUserViewLanguage($uid, $token)
     {
-        $data['language'] = $this->user_repo->getUserLanguageByUserIDToken($uid, $token);
+        $data['detail'] = $this->user_repo->getUserLanguageByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
         return View('modules.user.tab.language', $data);
     }
 
     public function showUserViewSkill($uid, $token)
     {
-        $data['skill'] = $this->user_repo->getUserSkillByUserIDToken($uid, $token);
+        $data['detail'] = $this->user_repo->getUserSkillByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
         return View('modules.user.tab.skill', $data);
     }
 
     public function showUserViewEmployment($uid, $token)
     {
-        $data['employment'] = $this->user_repo->getUserEmploymentByUserIDToken($uid, $token);
+        $data['detail'] = $this->user_repo->getUserEmploymentByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
         return View('modules.user.tab.employment', $data);
     }
     public function showUserViewReference($uid, $token)
     {
-        $data['reference'] = $this->user_repo->getUserReferenceByUserIDToken($uid, $token);
+        $data['detail'] = $this->user_repo->getUserReferenceByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
         return View('modules.user.tab.reference', $data);
     }
 
     public function showUserViewEmergency($uid, $token)
     {
-        $data['emergency'] = $this->user_repo->getUserEmergencyByUserIDToken($uid, $token);
-        if (!empty($data['emergency'])) {
-            return View('modules.user.tab.emergency', $data);
-        }
-        else {
-            return 'No emergency found';
-        }        
+        $data['detail'] = $this->user_repo->getUserEmergencyByUserIDToken($uid, $token);
+        $data['user'] = array('id' => $uid, 'token' => $token);
+        return View('modules.user.tab.emergency', $data);       
     }
 
     public function showUserViewPhoto($uid, $token)
     {
         $data['photo'] = $this->user_repo->getUserPhotoByUserIDToken($uid, $token);
-        if (!empty($data['photo'])) {
-            return View('modules.user.tab.photo', $data);
-        }
-        else {
-            return 'No photo found';
-        }
+        $data['user'] = array('id' => $uid, 'token' => $token);        
+        return View('modules.user.tab.photo', $data);
     }
 
 
@@ -399,21 +401,18 @@ class UserController extends Controller
 
 
 
-    public function updateUserContract(Requests\UserUpdateContract $request, $id, $uid, $token)
+    public function updateUserContract(Requests\UserContractUpdate $request, $id, $uid, $token)
     {
     	$contract = \IhrV2\Models\UserContract::find($id);
-    	$save = $contract->contract_update($request->all(), $id);
-		if ($save) { 
-        	$msg = array($save['message'], $save['label']);
-        }
-        else {
-        	$msg = array('Update is fail.', 'danger');
-        }
-        return redirect()->route('mod.user.view', array($uid, $token))->with([
-            'message' => $msg[0], 
-            'label' => 'alert alert-'.$msg[1].' alert-dismissible'
-        ]);
+    	$save = $contract->contract_update($request->all());
+        return redirect()->route($save[2], array($id, $token))->with([
+            'message' => $save[0], 
+            'label' => 'alert alert-'.$save[1].' alert-dismissible'
+        ]); 
     }
+
+
+
 
     public function destroyUserContract()
     {
