@@ -22,7 +22,7 @@ class UserEducationCreate extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name_education' => 'required',
         ];
     }
 
@@ -32,7 +32,7 @@ class UserEducationCreate extends Request
     public function messages()
     {
         return [
-            'name.required' => 'Please insert Name.',
+            'name_education.required' => 'Please insert Institution.',
         ];
     } 
 }

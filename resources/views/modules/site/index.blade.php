@@ -28,6 +28,8 @@
    <div class="col-sm-12">
 
 
+
+      {{ Form::open(array('class' => 'form-horizontal')) }}
       <div class="well">
          <table class="table table-striped table-condensed table-responsive table-hover">
             <thead>
@@ -52,7 +54,7 @@
                      <td>{{ $i->address }}</td>
                      <td>{{ ($i->RegionName) ? $i->RegionName->name : '-' }}</td>
                      <td>{{ ($i->StateName) ? $i->StateName->name : '-' }}</td>
-                     <td class="text-right"><a href="{{ route('mod.site.edit', array($i->id)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a></td>
+                     <td class="text-right"><a href="{{ route('mod.site.edit', array($i->id)) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;{{ Form::button('<i class="icon-trash"></i>',['type' => 'submit', 'class' => 'btn btn-primary btn-sm', 'title' => 'Delete', 'id' => 'btn_id', 'alt' => $i->id]) }}</td>
                   </tr>
                @endforeach
             @else
@@ -60,20 +62,37 @@
             @endif
          </table>
 
-
-
          <div class="paging text-center">  
             {{ $sites->render() }}      
             <br>
             <p>{{ 'Total: '.$sites->total() }}</p>
          </div>
 
-
-
-
       </div>
+      {{ Form::hidden('site_id', null, array('id' => 'site_id')) }}
+      {{ Form::close() }}
+
+
+
 
    </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+   $(document).on('click','#btn_id',function() {
+      var answer = confirm('Do you want to delete this record?');
+      if (answer == true) {
+         $('#site_id').val($(this).attr('alt'));
+      }
+      else {
+         return false;
+      } 
+   });
+
+});
+</script>
+
 
 @stop

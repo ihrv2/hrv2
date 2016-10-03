@@ -151,6 +151,17 @@ class MaintenanceController extends Controller
 
 	public function postSiteIndex(Request $request)
 	{
+
+		// delete site
+		if (!empty($request->site_id)) {
+	        $i = \IhrV2\Models\Site::find($request->site_id);
+	        $save = $i->site_delete();
+	        return redirect()->route($save[2])->with([
+	            'message' => $save[0], 
+	            'label' => 'alert alert-'.$save[1].' alert-dismissible'
+	        ]); 		        	
+		}
+
 		$data = array();
 		$data['header'] = array(
 			'parent' => 'Site Administration', 
@@ -195,22 +206,49 @@ class MaintenanceController extends Controller
 			'title' => 'Edit Site'
 		);
 		$data['detail'] = $this->user_repo->getSiteByID($id);	
+		$data['regions'] = $this->user_repo->getRegionList();			
+		$data['states'] = $this->user_repo->getStateList();			
+		$data['phases'] = $this->user_repo->getPhaseList();			
+		$data['mukims'] = $this->user_repo->getMukimList();			
+		$data['districts'] = $this->user_repo->getDistrictList();			
 		return View('modules.site.edit', $data);
 	}
 
-	public function updateSiteEdit(Requests\SiteUpdate $request)
+	public function updateSiteEdit(Requests\SiteUpdate $request, $id)
 	{
-		
+        $i = \IhrV2\Models\Site::find($id);
+        $save = $i->site_update($request->all());
+        return redirect()->route($save[2])->with([
+            'message' => $save[0], 
+            'label' => 'alert alert-'.$save[1].' alert-dismissible'
+        ]); 
 	}
 
 	public function createSiteAdd()
 	{
-		
+		$data = array();
+		$data['header'] = array(
+			'parent' => 'Site Administration', 
+			'child' => 'All Site',
+			'child-a' => route('mod.site.index'),			
+			'icon' => 'flag',
+			'title' => 'Add Site'
+		);
+		$data['regions'] = $this->user_repo->getRegionList();			
+		$data['states'] = $this->user_repo->getStateList();			
+		$data['phases'] = $this->user_repo->getPhaseList();			
+		$data['mukims'] = $this->user_repo->getMukimList();			
+		$data['districts'] = $this->user_repo->getDistrictList();			
+		return View('modules.site.create', $data);		
 	}
 
-	public function storeSiteAdd()
+	public function storeSiteAdd(Requests\SiteCreate $request, \IhrV2\Models\Site $i)
 	{
-		
+        $save = $i->site_create($request->all());   
+        return redirect()->route($save[2])->with([
+            'message' => $save[0], 
+            'label' => 'alert alert-'.$save[1].' alert-dismissible'
+        ]); 		
 	}		
 
 

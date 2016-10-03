@@ -65,7 +65,7 @@
 				<div class="form-group">
 					<div class="col-md-4">          
 						<div class="required">        
-						{{ Form::label('selectReading', 'Read') }}   
+						{{ Form::label('selectReading', 'Reading') }}   
 						@if ($errors->has('reading'))
 							<p class="text-danger">{{ $errors->first('reading') }}</p>
 						@endif      

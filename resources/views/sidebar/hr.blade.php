@@ -28,6 +28,12 @@
             </li>
             <li><a href="{{ route('mod.region.index') }}">Manage Region / Reporting Officer</a></li>   
             <li><a href="{{ route('mod.public.holiday') }}">Manage Public Holiday</a></li> 
-            <li><a href="{{ route('mod.site.index')}}">Manage Site</a></li>             
+            <li class="">
+               <a href="#" aria-expanded="false"> Manage Site »</a>
+               <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                  <li><a href="{{ route('mod.site.index') }}">All Site</a></li>
+                  <li><a href="{{ route('mod.site.create') }}">Add Site</a></li>
+               </ul>
+            </li>
          </ul>
       </li> 

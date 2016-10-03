@@ -23,6 +23,7 @@ class UserEmergencyUpdate extends Request
     {
         return [
             'name' => 'required',
+            'relation' => 'required'
         ];
     }
 
@@ -33,6 +34,7 @@ class UserEmergencyUpdate extends Request
     {
         return [
             'name.required' => 'Please insert Name.',
+            'relation.required' => 'Please insert Relation.',
         ];
     } 
 }

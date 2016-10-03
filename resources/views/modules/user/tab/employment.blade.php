@@ -33,7 +33,7 @@
 							<td>{{ $employment->company }}</td>           
 							<td>{{ $employment->position }}</td>              
 							<td>{{ $employment->salary }}</td>               		
-							<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+							<td class="text-right"><a href="{{ route('mod.user.employment.edit', array($employment->id, $user['id'], $user['token'])) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 						</tr>
 						@endforeach
 						@else
@@ -52,3 +52,19 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+   $(document).on('click','#btn_id',function() {
+      var answer = confirm('Do you want to delete this record?');
+      if (answer == true) {
+         $('#f_id').val($(this).attr('alt'));
+      }
+      else {
+         return false;
+      } 
+   });
+
+});
+</script>

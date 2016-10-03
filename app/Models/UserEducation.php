@@ -25,18 +25,15 @@ class UserEducation extends Model
     }
 
 
-	public function education_create($data) {
-		$this->user_id = $data['uid'];			
+	public function education_create($data, $uid) {
+		$this->user_id = $uid;
 		$this->year_from = $data['year_from'];
 		$this->year_to = $data['year_to'];
 		$this->name_education = $data['name_education'];			
 		$this->result = $data['result'];			
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Education successfully added.', 'success', 'mod.user.view');	
+		return $msg;		
 	}	
 
 
@@ -47,13 +44,23 @@ class UserEducation extends Model
 		$this->year_to = $data['year_to'];	
 		$this->name_education = $data['name_education'];			
 		$this->result = $data['result'];					
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Education successfully updated.', 'success', 'mod.user.view');	
+		return $msg;		
 	}	
 
-    
+
+
+	public function site_delete()
+	{
+		$this->delete();
+		$msg = array('Site successfully deleted.', 'success', 'mod.site.index');	
+		return $msg;		
+	}
+
+
+
+  
+
+
 }

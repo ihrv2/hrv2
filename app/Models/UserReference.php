@@ -26,37 +26,43 @@ class UserReference extends Model
     }
 
 
-	public function reference_add($data) {
-		$this->user_id = $data['uid'];			
+	public function reference_create($data, $uid) {
+		$this->user_id = $uid;		
 		$this->name = $data['name'];			
 		$this->relation = $data['relation'];			
 		$this->address = $data['address'];			
 		$this->telno = $data['telno'];			
 		$this->occupation = $data['occupation'];			
-		$this->period_known = $data['period_known'];					
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->period_known = $data['period_known'];
+		$this->save();					
+		$msg = array('Reference successfully added.', 'success', 'mod.user.view');	
+		return $msg;		
 	}	
 
 
 
-	public function reference_edit($data) {
+	public function reference_update($data) {
 		$this->name = $data['name'];			
 		$this->relation = $data['relation'];			
 		$this->address = $data['address'];			
 		$this->telno = $data['telno'];			
 		$this->occupation = $data['occupation'];			
 		$this->period_known = $data['period_known'];				
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Reference successfully updated.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
+
+
+
+
+	public function family_delete($data) {
+		$msg = array('Family successfully deleted.', 'success', 'mod.user.view');			
+		return $msg;		
+	}
+
+
+
+
     
 }

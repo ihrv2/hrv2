@@ -37,7 +37,7 @@
 						@if ($errors->has('level'))
 							<p class="text-danger">{{ $errors->first('level') }}</p>
 						@endif      
-						{{ Form::select('level', $levels, $detail->level_id, array('class' => 'form-control', 'id' => 'selectLevel')) }}                 
+						{{ Form::select('level', $skill_levels, $detail->level_id, array('class' => 'form-control', 'id' => 'selectLevel')) }}                 
 						</div>
 					</div>
 				</div>

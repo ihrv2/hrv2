@@ -34,7 +34,7 @@ class UserCreate extends Request
     {
         return [
             'name' => 'required',
-            'icno' => 'required',
+            'icno' => 'required|unique:users',
             'email' => 'required'
         ];
     }

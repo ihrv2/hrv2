@@ -25,6 +25,7 @@ class UserEmergencyCreate extends Request
     {
         return [
             'name' => 'required',
+            'relation' => 'required'
         ];
     }
 
@@ -35,6 +36,7 @@ class UserEmergencyCreate extends Request
     {
         return [
             'name.required' => 'Please insert Name.',
+            'relation.required' => 'Please insert Relation.',
         ];
     } 
 }

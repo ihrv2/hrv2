@@ -24,7 +24,9 @@ class UserEmploymentCreate extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
+            'company' => 'required',
+            'position' => 'required',
+            'salary' => 'required',
         ];
     }
 
@@ -34,7 +36,9 @@ class UserEmploymentCreate extends Request
     public function messages()
     {
         return [
-            'name.required' => 'Please insert Name.',
+            'company.required' => 'Please insert Company.',
+            'position.required' => 'Please insert Position.',
+            'salary.required' => 'Please insert Salary.',
         ];
     } 
 }

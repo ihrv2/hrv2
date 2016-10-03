@@ -64,8 +64,9 @@ class UserJob extends Model
         $this->phase_id = $data['phase_id'];
         $this->sitecode = $data['sitecode'];        
         $this->status = 1;
-        $this->save();  
-        return true;    
+        $this->save();                  
+        $msg = array('Job successfully added.', 'success', 'mod.user.view');  
+        return $msg;   
     }   
 
 
@@ -77,10 +78,18 @@ class UserJob extends Model
         $this->position_id = $data['position_id'];
         $this->phase_id = $data['phase_id'];
         $this->sitecode = $data['sitecode'];
-        $this->save();
-        return true;    
+        $this->save();                  
+        $msg = array('Job successfully updated.', 'success', 'mod.user.view');  
+        return $msg;    
     }
 
+
+
+
+    public function family_delete($data) {
+        $msg = array('Family successfully deleted.', 'success', 'mod.user.view');           
+        return $msg;        
+    }
 
 
 

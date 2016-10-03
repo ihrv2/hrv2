@@ -45,8 +45,20 @@ class Site extends Model
 	}		
 
 
+
+
 	public function site_create($data) {
-		
+		$this->code = $data['code'];		
+		$this->address = $data['address'];		
+		$this->email = $data['email'];	
+		$this->region_id = $data['region_id'];	
+		$this->state_id = $data['state_id'];	
+		$this->phase_id = $data['phase_id'];	
+		$this->mukim_id = $data['mukim_id'];	
+		$this->district_id = $data['district_id'];	
+		$this->save();					
+		$msg = array('Site successfully added.', 'success', 'mod.site.index');	
+		return $msg;		
 	}	
 
 
@@ -54,7 +66,25 @@ class Site extends Model
 
 
 	public function site_update($data) {
+		$this->code = $data['code'];		
+		$this->address = $data['address'];		
+		$this->email = $data['email'];	
+		$this->region_id = $data['region_id'];	
+		$this->state_id = $data['state_id'];	
+		$this->phase_id = $data['phase_id'];	
+		$this->mukim_id = $data['mukim_id'];	
+		$this->district_id = $data['district_id'];	
+		$this->save();					
+		$msg = array('Site successfully updated.', 'success', 'mod.site.index');	
+		return $msg;
+	}
 
+
+	public function site_delete()
+	{
+		$this->delete();
+		$msg = array('Site successfully deleted.', 'success', 'mod.site.index');	
+		return $msg;		
 	}
 
 

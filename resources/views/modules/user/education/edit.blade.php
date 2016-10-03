@@ -19,7 +19,7 @@
 
 
 				<div class="form-group">
-					<div class="col-md-4">          
+					<div class="col-md-2">          
 						<div class="required">        
 						{{ Form::label('selectStart', 'Year From') }}   
 						@if ($errors->has('year_from'))
@@ -33,7 +33,7 @@
 
 
 				<div class="form-group">
-					<div class="col-md-4">          
+					<div class="col-md-2">          
 						<div class="required">        
 						{{ Form::label('selectEnd', 'Year To') }}   
 						@if ($errors->has('year_to'))

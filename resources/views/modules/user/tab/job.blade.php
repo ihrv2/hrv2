@@ -43,7 +43,7 @@
 						</tr>			
 						<tr>
 							<td>Sitename</td>
-							<td></td>
+							<td>{{ '-' }}</td>
 						</tr>
 						<tr>
 							<td>Region</td>
@@ -79,3 +79,23 @@
 		</div>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+   $(document).on('click','#btn_id',function() {
+      var answer = confirm('Do you want to delete this record?');
+      if (answer == true) {
+         $('#f_id').val($(this).attr('alt'));
+      }
+      else {
+         return false;
+      } 
+   });
+
+});
+</script>
+
+
+

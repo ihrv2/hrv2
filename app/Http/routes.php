@@ -58,50 +58,8 @@ Route::post('auth/password', [
 // group for admin/hr/rm
 Route::group(['middleware' => ['auth', 'default']], function()
 {
-
-
-	Route::get('mod/user/job/create/{uid}/{token}', array(
-		'as'    => 'mod.user.job.create',
-		'uses'   => 'UserController@createUserJob',
-	)); 
-
-	Route::get('mod/user/education/create/{uid}/{token}', array(
-		'as'    => 'mod.user.education.create',
-		'uses'   => 'UserController@createUserEducation',
-	)); 
-
-	Route::get('mod/user/language/create/{uid}/{token}', array(
-		'as'    => 'mod.user.language.create',
-		'uses'   => 'UserController@createUserLanguage',
-	)); 
-
-	Route::get('mod/user/skill/create/{uid}/{token}', array(
-		'as'    => 'mod.user.skill.create',
-		'uses'   => 'UserController@createUserSkill',
-	)); 
-
-	Route::get('mod/user/employment/create/{uid}/{token}', array(
-		'as'    => 'mod.user.employment.create',
-		'uses'   => 'UserController@createUserEmployment',
-	)); 
-
-	Route::get('mod/user/reference/create/{uid}/{token}', array(
-		'as'    => 'mod.user.reference.create',
-		'uses'   => 'UserController@createUserReference',
-	)); 
-
-	Route::get('mod/user/emergency/create/{uid}/{token}', array(
-		'as'    => 'mod.user.emergency.create',
-		'uses'   => 'UserController@createUserEmergency',
-	)); 
-
-
-
-
-
-
-
-	// tabs
+	// user tabs
+	// ---------
 	Route::get('mod/user/view/personal/{id}/{token}', array(
 		'as'    => 'mod.user.view.personal',
 		'uses'   => 'UserController@showUserViewPersonal',
@@ -147,22 +105,9 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'UserController@showUserViewPhoto',
 	));  
 
-	// modul sync
-	// ----------
-	Route::get('mod/sync/user', array(
-		'as'    => 'mod.sync.user',
-		'uses'   => 'SyncController@showSyncUser',
-	));   
-	Route::post('mod/sync/user', array(
-		'uses'   => 'SyncController@updateSyncUser',
-	)); 	
-	Route::get('mod/sync/public-holiday', array(
-		'as'    => 'mod.sync.public.holiday',
-		'uses'   => 'SyncController@showSyncPublicHoliday',
-	));   
-	Route::post('mod/sync/public-holiday', array(
-		'uses'   => 'SyncController@updateSyncPublicHoliday',
-	)); 
+
+
+
 
 	// modul user	
 	// ----------
@@ -172,7 +117,8 @@ Route::group(['middleware' => ['auth', 'default']], function()
 	));
 	Route::post('mod/user', array(
 		'uses'   => 'UserController@postUserIndex',
-	));    
+	));   
+
 
 	// select group
 	Route::get('mod/user/group', array(
@@ -192,7 +138,7 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'UserController@storeUser',
 	)); 
 
-	// edit user password
+	// user password
 	Route::get('mod/user/password/{id}/{token}', array(
 		'as'    => 'mod.user.password',
 		'uses'   => 'UserController@showUserPassword',
@@ -207,13 +153,20 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'UserController@showUserView',
 	)); 	
 
+
+
+
 	// user photo
+	// ----------
 	Route::post('mod/user/photo/upload', array(
 		'uses'   => 'UserController@updateUserPhoto',
 	)); 	
 	Route::post('mod/user/photo/remove', array(
 		'uses'   => 'UserController@destroyUserPhoto',
 	)); 
+
+
+
 
 	// user contract
 	// -------------
@@ -236,7 +189,12 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'UserController@destroyUserContract',
 	));  
 
+
+
+
+
 	// user family
+	// -----------
 	Route::get('mod/user/family/create/{uid}/{token}', array(
 		'as'    => 'mod.user.family.create',
 		'uses'   => 'UserController@createUserFamily',
@@ -251,7 +209,7 @@ Route::group(['middleware' => ['auth', 'default']], function()
 	Route::post('mod/user/family/edit/{id}/{uid}/{token}', array(
 		'uses'   => 'UserController@updateUserFamily',
 	)); 
-	Route::get('mod/user/family/delete/{id}/{uid}/{token}', array(
+	Route::post('mod/user/family/delete', array(
 		'as'    => 'mod.user.family.delete',
 		'uses'   => 'UserController@destroyUserFamily',
 	));  		
@@ -259,13 +217,180 @@ Route::group(['middleware' => ['auth', 'default']], function()
 
 
 
+	// user education
+	// --------------
+	Route::get('mod/user/education/create/{uid}/{token}', array(
+		'as'    => 'mod.user.education.create',
+		'uses'   => 'UserController@createUserEducation',
+	));
+	Route::post('mod/user/education/create/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserEducation',
+	));       
+	Route::get('mod/user/education/edit/{id}/{uid}/{token}', array(
+		'as'    => 'mod.user.education.edit',
+		'uses'   => 'UserController@editUserEducation',
+	)); 
+	Route::post('mod/user/education/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserEducation',
+	)); 
+	Route::post('mod/user/education/delete', array(
+		'as'    => 'mod.user.education.delete',
+		'uses'   => 'UserController@destroyUserEducation',
+	));  		
 
 
+
+
+
+	// user job
+	// --------
+	Route::get('mod/user/job/create/{uid}/{token}', array(
+		'as'    => 'mod.user.job.create',
+		'uses'   => 'UserController@createUserJob',
+	)); 
+	Route::post('mod/user/job/create/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserJob',
+	));       
+	Route::get('mod/user/job/edit/{id}/{uid}/{token}', array(
+		'as'    => 'mod.user.job.edit',
+		'uses'   => 'UserController@editUserJob',
+	)); 
+	Route::post('mod/user/job/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserJob',
+	)); 
+	Route::post('mod/user/job/delete', array(
+		'as'    => 'mod.user.job.delete',
+		'uses'   => 'UserController@destroyUserJob',
+	)); 
+
+
+
+ 
+	// user language
+	// -------------
+	Route::get('mod/user/language/create/{uid}/{token}', array(
+		'as'    => 'mod.user.language.create',
+		'uses'   => 'UserController@createUserLanguage',
+	)); 
+	Route::post('mod/user/language/create/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserLanguage',
+	));       
+	Route::get('mod/user/language/edit/{id}/{uid}/{token}', array(
+		'as'    => 'mod.user.language.edit',
+		'uses'   => 'UserController@editUserLanguage',
+	)); 
+	Route::post('mod/user/language/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserLanguage',
+	)); 
+	Route::post('mod/user/language/delete', array(
+		'as'    => 'mod.user.language.delete',
+		'uses'   => 'UserController@destroyUserLanguage',
+	)); 
+
+
+
+
+	// user skill
+	// ----------
+	Route::get('mod/user/skill/create/{uid}/{token}', array(
+		'as'    => 'mod.user.skill.create',
+		'uses'   => 'UserController@createUserSkill',
+	)); 
+	Route::post('mod/user/skill/create/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserSkill',
+	));       
+	Route::get('mod/user/skill/edit/{id}/{uid}/{token}', array(
+		'as'    => 'mod.user.skill.edit',
+		'uses'   => 'UserController@editUserSkill',
+	)); 
+	Route::post('mod/user/skill/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserSkill',
+	)); 
+	Route::post('mod/user/skill/delete', array(
+		'as'    => 'mod.user.skill.delete',
+		'uses'   => 'UserController@destroyUserSkill',
+	)); 
+
+
+
+
+
+	// user employment
+	// ---------------
+	Route::get('mod/user/employment/create/{uid}/{token}', array(
+		'as'    => 'mod.user.employment.create',
+		'uses'   => 'UserController@createUserEmployment',
+	));
+	Route::post('mod/user/employment/create/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserEmployment',
+	));       
+	Route::get('mod/user/employment/edit/{id}/{uid}/{token}', array(
+		'as'    => 'mod.user.employment.edit',
+		'uses'   => 'UserController@editUserEmployment',
+	)); 
+	Route::post('mod/user/employment/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserEmployment',
+	)); 
+	Route::post('mod/user/employment/delete', array(
+		'as'    => 'mod.user.employment.delete',
+		'uses'   => 'UserController@destroyUserEmployment',
+	)); 
+
+
+
+
+	// user reference
+	// --------------
+	Route::get('mod/user/reference/create/{uid}/{token}', array(
+		'as'    => 'mod.user.reference.create',
+		'uses'   => 'UserController@createUserReference',
+	)); 
+	Route::post('mod/user/reference/create/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserReference',
+	));       
+	Route::get('mod/user/reference/edit/{id}/{uid}/{token}', array(
+		'as'    => 'mod.user.reference.edit',
+		'uses'   => 'UserController@editUserReference',
+	)); 
+	Route::post('mod/user/reference/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserReference',
+	)); 
+	Route::post('mod/user/reference/delete', array(
+		'as'    => 'mod.user.reference.delete',
+		'uses'   => 'UserController@destroyUserReference',
+	)); 
+
+
+
+
+
+	// user emergency contact
+	// ----------------------
+	Route::get('mod/user/emergency/create/{uid}/{token}', array(
+		'as'    => 'mod.user.emergency.create',
+		'uses'   => 'UserController@createUserEmergency',
+	)); 
+	Route::post('mod/user/emergency/create/{uid}/{token}', array(
+		'uses'   => 'UserController@storeUserEmergency',
+	));       
+	Route::get('mod/user/emergency/edit/{id}/{uid}/{token}', array(
+		'as'    => 'mod.user.emergency.edit',
+		'uses'   => 'UserController@editUserEmergency',
+	)); 
+	Route::post('mod/user/emergency/edit/{id}/{uid}/{token}', array(
+		'uses'   => 'UserController@updateUserEmergency',
+	)); 
+	Route::post('mod/user/emergency/delete', array(
+		'as'    => 'mod.user.emergency.delete',
+		'uses'   => 'UserController@destroyUserEmergency',
+	)); 
+	
 
 
 
 
 	// modul public holiday
+	// --------------------
 	Route::get('mod/public-holiday', array(
 		'as'    => 'mod.public.holiday',
 		'uses'   => 'MaintenanceController@showPublicHoliday',
@@ -274,7 +399,11 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'MaintenanceController@postPublicHoliday',
 	)); 	
 
+
+
+
 	// modul region
+	// ------------
 	Route::get('mod/region', array(
 		'as'    => 'mod.region.index',
 		'uses'   => 'MaintenanceController@showRegionIndex',
@@ -287,7 +416,12 @@ Route::group(['middleware' => ['auth', 'default']], function()
 		'uses'   => 'MaintenanceController@updateRegionEdit',
 	)); 
 
+
+
+
+
 	// modul site
+	// ----------
 	Route::get('mod/site', array(
 		'as'    => 'mod.site.index',
 		'uses'   => 'MaintenanceController@showSiteIndex',
@@ -310,6 +444,25 @@ Route::group(['middleware' => ['auth', 'default']], function()
 	Route::post('mod/site/create', array(
 		'uses'   => 'MaintenanceController@storeSiteAdd',
 	));
+
+
+	// modul sync
+	// ----------
+	Route::get('mod/sync/user', array(
+		'as'    => 'mod.sync.user',
+		'uses'   => 'SyncController@showSyncUser',
+	));   
+	Route::post('mod/sync/user', array(
+		'uses'   => 'SyncController@updateSyncUser',
+	)); 	
+	Route::get('mod/sync/public-holiday', array(
+		'as'    => 'mod.sync.public.holiday',
+		'uses'   => 'SyncController@showSyncPublicHoliday',
+	));   
+	Route::post('mod/sync/public-holiday', array(
+		'uses'   => 'SyncController@updateSyncPublicHoliday',
+	)); 
+
 
 
 });

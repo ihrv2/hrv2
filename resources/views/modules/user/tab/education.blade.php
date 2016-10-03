@@ -31,7 +31,7 @@
 								<td>{{ $education->year_to }}</td>
 								<td>{{ $education->name_education }}</td>
 								<td>{{ $education->result }}</td>
-								<td class="text-right"><a href="" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
+								<td class="text-right"><a href="{{ route('mod.user.education.edit', array($education->id, $user['id'], $user['token'])) }}" class="btn btn-primary btn-sm" title="Edit"><i class="icon-note"></i></a>&nbsp;<a href="" class="btn btn-primary btn-sm" title="Delete"><i class="icon-trash"></i></a></td>
 							</tr>
 							@endforeach
 						@else
@@ -42,7 +42,6 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<a href="{{ route('mod.user.education.create', array($user['id'], $user['token'])) }}" class="btn btn-success" title="Add"><i class="icon-plus"></i>&nbsp;Add</a>
-							
 						</div>
 					</div>																										             
 				</div>
@@ -51,3 +50,19 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+   $(document).on('click','#btn_id',function() {
+      var answer = confirm('Do you want to delete this record?');
+      if (answer == true) {
+         $('#e_id').val($(this).attr('alt'));
+      }
+      else {
+         return false;
+      } 
+   });
+
+});
+</script>

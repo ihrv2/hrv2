@@ -29,31 +29,36 @@ class UserSkill extends Model
     }
 
 
-	public function skill_add($data) {
-		$this->user_id = $data['uid'];			
+
+
+	public function skill_create($data, $uid) {
+		$this->user_id = $uid;
 		$this->name = $data['name'];			
 		$this->level_id = $data['level'];					
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Skill successfully added.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
 
 
 
 
-	public function skill_edit($data) {
+	public function skill_update($data) {
 		$this->name = $data['name'];			
 		$this->level_id = $data['level'];					
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Skill successfully updated.', 'success', 'mod.user.view');	
+		return $msg;		
 	}	
+
+
+
+	public function family_delete($data) {
+		$msg = array('Family successfully deleted.', 'success', 'mod.user.view');			
+		return $msg;		
+	}
+
+
 
 
 

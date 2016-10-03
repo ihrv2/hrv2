@@ -4,7 +4,7 @@ namespace IhrV2\Http\Requests;
 
 use IhrV2\Http\Requests\Request;
 
-class UserReferenceCreate extends Request
+class UserReferenceUpdate extends Request
 {
     public function authorize()
     {

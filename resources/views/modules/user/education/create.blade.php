@@ -19,13 +19,13 @@
 
 
 				<div class="form-group">
-					<div class="col-md-4">          
+					<div class="col-md-2">          
 						<div class="required">        
 						{{ Form::label('selectStart', 'Year From') }}   
 						@if ($errors->has('year_from'))
 							<p class="text-danger">{{ $errors->first('year_from') }}</p>
 						@endif      
-						{{ Form::text('year_from', old('year_from'), array('class'=>'form-control', 'id' => 'selectStart', 'size' => 40)) }}                     
+						{{ Form::select('year_from', array_combine(range(1950, date('Y')), range(1950, date('Y'))), old('year_from'), array('class' => 'form-control', 'id' => 'year')) }}                    
 						</div>
 					</div>
 				</div>
@@ -33,13 +33,13 @@
 
 
 				<div class="form-group">
-					<div class="col-md-4">          
+					<div class="col-md-2">          
 						<div class="required">        
 						{{ Form::label('selectEnd', 'Year To') }}   
 						@if ($errors->has('year_to'))
 							<p class="text-danger">{{ $errors->first('year_to') }}</p>
 						@endif       
-						{{ Form::text('year_to', old('year_to'), array('class'=>'form-control', 'id' => 'selectEnd', 'size' => 40)) }}                    
+						{{ Form::select('year_to', array_combine(range(1950, date('Y')), range(1950, date('Y'))), old('year_to'), array('class' => 'form-control', 'id' => 'year')) }}               
 						</div>
 					</div>
 				</div>

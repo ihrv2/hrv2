@@ -13,18 +13,28 @@ class SiteUpdate extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            //
+            'code' => 'required|unique:sites',
+            'address' => 'required',
+            'email' => 'required',
         ];
     }
+
+
+
+
+    public function messages()
+    {
+        return [
+            'code.required' => 'Please insert Code.',        
+            'address.required' => 'Please insert Address.',        
+            'email.required' => 'Please insert Email.',        
+        ];
+    } 
+
 }

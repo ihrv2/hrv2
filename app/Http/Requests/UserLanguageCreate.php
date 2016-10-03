@@ -19,7 +19,10 @@ class UserLanguageCreate extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
+            'dialect' => 'required',
+            'written' => 'required',
+            'reading' => 'required',
+            'spoken' => 'required',
         ];
     }
 
@@ -29,7 +32,10 @@ class UserLanguageCreate extends Request
     public function messages()
     {
         return [
-            'name.required' => 'Please insert Name.',
+            'dialect.required' => 'Please insert Dialect.',
+            'written.required' => 'Please select Written.',
+            'reading.required' => 'Please select Reading.',
+            'spoken.required' => 'Please select Spoken.',
         ];
     } 
 }

@@ -27,19 +27,16 @@ class UserEmployment extends Model
 
 
 
-	public function employment_create($data) {
-		$this->user_id = $data['uid'];				
+	public function employment_create($data, $uid) {
+		$this->user_id = $uid;
 		$this->date_from = $data['from_year'].'-'.$data['from_month'].'-'.'01';
 		$this->date_to = $data['to_year'].'-'.$data['to_month'].'-'.'01';
 		$this->company = $data['company'];
 		$this->position = $data['position'];			
 		$this->salary = $data['salary'];			
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Employment successfully added.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
 
 
@@ -50,13 +47,19 @@ class UserEmployment extends Model
 		$this->company = $data['company'];
 		$this->position = $data['position'];			
 		$this->salary = $data['salary'];						
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Employment successfully updated.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
+
+
+
+	public function site_delete()
+	{
+		$this->delete();
+		$msg = array('Site successfully deleted.', 'success', 'mod.site.index');	
+		return $msg;		
+	}
 
 
 

@@ -15,15 +15,10 @@ class UserEducationUpdate extends Request
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name_education' => 'required',
         ];
     }
 
@@ -33,7 +28,7 @@ class UserEducationUpdate extends Request
     public function messages()
     {
         return [
-            'name.required' => 'Please insert Name.',
+            'name_education.required' => 'Please insert Institution.',
         ];
     } 
 }

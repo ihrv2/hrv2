@@ -26,6 +26,8 @@ class UserContract extends Model
     ];
 
 
+
+
 	public function ContractName() {
 		return $this->belongsTo('IhrV2\Models\UserContractStatus', 'status_contract_id');
 	}
@@ -33,6 +35,8 @@ class UserContract extends Model
     public function UserDetail() {
         return $this->belongsTo('IhrV2\User', 'user_id');
     }
+
+
 
 
     // new contract
@@ -114,11 +118,13 @@ class UserContract extends Model
 
 
 
-
-	public function contract_delete($id) {
+	public function contract_delete()
+	{
 		$this->delete();
-		return true;		
+		$msg = array('Site successfully deleted.', 'success', 'mod.site.index');	
+		return $msg;		
 	}
+
 
 
     

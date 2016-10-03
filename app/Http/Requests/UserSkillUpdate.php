@@ -20,6 +20,7 @@ class UserSkillUpdate extends Request
     {
         return [
             'name' => 'required',
+            'level' => 'required',
         ];
     }
 
@@ -30,6 +31,7 @@ class UserSkillUpdate extends Request
     {
         return [
             'name.required' => 'Please insert Name.',
+            'level.required' => 'Please select Skill Level.',
         ];
     } 
 

@@ -39,39 +39,38 @@ class UserLanguage extends Model
 	}	
 
 
-	public function language_add($data) {
-		$this->user_id = $data['uid'];			
+	public function language_create($data, $uid) {
+		$this->user_id = $uid;
 		$this->dialect = $data['dialect'];			
 		$this->desc = $data['desc'];			
 		$this->written = $data['written'];			
 		$this->reading = $data['reading'];			
 		$this->spoken = $data['spoken'];		
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Language successfully added.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
 
 
 
 
-	public function language_edit($data) {
+	public function language_update($data) {
 		$this->dialect = $data['dialect'];			
 		$this->desc = $data['desc'];			
 		$this->written = $data['written'];			
 		$this->reading = $data['reading'];			
 		$this->spoken = $data['spoken'];					
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Language successfully updated.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
 
 
+
+	public function family_delete($data) {
+		$msg = array('Family successfully deleted.', 'success', 'mod.user.view');			
+		return $msg;		
+	}
 
 
 

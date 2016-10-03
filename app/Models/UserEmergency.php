@@ -24,34 +24,41 @@ class UserEmergency extends Model
         return $this->belongsTo('IhrV2\User', 'user_id');
     }
 
-	public function emergency_add($data) {
-		$this->user_id = $data['uid'];			
+
+
+
+	public function emergency_create($data, $uid) {
+		$this->user_id = $uid;			
 		$this->name = $data['name'];			
 		$this->telno = $data['telno'];			
 		$this->address = $data['address'];			
 		$this->relation = $data['relation'];			
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Emergency Contact successfully added.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
 
 
 
-	public function emergency_edit($data) {
+	public function emergency_update($data) {
 		$this->name = $data['name'];			
 		$this->telno = $data['telno'];			
 		$this->address = $data['address'];			
 		$this->relation = $data['relation'];					
-		if ($this->save()) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		$this->save();					
+		$msg = array('Emergency Contact successfully updated.', 'success', 'mod.user.view');	
+		return $msg;	
 	}	
+
+
+
+	public function site_delete()
+	{
+		$this->delete();
+		$msg = array('Site successfully deleted.', 'success', 'mod.site.index');	
+		return $msg;		
+	}
+
 
 
 
